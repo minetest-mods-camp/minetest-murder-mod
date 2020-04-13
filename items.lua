@@ -11,7 +11,7 @@ function register_items()
         stack_max = 1,
         on_use =
             function(_, player, pointed_thing)
-                -- If the knife is used on a player kill him
+                -- If the knife is used on a player this kills him
                 if pointed_thing.type == "object" and pointed_thing.ref:is_player() then
                     local hit_pl = pointed_thing.ref
                     hit_pl:set_hp(0)
@@ -33,7 +33,7 @@ function register_items()
                     local hit_pl = pointed_thing.ref
                     local inv = player:get_inventory()
 
-                    -- Create a particle spawner attached to the victim's position:
+                    -- Creates a particle spawner attached to the victim's position:
                     -- it will spawn 64 particles in 12 seconds that the murderer can follow
                     minetest.add_particlespawner{
                         amount = 64,
