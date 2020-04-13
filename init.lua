@@ -5,6 +5,7 @@ dofile(minetest.get_modpath("murder") .. "/commands.lua")
 dofile(minetest.get_modpath("murder") .. "/arena_manager.lua")
 dofile(minetest.get_modpath("murder") .. "/roles_manager.lua")
 dofile(minetest.get_modpath("murder") .. "/kill_manager.lua")
+
 arena_lib.settings({
   prefix = "Murder > "
 })
