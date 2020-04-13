@@ -499,8 +499,15 @@ end
 
 
 
-function arena_lib.send_message_players_in_arena(arena_ID, msg)
+function arena_lib.send_message_players_in_arena_ID(arena_ID, msg)
   for pl_name, stats in pairs(arena_lib.arenas[arena_ID].players) do
+    minetest.chat_send_player(pl_name, msg) end
+end
+
+
+
+function arena_lib.send_message_players_in_arena(arena, msg)
+  for pl_name, stats in pairs(arena.players) do
     minetest.chat_send_player(pl_name, msg) end
 end
 
@@ -562,7 +569,20 @@ end
 
 
 
-function arena_lib.get_arena_players_count(arena_ID)
+function arena_lib.get_arena_players_count(arena)
+
+  local count = 0
+
+  for pl_name, stats in pairs(arena.players) do
+    count = count+1
+  end
+
+  return count
+end
+
+
+
+function arena_lib.get_arena_players_count_ID(arena_ID)
 
   local count = 0
   local arena = arena_lib.arenas[arena_ID]
