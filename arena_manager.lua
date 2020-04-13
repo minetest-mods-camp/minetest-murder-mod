@@ -1,5 +1,6 @@
 function arena_lib.on_start(arena)
-    minetest.after(10,
+    local match_duration = 180
+    minetest.after(match_duration,
     function ()
         if arena_lib.get_arena_players_count(arena) > 1 then
             arena_lib.send_message_players_in_arena(arena, "The time is over, victims won!")
