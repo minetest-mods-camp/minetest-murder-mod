@@ -1,6 +1,6 @@
 -- THIS RANDOMLY DECIDES WHO IS THE MURDERER AND WHO IS THE COP --
 
-function arena_lib.on_start(arena)
+function manage_roles(arena)
   local players_count = 0
   -- Counts how many players there are in the arena
   for _ in pairs(arena.players) do
