@@ -1,4 +1,4 @@
--- THIS RANDOMLY DECIDES WHICH PLAYER IS THE MURDERER --
+-- THIS RANDOMLY DECIDES WHO IS THE MURDERER AND WHO IS THE COP --
 
 function arena_lib.on_start(arena)
   local players_count = 0
