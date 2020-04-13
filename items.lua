@@ -103,7 +103,7 @@ function register_items()
                 }
                 
                 minetest.add_particle(particle_shot)
-                -- This checks for each object that the raycast hit if it is a player, if it is it kills him 
+                -- If the raycast hit a player it kills him 
                 for hit in ray do
                     if hit.type == "object" and hit.ref:is_player() and hit.ref:get_player_name() ~= player:get_player_name() then
                         hit.ref:set_hp(0, "shot")
@@ -111,7 +111,7 @@ function register_items()
                     end
                 end
 
-                -- Replace this itemstack with the empty gun
+                -- Replaces this itemstack with the empty gun
                 return "murder:empty_gun"
             end
     })
