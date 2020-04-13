@@ -1,4 +1,4 @@
--- THIS REGISTER ALL THE ITEMS AND THEIR LOGIC --
+-- THIS REGISTERS ALL THE ITEMS AND THEIR LOGIC --
 
 function register_items()
     
