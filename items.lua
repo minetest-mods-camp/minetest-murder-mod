@@ -1,4 +1,4 @@
--- THIS REGISTERS ALL THE ITEMS AND THEIR LOGIC --
+-- THIS REGISTER ALL THE ITEMS AND THEIR LOGIC --
 
 function register_items()
     
@@ -11,11 +11,12 @@ function register_items()
         stack_max = 1,
         on_use =
             function(_, player, pointed_thing)
-                -- If the knife is used on a player this kills him
+                -- If the knife is used on a player kill him
                 if pointed_thing.type == "object" and pointed_thing.ref:is_player() then
                     local hit_pl = pointed_thing.ref
                     hit_pl:set_hp(0)
                     minetest.chat_send_player(player:get_player_name(), "You murdered " .. hit_pl:get_player_name())
+                    minetest.sound_play("murder_knife_hit", { max_hear_distance = 5 })
                 end
             end
     })
@@ -33,7 +34,7 @@ function register_items()
                     local hit_pl = pointed_thing.ref
                     local inv = player:get_inventory()
 
-                    -- Creates a particle spawner attached to the victim's position:
+                    -- Create a particle spawner attached to the victim's position:
                     -- it will spawn 64 particles in 12 seconds that the murderer can follow
                     minetest.add_particlespawner{
                         amount = 64,
@@ -69,7 +70,10 @@ function register_items()
                 local inv = player:get_inventory()
 
                 -- It removes this item from the player inventory, then it sets and resets the player speed
-                minetest.after(0, function() inv:remove_item("main", "murder:sprint_serum") end)
+                minetest.after(0, 
+                    function()
+                        inv:remove_item("main", "murder:sprint_serum")
+                    end)
                 player: set_physics_override({ speed = 2 })
                 minetest.after(6, function() player: set_physics_override({ speed = 1 }) end)
                 minetest.chat_send_player(player:get_player_name(), "You feel electrified!")
@@ -108,6 +112,7 @@ function register_items()
                     end
                 end
 
+                minetest.sound_play("murder_gun_shoot", { max_hear_distance = 10 })
                 -- Replaces this itemstack with the empty gun
                 return "murder:empty_gun"
             end
@@ -119,6 +124,7 @@ function register_items()
         description = "This gun has no bullets.",
         inventory_image = "gun.png",
         stack_max = 1,
+        on_use = function() minetest.sound_play("murder_empty_gun", { max_hear_distance = 5 }) end
     })
 end
 
