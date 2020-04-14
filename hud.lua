@@ -82,9 +82,12 @@ function timer(arena)
     minetest.after(1,
       function() 
         arena.timer = arena.timer - 1 
+        
         for p_name, _ in pairs(arena.players) do
           update_HUD(p_name, "timer_ID", arena.timer)
         end
+        
+        -- If the timer's finished then ends the game, otherwise it decrease the timer by 1
         if arena.timer > 0 then timer(arena) 
         else
             if arena_lib.get_arena_players_count(arena) > 1 then
