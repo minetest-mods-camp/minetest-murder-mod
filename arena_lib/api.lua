@@ -73,7 +73,7 @@ local arena_default = {
 }
 
 local prefix = "[Arena_lib] "
-local hub_spawn_point = { x = 0, y = 15, z = 0}
+local hub_spawn_point = { x = 0, y = 5, z = 0}
 local load_time = 3
 local celebration_time = 3
 local immunity_time = 3
@@ -492,7 +492,7 @@ function arena_lib.remove_player_from_arena(p_name)
 
     arena_lib.send_message_players_in_arena(arena, prefix .. "Hai vinto la partita per troppi pochi giocatori")
     for pl_name, stats in pairs(arena.players) do
-      arena_lib.load_celebration(arena, pl_name)
+      arena_lib.load_celebration(arena_ID, pl_name)
     end
   end
 
