@@ -30,6 +30,7 @@ if minetest.deserialize(storage:get_string("arenas")) ~= nil then
     arena.in_loading = false
     arena.in_game = false
     arena.in_celebration = false
+    arena.timer = 0
 
     minetest.after(0.01, function()
       if not arena.sign.x then return end       --se non è ancora stato registrato nessun cartello per l'arena, evito il crash
@@ -69,7 +70,8 @@ local arena_default = {
   in_loading = false,
   in_game = false,
   in_celebration = false,
-  enabled = false
+  enabled = false,
+  timer = 0
 }
 
 local prefix = "[Arena_lib] "
