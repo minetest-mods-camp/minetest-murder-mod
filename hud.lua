@@ -83,8 +83,14 @@ function timer(arena)
       function() 
         arena.timer = arena.timer - 1 
         for p_name, _ in pairs(arena.players) do
-          update_HUD(p_name, "timer_ID", arena.timer .. "s")
+          update_HUD(p_name, "timer_ID", arena.timer)
         end
-        if arena.timer > 0 then timer(arena) end
+        if arena.timer > 0 then timer(arena) 
+        else
+            if arena_lib.get_arena_players_count(arena) > 1 then
+                arena_lib.send_message_players_in_arena(arena, "The time is over, victims won!")
+            end
+            arena_lib.end_arena(arena)
+        end
       end)
   end
