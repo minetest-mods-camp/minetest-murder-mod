@@ -373,15 +373,16 @@ function arena_lib.end_arena(arena)
   arena.cop = ""
   local players = {}
 
+  arena.in_celebration = false
+  arena.in_game = false
+  
   for pl_name, stats in pairs(arena.players) do
 
     players[pl_name] = stats
     arena.players[pl_name] = nil
     players_in_game[pl_name] = nil
-    arena.in_celebration = false
-    arena.in_game = false
 
-    local player = minetest.get_player_by_name (pl_name)
+    local player = minetest.get_player_by_name(pl_name)
 
     player:get_inventory():set_list("main", {})
     player:set_pos(hub_spawn_point)
@@ -433,7 +434,7 @@ end
 
 
 
-function arena_lib.on_end(arena)
+function arena_lib.on_end(arena, players)
  --[[override this function on your mod if you wanna add more!
  Just do: function arena_lib.on_end() yourstuff end]]
 end
@@ -476,22 +477,22 @@ function arena_lib.remove_player_from_arena(p_name)
   players_in_queue[p_name] = nil
 
   arena_lib.update_sign(arena.sign, arena)
-  arena_lib.send_message_players_in_arena(arena_ID, prefix .. p_name .. " ha abbandonato la partita")
+  arena_lib.send_message_players_in_arena(arena, prefix .. p_name .. " ha abbandonato la partita")
 
   if arena.in_queue then
     local timer = minetest.get_node_timer(arena.sign)
 
-    if arena_lib.get_arena_players_count(arena_ID) < arena.min_players then
+    if arena_lib.get_arena_players_count(arena) < arena.min_players then
       timer:stop()
       arena.in_queue = false
-      arena_lib.send_message_players_in_arena(arena_ID, prefix .. "La coda è stata annullata per troppi pochi giocatori")
+      arena_lib.send_message_players_in_arena(arena, prefix .. "La coda è stata annullata per troppi pochi giocatori")
     end
 
-  elseif arena_lib.get_arena_players_count(arena_ID) == 1 then
+  elseif arena_lib.get_arena_players_count(arena) == 1 then
 
-    arena_lib.send_message_players_in_arena(arena_ID, prefix .. "Hai vinto la partita per troppi pochi giocatori")
+    arena_lib.send_message_players_in_arena(arena, prefix .. "Hai vinto la partita per troppi pochi giocatori")
     for pl_name, stats in pairs(arena.players) do
-      arena_lib.load_celebration(arena_ID, pl_name)
+      arena_lib.load_celebration(arena, pl_name)
     end
   end
 
