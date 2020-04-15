@@ -157,7 +157,7 @@ function arena_lib.remove_arena(sender, arena_name)
   if arena.sign ~= nil then
     minetest.set_node(arena.sign, {name = "air"}) end
 
-  arena_lib.send_message_players_in_arena(id, prefix .."L'arena per la quale eri in coda è stata rimossa... :(")
+  arena_lib.send_message_players_in_arena(arena, prefix .."L'arena per la quale eri in coda è stata rimossa... :(")
 
   -- rimozione arena e aggiornamento storage
   arena_lib.arenas[id] = nil
