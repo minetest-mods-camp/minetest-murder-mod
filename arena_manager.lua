@@ -1,5 +1,5 @@
 
-function arena_lib.on_start(arena)
+arena_lib.on_start("murder", function(arena)
     match_duration = 180
     arena.timer = match_duration
     timer(arena)  
@@ -8,14 +8,15 @@ function arena_lib.on_start(arena)
     for pl in pairs(arena.players) do
         generate_HUD(arena, pl)
     end
-end
+end)
 
 
-function arena_lib.on_end(_, players)
+
+arena_lib.on_end("murder", function(_, players)
     for pl, _ in pairs(players) do
         remove_HUD(pl)
     end
-end
+end)
 
 
 -- Update the timer
@@ -31,7 +32,7 @@ function timer(arena)
                 if  arena.murderer ~= "" then
                     arena_lib.send_message_players_in_arena(arena, "The time is over, victims won!")
                 end
-                arena_lib.end_arena(arena)
+                arena_lib.end_arena(arena_lib.mods["murder"], "murder", arena)
             end
         end)
 end

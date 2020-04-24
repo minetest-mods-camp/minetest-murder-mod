@@ -1,19 +1,18 @@
-dofile(minetest.get_modpath("murder") .. "/items.lua")
-dofile(minetest.get_modpath("murder") .. "/arena_lib/api.lua")
-dofile(minetest.get_modpath("murder") .. "/chatcmdbuilder.lua")
-dofile(minetest.get_modpath("murder") .. "/commands.lua")
-dofile(minetest.get_modpath("murder") .. "/hud.lua")
-dofile(minetest.get_modpath("murder") .. "/roles_manager.lua")
-dofile(minetest.get_modpath("murder") .. "/kill_manager.lua")
-dofile(minetest.get_modpath("murder") .. "/arena_manager.lua")
-
--- Delete player's inventory when he joins
 minetest.register_on_joinplayer(function (player) player:get_inventory():set_list("main", {}) end)
 
-arena_lib.settings({
-  prefix = "Murder > "
-})
+murder = {}
 
+-- initializing arena_lib settings
+arena_lib.initialize("murder")
+
+arena_lib.settings("murder", {
+  prefix = "Murder > ",
+  temp_properties = {
+    murderer = " ",
+    cop = " "
+  },
+  hub_spawn_point = {x=0, y=10, z=0}
+})
 
 minetest.register_privilege("murder_admin", {
     
@@ -21,4 +20,14 @@ minetest.register_privilege("murder_admin", {
   
 })
 
+-- importing files
+dofile(minetest.get_modpath("murder") .. "/items.lua")
+dofile(minetest.get_modpath("murder") .. "/chatcmdbuilder.lua")
+dofile(minetest.get_modpath("murder") .. "/commands.lua")
+dofile(minetest.get_modpath("murder") .. "/hud.lua")
+dofile(minetest.get_modpath("murder") .. "/roles_manager.lua")
+dofile(minetest.get_modpath("murder") .. "/kill_manager.lua")
+dofile(minetest.get_modpath("murder") .. "/arena_manager.lua")
+
+-- registering items 
 register_items()

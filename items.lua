@@ -53,7 +53,7 @@ function register_items()
 
                     -- Removes the chip from the inventory
                     minetest.after(0, function() inv:remove_item("main", "murder:following_chip") end)
-                    minetest.chat_send_player(player:get_player_name(), "You're now following " .. hit_pl:get_player_name())
+                    minetest.chat_send_player(player:get_player_name(), minetest.colorize("#df3e23", "You're now following ") .. minetest.colorize("#f9a31b", hit_pl:get_player_name()))
                 end
             end
     })
@@ -76,7 +76,7 @@ function register_items()
                     end)
                 player: set_physics_override({ speed = 2 })
                 minetest.after(6, function() player: set_physics_override({ speed = 1 }) end)
-                minetest.chat_send_player(player:get_player_name(), "You feel electrified!")
+                minetest.chat_send_player(player:get_player_name(), minetest.colorize("#df3e23", "You feel electrified!"))
             end      
     })
 
@@ -104,6 +104,7 @@ function register_items()
                 }
                 
                 minetest.add_particle(particle_shot)
+
                 -- If the raycast hit a player it kills him 
                 for hit in ray do
                     if hit.type == "object" and hit.ref:is_player() and hit.ref:get_player_name() ~= player:get_player_name() then
@@ -113,6 +114,8 @@ function register_items()
                 end
 
                 minetest.sound_play("murder_gun_shoot", { max_hear_distance = 10 })
+                minetest.chat_send_player(player:get_player_name(), minetest.colorize("#df3e23", "The gun is now empty!"))
+
                 -- Replaces this itemstack with the empty gun
                 return "murder:empty_gun"
             end
