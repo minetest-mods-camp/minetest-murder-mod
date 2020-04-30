@@ -83,51 +83,60 @@ function register_items()
 
     -- The gun used by the cop
     minetest.register_craftitem("murder:gun", { 
-        description = "Kill the murderer with this, but beware you only have one bullet!",
+        description = "Kill the murderer with this, but beware if you hit a victim you die!",
         inventory_image = "gun.png",
         groups = {gun = 1},
         stack_max = 1,
         on_use = 
-            function(_, player)
-                local pl_pos = player:get_pos()
-                local pos_head = {x = pl_pos.x, y = pl_pos.y+1.5, z = pl_pos.z}  
-                local shoot_range = 50
-                local shoot_dir = vector.multiply(player:get_look_dir(), shoot_range)
-                -- Casts a ray from the player head position 'till the same position * shoot_range
-                local ray = minetest.raycast(vector.add(pos_head, vector.divide(player:get_look_dir(), 4)), vector.add(pos_head, shoot_dir), true, false)
-                local particle_shot = {
-                    pos = pos_head,
-                    velocity = vector.multiply(shoot_dir, 2),
-                    size = 1,
-                    texture = "shoot_particle.png",
-                    glow = 12
-                }
+            function(itemstack, player)
+                local pmeta = player:get_meta()
                 
-                minetest.add_particle(particle_shot)
+                if pmeta:get("murder:canShoot") == nil or pmeta:get_int("murder:canShoot") == 1 then
+                    local pl_pos = player:get_pos()
+                    local pos_head = {x = pl_pos.x, y = pl_pos.y+1.5, z = pl_pos.z}  
+                    local shoot_range = 50
+                    local shoot_dir = vector.multiply(player:get_look_dir(), shoot_range)
+                    -- Casts a ray from the player head position 'till the same position * shoot_range
+                    local ray = minetest.raycast(vector.add(pos_head, vector.divide(player:get_look_dir(), 4)), vector.add(pos_head, shoot_dir), true, false)
+                    local particle_shot = {
+                        pos = pos_head,
+                        velocity = vector.multiply(shoot_dir, 2),
+                        size = 1,
+                        texture = "shoot_particle.png",
+                        glow = 12
+                    }
+                    
+                    minetest.add_particle(particle_shot)
 
-                -- If the raycast hit a player it kills him 
-                for hit in ray do
-                    if hit.type == "object" and hit.ref:is_player() and hit.ref:get_player_name() ~= player:get_player_name() then
-                        hit.ref:set_hp(0, "shot")
-                        break
+                    -- If the raycast hit a player it kills him 
+                    for hit in ray do
+                        if hit.type == "object" and hit.ref:is_player() and hit.ref:get_player_name() ~= player:get_player_name() then
+                            local hit_name = hit.ref:get_player_name()
+                            local pl_name = player:get_player_name()
+
+                            hit.ref:set_hp(0, "shot")
+
+                            -- Kills the cop if it shoots a victim
+                            if arena_lib.is_player_in_arena(hit_name) and arena_lib.is_player_in_arena(pl_name) then
+                                local arena = arena_lib.get_arena_by_player(hit_name)
+                                if arena.murderer ~= hit_name then
+                                    minetest.chat_send_player(pl_name, "You killed a victim!")
+                                    player:set_hp(0)
+                                end
+                            end
+
+                            break
+                        end
                     end
+
+                    minetest.sound_play("murder_gun_shoot", { max_hear_distance = 10, gain = 0.5 })
+                    pmeta:set_int("murder:canShoot", 0)
+                    minetest.after(1, function() pmeta:set_int("murder:canShoot", 1) end)
+                else 
+                    minetest.sound_play("murder_empty_gun", { max_hear_distance = 5, gain = 0.5 })
                 end
-
-                minetest.sound_play("murder_gun_shoot", { max_hear_distance = 10 })
-                minetest.chat_send_player(player:get_player_name(), minetest.colorize("#df3e23", "The gun is now empty!"))
-
-                -- Replaces this itemstack with the empty gun
-                return "murder:empty_gun"
+                return nil
             end
-    })
-
-
-    -- Gun without bullets
-    minetest.register_craftitem("murder:empty_gun", { 
-        description = "This gun has no bullets.",
-        inventory_image = "gun.png",
-        stack_max = 1,
-        on_use = function() minetest.sound_play("murder_empty_gun", { max_hear_distance = 5 }) end
     })
 end
 

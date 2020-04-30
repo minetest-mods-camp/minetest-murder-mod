@@ -4,7 +4,7 @@ ChatCmdBuilder.new("murderadmin", function(cmd)
 
     -- create arena
     cmd:sub("create :arena", function(name, arena_name)
-        arena_lib.create_arena(name, arena_name)
+        arena_lib.create_arena(name, "murder", arena_name)
     end)
 
     cmd:sub("create :arena :minplayers:int :maxplayers:int", function(name, arena_name, min_players, max_players)
@@ -13,7 +13,7 @@ ChatCmdBuilder.new("murderadmin", function(cmd)
 
     -- remove arena
     cmd:sub("remove :arena", function(name, arena_name)
-        arena_lib.remove_arena("murder", arena_name)
+        arena_lib.remove_arena(name, "murder", arena_name)
     end)
 
     -- list of the arenas
@@ -26,11 +26,6 @@ ChatCmdBuilder.new("murderadmin", function(cmd)
         arena_lib.print_arena_info(name, "murder", arena_name)
       end)
 
-    -- info on game stats
-    cmd:sub("score :arena", function(name, arena_name)
-        arena_lib.print_arena_stats(name, arena_name)
-      end)
-
     -- this sets the spawns using the player position
     cmd:sub("setspawn :arena", function(name, arena)
         arena_lib.set_spawner(name, "murder", arena)
@@ -39,7 +34,6 @@ ChatCmdBuilder.new("murderadmin", function(cmd)
     cmd:sub("setspawn :arena :spawnID:int", function(name, arena, spawn_ID)
         arena_lib.set_spawner(name, "murder", arena, spawn_ID)
     end)
-
 
     -- this sets the sign used to enter the arena
     cmd:sub("setsign :arena", function(name, arena)
@@ -56,6 +50,18 @@ ChatCmdBuilder.new("murderadmin", function(cmd)
     end)
 
 end, {
-  description = "description",
+  description = [[
+    
+    <Obligatory parameter>  [optional parameter]
+
+    - create <arena name> [min players] [max players]
+    - setspawn <arena name> [spawnID]
+    - setsign <arena name>
+    - enable <arenaID> (use /murderadmin list to see the ids)
+    - disable <arenaID>
+    - remove <arena name>
+    - list
+    - info <arena name>
+    ]],
   privs = { murder_admin = true }
 })
