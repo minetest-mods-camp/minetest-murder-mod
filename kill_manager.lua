@@ -2,7 +2,6 @@
 
 arena_lib.on_death("murder", function(arena, p_name)
     
-    -- If the player is in an arena
     minetest.after(1, function()
         -- If someone kills the murderer the match finishes and victims win
         if arena.murderer == p_name then
