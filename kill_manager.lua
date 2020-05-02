@@ -2,7 +2,6 @@
 
 arena_lib.on_death("murder", function(arena, p_name)
     
-    -- If the player is in an arena
     minetest.after(1, function()
         -- If someone kills the murderer the match finishes and victims win
         if arena.murderer == p_name then
@@ -20,7 +19,7 @@ arena_lib.on_death("murder", function(arena, p_name)
         -- When somebody dies this sends a message to him
         else
             minetest.get_player_by_name(p_name):get_inventory():set_list("main", {})
-            remove_HUD(p_name)
+            murder.remove_HUD(p_name)
             arena_lib.remove_player_from_arena(p_name, true)
             minetest.chat_send_player(p_name, "You've been killed!")
         end

@@ -1,6 +1,6 @@
 -- THIS REGISTER ALL THE ITEMS AND THEIR LOGIC --
 
-function register_items()
+local function register_items()
     
     -- The knife used by the murderer
     minetest.register_craftitem("murder:knife", {
@@ -108,7 +108,7 @@ function register_items()
                     
                     minetest.add_particle(particle_shot)
 
-                    -- If the raycast hit a player it kills him 
+                    -- If the raycast hits a player it kills him 
                     for hit in ray do
                         if hit.type == "object" and hit.ref:is_player() and hit.ref:get_player_name() ~= player:get_player_name() then
                             local hit_name = hit.ref:get_player_name()
@@ -140,3 +140,4 @@ function register_items()
     })
 end
 
+register_items()

@@ -1,6 +1,6 @@
 local saved_huds = {} -- p_name = {hud_name, index}
 
-function generate_HUD(arena, p_name)
+function murder.generate_HUD(arena, p_name)
 
   local player = minetest.get_player_by_name(p_name)
 
@@ -31,7 +31,7 @@ function generate_HUD(arena, p_name)
   timer = player:hud_add({
     hud_elem_type = "text",
     position  = {x = 0.966, y = 0.03},
-    text      = timer .. "s",
+    text      = timer,
     alignment = { x = 1.0},
     scale     = { x = 2, y = 2},
     number    = 0xFFFFFF,
@@ -40,7 +40,7 @@ function generate_HUD(arena, p_name)
   -- Sets the role text
   role = player:hud_add({
     hud_elem_type = "text",
-    position  = {x = 0.928, y = 0.03},
+    position  = {x = 0.929, y = 0.03},
     text      = role,
     alignment = { x = 0},
     scale     = { x = 100, y = 10},
@@ -59,7 +59,7 @@ end
 
 
 
-function update_HUD(p_name, field, new_value)
+function murder.update_HUD(p_name, field, new_value)
 
   local player = minetest.get_player_by_name(p_name)
   player:hud_change(saved_huds[p_name][field], "text", new_value)
@@ -68,7 +68,7 @@ end
 
 
 
-function remove_HUD(p_name)
+function murder.remove_HUD(p_name)
 
   local player = minetest.get_player_by_name(p_name)
   for name, id in pairs(saved_huds[p_name]) do
