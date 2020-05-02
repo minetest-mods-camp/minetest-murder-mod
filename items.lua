@@ -90,7 +90,6 @@ local function register_items()
     minetest.register_craftitem("murder:gun", { 
         description = "Kill the murderer with this, but beware if you hit a victim you die!",
         inventory_image = "gun.png",
-        groups = {gun = 1},
         stack_max = 1,
         -- Prevents this item from being dropped
         on_drop = function(itemstack, dropper, pos) end,
@@ -100,7 +99,7 @@ local function register_items()
                 
                 if pmeta:get("murder:canShoot") == nil or pmeta:get_int("murder:canShoot") == 1 then
                     local pl_pos = player:get_pos()
-                    local pos_head = {x = pl_pos.x, y = pl_pos.y+1.5, z = pl_pos.z}  
+                    local pos_head = {x = pl_pos.x, y = pl_pos.y + 1.5, z = pl_pos.z}  
                     local shoot_range = 50
                     local shoot_dir = vector.multiply(player:get_look_dir(), shoot_range)
                     -- Casts a ray from the player head position 'till the same position * shoot_range
