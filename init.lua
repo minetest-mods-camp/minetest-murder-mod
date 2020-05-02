@@ -1,4 +1,7 @@
-minetest.register_on_joinplayer(function (player) player:get_inventory():set_list("main", {}) end)
+minetest.register_on_joinplayer(function (player) 
+  player:get_inventory():set_list("main", {}) 
+  player:get_inventory():set_list("craft", {})
+end)
 
 murder = {}
 
