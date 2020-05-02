@@ -9,6 +9,8 @@ local function register_items()
         damage_groups = {fleshy = 3},
         groups = {murder_weapon = 1},
         stack_max = 1,
+        -- Prevents this item from being dropped
+        on_drop = function(itemstack, dropper, pos) end,
         on_use =
             function(_, player, pointed_thing)
                 -- If the knife is used on a player kill him
@@ -27,6 +29,8 @@ local function register_items()
         description = "Left click on a player to attach it to him, you will see his movements for 12s",
         inventory_image = "following_chip.png",
         stack_max = 1,
+        -- Prevents this item from being dropped
+        on_drop = function(itemstack, dropper, pos) end,
         on_use = 
             function(_, player, pointed_thing)
                 -- If he uses this on a player
@@ -64,7 +68,8 @@ local function register_items()
         description = "Boost your speed for 6s",
         inventory_image = "sprint_serum.png",
         stack_max = 1,
-
+        -- Prevents this item from being dropped
+        on_drop = function(itemstack, dropper, pos) end,
         on_use = 
             function (_, player)
                 local inv = player:get_inventory()
@@ -87,6 +92,8 @@ local function register_items()
         inventory_image = "gun.png",
         groups = {gun = 1},
         stack_max = 1,
+        -- Prevents this item from being dropped
+        on_drop = function(itemstack, dropper, pos) end,
         on_use = 
             function(itemstack, player)
                 local pmeta = player:get_meta()
