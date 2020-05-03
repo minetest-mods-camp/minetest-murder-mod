@@ -10,11 +10,11 @@ function murder.generate_HUD(arena, p_name)
   
   -- Assign role
   if p_name == arena.murderer then
-    role = "Murderer"
+    role = murder.T("Murderer")
   elseif p_name == arena.cop then
-    role = "Cop"
+    role = murder.T("Cop")
   else
-    role = "Victim"
+    role = murder.T("Victim")
   end  
 
   -- Sets the murderer background image
@@ -75,4 +75,3 @@ function murder.remove_HUD(p_name)
     player:hud_remove(id)
   end
 end
-

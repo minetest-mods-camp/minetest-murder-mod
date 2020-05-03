@@ -1,0 +1,26 @@
+# version 1.0
+# author(s): Giov4
+# reviewer(s):
+# textdomain: murder
+
+Murderer=Assassino
+Cop=Poliziotto
+Victim=Vittima
+With this you can use /murderadmin=Con questo puoi usare /murderadmin
+The match will start in 10 seconds!=La partita inizierà tra 10 secondi!
+The murderer has been killed by=L'assassino è stato ucciso da
+victims won the game!=le vittime hanno vinto la partita!
+the murderer won!=l'assassino ha vinto la partita!
+You've been killed!=Sei stato ucciso!
+With this you can kill other player, seems fun, doesn't it?=Con questo puoi uccidere gli altri giocatori, sembra divertente no?
+You murdered=Hai ucciso
+Left click on a player to attach it to him, you will see his movements for 12s=Clicca con il tasto sinistro su un giocatore per seguire i suoi movimenti per 12s
+You're now following=Stai seguendo
+Boost your speed for 6s=Aumenta la tua velocità per 6s
+You feel electrified!=Ti senti elettrizzato!
+Kill the murderer with this, but beware if you hit a victim you die!=Uccidi l'assassino con questa, ma fa attenzione a non uccidere una vittima o morirai!
+You killed a victim!=Hai ucciso una vittima!
+You are the murderer!=Sei l'assassino!
+You are the cop!=Sei il poliziotto!
+You are the victim!=Sei la vittima!
+The time is over, victims won!=Il tempo è scaduto, le vittime vincono la partita!

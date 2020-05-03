@@ -1,0 +1,26 @@
+# version 1.0
+# author(s):
+# reviewer(s):
+# textdomain: murder
+
+Murderer=
+Cop=
+Victim=
+With this you can use /murderadmin=
+The match will start in 10 seconds!=
+The murderer has been killed by=
+victims won the game!=
+the murderer won!=
+You've been killed!=
+With this you can kill other player, seems fun, doesn't it?=
+You murdered=
+Left click on a player to attach it to him, you will see his movements for 12s=
+You're now following=
+Boost your speed for 6s=
+You feel electrified!=
+Kill the murderer with this, but beware if you hit a victim you die!=
+You killed a victim=
+You are the murderer!=
+You are the cop!=
+You are the victim!=
+The time is over, victims won!=

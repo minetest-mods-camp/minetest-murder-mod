@@ -4,7 +4,7 @@ local function register_items()
     
     -- The knife used by the murderer
     minetest.register_craftitem("murder:knife", {
-        description = "With this you can kill other player, seems fun, doesn't it?",
+        description = murder.T("With this you can kill other player, seems fun, doesn't it?"),
         inventory_image = "knife.png",
         damage_groups = {fleshy = 3},
         groups = {murder_weapon = 1},
@@ -20,7 +20,7 @@ local function register_items()
                     if hit_pl:get_hp() <= 0 then return end
 
                     hit_pl:set_hp(0)
-                    minetest.chat_send_player(player:get_player_name(), "You murdered " .. hit_pl:get_player_name())
+                    minetest.chat_send_player(player:get_player_name(), murder.T("You murdered") .. " " .. hit_pl:get_player_name())
                     minetest.sound_play("murder_knife_hit", { max_hear_distance = 5 })
                 end
             end
@@ -29,7 +29,7 @@ local function register_items()
 
     -- The following chip used by the murderer
     minetest.register_craftitem("murder:following_chip", {
-        description = "Left click on a player to attach it to him, you will see his movements for 12s",
+        description = murder.T("Left click on a player to attach it to him, you will see his movements for 12s"),
         inventory_image = "following_chip.png",
         stack_max = 1,
         -- Prevents this item from being dropped
@@ -60,7 +60,7 @@ local function register_items()
 
                     -- Removes the chip from the inventory
                     minetest.after(0, function() inv:remove_item("main", "murder:following_chip") end)
-                    minetest.chat_send_player(player:get_player_name(), minetest.colorize("#df3e23", "You're now following ") .. minetest.colorize("#f9a31b", hit_pl:get_player_name()))
+                    minetest.chat_send_player(player:get_player_name(), minetest.colorize("#df3e23", murder.T("You're now following") .. " ") .. minetest.colorize("#f9a31b", hit_pl:get_player_name()))
                 end
             end
     })
@@ -68,7 +68,7 @@ local function register_items()
 
     -- The sprint serum used by the murderer
     minetest.register_craftitem("murder:sprint_serum", {
-        description = "Boost your speed for 6s",
+        description = murder.T("Boost your speed for 6s"),
         inventory_image = "sprint_serum.png",
         stack_max = 1,
         -- Prevents this item from being dropped
@@ -84,14 +84,14 @@ local function register_items()
                     end)
                 player: set_physics_override({ speed = 2 })
                 minetest.after(6, function() player: set_physics_override({ speed = 1 }) end)
-                minetest.chat_send_player(player:get_player_name(), minetest.colorize("#df3e23", "You feel electrified!"))
+                minetest.chat_send_player(player:get_player_name(), minetest.colorize("#df3e23", murder.T("You feel electrified!")))
             end      
     })
 
 
     -- The gun used by the cop
     minetest.register_craftitem("murder:gun", { 
-        description = "Kill the murderer with this, but beware if you hit a victim you die!",
+        description = murder.T("Kill the murderer with this, but beware if you hit a victim you die!"),
         inventory_image = "gun.png",
         stack_max = 1,
         -- Prevents this item from being dropped
@@ -102,7 +102,7 @@ local function register_items()
                 
                 if pmeta:get("murder:canShoot") == nil or pmeta:get_int("murder:canShoot") == 1 then
                     local pl_pos = player:get_pos()
-                    local pos_head = {x = pl_pos.x, y = pl_pos.y + 1.5, z = pl_pos.z}  
+                    local pos_head = {x = pl_pos.x, y = pl_pos.y+1.5, z = pl_pos.z}  
                     local shoot_range = 50
                     local shoot_dir = vector.multiply(player:get_look_dir(), shoot_range)
                     -- Casts a ray from the player head position 'till the same position * shoot_range
@@ -131,7 +131,7 @@ local function register_items()
                             if arena_lib.is_player_in_arena(hit_name) and arena_lib.is_player_in_arena(pl_name) then
                                 local arena = arena_lib.get_arena_by_player(hit_name)
                                 if arena.murderer ~= hit_name then
-                                    minetest.chat_send_player(pl_name, "You killed a victim!")
+                                    minetest.chat_send_player(pl_name, murder.T("You killed a victim!"))
                                     player:set_hp(0)
                                 end
                             end
