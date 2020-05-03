@@ -16,6 +16,9 @@ local function register_items()
                 -- If the knife is used on a player kill him
                 if pointed_thing.type == "object" and pointed_thing.ref:is_player() then
                     local hit_pl = pointed_thing.ref
+
+                    if hit_pl:get_hp() <= 0 then return end
+
                     hit_pl:set_hp(0)
                     minetest.chat_send_player(player:get_player_name(), "You murdered " .. hit_pl:get_player_name())
                     minetest.sound_play("murder_knife_hit", { max_hear_distance = 5 })
@@ -120,6 +123,8 @@ local function register_items()
                             local hit_name = hit.ref:get_player_name()
                             local pl_name = player:get_player_name()
 
+                            if hit.ref:get_hp() <= 0 then break end
+                            
                             hit.ref:set_hp(0, "shot")
 
                             -- Kills the cop if it shoots a victim
