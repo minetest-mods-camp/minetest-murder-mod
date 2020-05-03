@@ -8,7 +8,6 @@ The killer has 3 gadgets, a knife, a following chip and a sprint serum, you can 
 
 ### Dependencies
 * [arena_lib](https://gitlab.com/zughy-friends-minetest/arena_lib/) by Zughy and friends
-* [signs_lib](https://gitlab.com/VanessaE/signs_lib) by Vanessa Dannenberg
 
 
 ### Resources
