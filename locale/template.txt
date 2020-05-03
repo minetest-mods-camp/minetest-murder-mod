@@ -22,5 +22,5 @@ Kill the murderer with this, but beware if you hit a victim you die!=
 You killed a victim=
 You are the murderer!=
 You are the cop!=
-You are the victim!=
+You are a victim!=
 The time is over, victims won!=
