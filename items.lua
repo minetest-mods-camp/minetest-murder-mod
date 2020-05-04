@@ -169,7 +169,7 @@ local function register_items()
                 player:get_inventory():add_item("main", "murder:radar_off")
                 minetest.after(10,
                     function() 
-                        player:get_inventory():add_item("main", "murder:radar_on") 
+                        if arena_lib.is_player_in_arena(pl_name) then player:get_inventory():add_item("main", "murder:radar_on") end
                         player:get_inventory():remove_item("main", "murder:radar_off")
                     end)
                 minetest.after(0, function() player:get_inventory():remove_item("main", "murder:radar_on") end)
