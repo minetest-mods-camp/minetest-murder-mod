@@ -1,4 +1,5 @@
-minetest.register_on_joinplayer(function (player) 
+minetest.register_on_joinplayer(function (player)
+  player:hud_set_flags({minimap = false})
   player:get_inventory():set_list("main", {}) 
   player:get_inventory():set_list("craft", {})
 end)
