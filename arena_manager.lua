@@ -14,7 +14,7 @@ local function timer(arena)
                 if  arena.murderer ~= "" then
                     arena_lib.send_message_players_in_arena(arena, murder.T("The time is over, victims won!"))
                 end
-                arena_lib.end_arena(arena_lib.mods["murder"], "murder", arena)
+                arena_lib.load_celebration("murder", arena, "Victims")
             end
         end)
 end
