@@ -10,7 +10,7 @@ local function register_items()
         groups = {murder_weapon = 1},
         stack_max = 1,
         -- Prevents this item from being dropped
-        on_drop = function(itemstack, dropper, pos) end,
+        on_drop = function() end,
         on_use =
             function(_, player, pointed_thing)
                 -- If the knife is used on a player kill him
@@ -28,40 +28,36 @@ local function register_items()
  
 
     -- The following chip used by the murderer
-    minetest.register_craftitem("murder:following_chip", {
-        description = murder.T("Left click on a player to attach it to him, you will see his movements for 12s"),
-        inventory_image = "following_chip.png",
+    minetest.register_craftitem("murder:finder_chip", {
+        description = murder.T("Left click to find the nearest player's last position!"),
+        inventory_image = "finder_chip.png",
         stack_max = 1,
         -- Prevents this item from being dropped
-        on_drop = function(itemstack, dropper, pos) end,
+        on_drop = function() end,
         on_use = 
             function(_, player, pointed_thing)
-                -- If he uses this on a player
-                if pointed_thing.type == "object" and pointed_thing.ref:is_player() then
-                    local hit_pl = pointed_thing.ref
-                    local inv = player:get_inventory()
+                local pl_name = player:get_player_name()
 
-                    -- Create a particle spawner attached to the victim's position:
-                    -- it will spawn 64 particles in 12 seconds that the murderer can follow
-                    minetest.add_particlespawner{
-                        amount = 64,
-                        time = 12,
-                        minpos = {x=0, y=1, z=0},
-                        maxpos = {x=0, y=1, z=0},
-                        minexptime = 12,
-                        maxexptime = 12,
-                        minsize = 3,
-                        maxsize = 3,
-                        texture = "follow_particle.png",
-                        glow = 10,
-                        attached = hit_pl,
-                        playername = player:get_player_name(),
-                    }
+                if arena_lib.is_player_in_arena(pl_name) then
+                    local nearest_player
+                    local arena = arena_lib.get_arena_by_player(pl_name)
 
-                    -- Removes the chip from the inventory
-                    minetest.after(0, function() inv:remove_item("main", "murder:following_chip") end)
-                    minetest.chat_send_player(player:get_player_name(), minetest.colorize("#df3e23", murder.T("You're now following") .. " ") .. minetest.colorize("#f9a31b", hit_pl:get_player_name()))
+                    -- This saves the nearest player in nearest_player
+                    for p_name, _ in pairs(arena.players) do
+                        local player2 = minetest.get_player_by_name(p_name)
+
+                        if nearest_player == nil and p_name ~= pl_name then nearest_player = player2 end 
+
+                        if p_name ~= pl_name and vector.distance(player:get_pos(), player2:get_pos()) < vector.distance(player:get_pos(), nearest_player:get_pos()) then
+                            nearest_player = player2
+                        end
+                    end
+
+                    murder.set_waypoint(pl_name, nearest_player:get_pos())
                 end
+
+                -- Removes the chip from the inventory
+                minetest.after(0, function() player:get_inventory():remove_item("main", "murder:finder_chip") end)
             end
     })
 
@@ -78,10 +74,7 @@ local function register_items()
                 local inv = player:get_inventory()
 
                 -- It removes this item from the player inventory, then it sets and resets the player speed
-                minetest.after(0, 
-                    function()
-                        inv:remove_item("main", "murder:sprint_serum")
-                    end)
+                minetest.after(0, function() inv:remove_item("main", "murder:sprint_serum") end)
                 player: set_physics_override({ speed = 2 })
                 minetest.after(6, function() player: set_physics_override({ speed = 1 }) end)
                 minetest.chat_send_player(player:get_player_name(), minetest.colorize("#df3e23", murder.T("You feel electrified!")))
@@ -95,7 +88,7 @@ local function register_items()
         inventory_image = "gun.png",
         stack_max = 1,
         -- Prevents this item from being dropped
-        on_drop = function(itemstack, dropper, pos) end,
+        on_drop = function() end,
         on_use = 
             function(itemstack, player)
                 local pmeta = player:get_meta()
@@ -148,6 +141,48 @@ local function register_items()
                 end
                 return nil
             end
+    })
+
+    -- The radar used by the victim
+    minetest.register_craftitem("murder:radar_on", { 
+        description = murder.T("Left click to detect if the killer is within 15 blocks from you!"),
+        inventory_image = "radar_on.png",
+        stack_max = 1,
+        on_use = 
+            function(itemstack, player)
+                local pl_name = player:get_player_name()
+
+                if arena_lib.is_player_in_arena(pl_name) then
+                    local arena = arena_lib.get_arena_by_player(pl_name)
+
+                    for p_name, _ in pairs(arena.players) do
+                        if vector.distance(player:get_pos(), minetest.get_player_by_name(p_name):get_pos()) <= 15 and arena.murderer == p_name then
+                            minetest.chat_send_player(pl_name, murder.T("The killer is nearby!"))
+                            break
+                        else
+                            minetest.chat_send_player(pl_name, murder.T("The killer is not nearby!"))
+                            break
+                        end
+                    end
+                end
+
+                player:get_inventory():add_item("main", "murder:radar_off")
+                minetest.after(10,
+                    function() 
+                        player:get_inventory():add_item("main", "murder:radar_on") 
+                        player:get_inventory():remove_item("main", "murder:radar_off")
+                    end)
+                minetest.after(0, function() player:get_inventory():remove_item("main", "murder:radar_on") end)
+            end,
+        on_drop = function() end
+    })
+
+    minetest.register_craftitem("murder:radar_off", { 
+        description = murder.T("Left click to detect if the killer is within 15 blocks from you!"),
+        inventory_image = "radar_off.png",
+        stack_max = 1,
+        on_use = function(itemstack, player) minetest.chat_send_player(player:get_player_name(), murder.T("The radar is recharging!")) end,
+        on_drop = function() end
     })
 end
 

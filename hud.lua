@@ -5,9 +5,10 @@ function murder.generate_HUD(arena, p_name)
   local player = minetest.get_player_by_name(p_name)
 
   local backgound
-  local timer = 0
+  local timer 
   local role
-  
+  local waypoint 
+
   -- Assign role
   if p_name == arena.murderer then
     role = murder.T("Murderer")
@@ -47,12 +48,11 @@ function murder.generate_HUD(arena, p_name)
     number    = 0xFFFFFF,
   })
 
-
   -- Save the huds IDs for each player 
   saved_huds[p_name] = {
     role_ID = role,
     backgound_ID = background,
-    timer_ID = timer
+    timer_ID = timer,
   }
 
 end
@@ -67,6 +67,25 @@ function murder.update_HUD(p_name, field, new_value)
 end
 
 
+-- TODO: Make this an image_waypoint when minetest 5.3 gets released
+function murder.set_waypoint(p_name, target_pos)
+
+  local player = minetest.get_player_by_name(p_name)
+
+  -- Sets the waypoint used by the murderer
+  waypoint = player:hud_add({
+    hud_elem_type = "waypoint",
+    world_pos  = {x = target_pos.x, y = target_pos.y + 1, z = target_pos.z},
+    text      = " × " .. murder.T("LAST POSITION"),
+    scale     = { x = 5, y = 5},
+    number    = 0xdf3e23,
+    size = { x=200, y=200 },
+  })
+
+  minetest.after(12, function() player:hud_remove(waypoint) end)
+
+end
+
 
 function murder.remove_HUD(p_name)
 
@@ -75,3 +94,4 @@ function murder.remove_HUD(p_name)
     player:hud_remove(id)
   end
 end
+
