@@ -94,4 +94,3 @@ function murder.remove_HUD(p_name)
     player:hud_remove(id)
   end
 end
-

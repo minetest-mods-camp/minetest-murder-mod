@@ -1,4 +1,5 @@
-minetest.register_on_joinplayer(function (player) 
+minetest.register_on_joinplayer(function (player)
+  player:set_hp(20) 
   player:get_inventory():set_list("main", {}) 
   player:get_inventory():set_list("craft", {})
 end)
@@ -14,8 +15,9 @@ arena_lib.initialize("murder")
 arena_lib.settings("murder", {
   prefix = "Murder > ",
   temp_properties = {
-    murderer = " ",
-    cop = " "
+    murderer = "",
+    cop = "",
+    winner = ""
   },
   hub_spawn_point = {x=0, y=10, z=0},
   load_time = 2

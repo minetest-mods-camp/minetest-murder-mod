@@ -154,20 +154,21 @@ local function register_items()
 
                 if arena_lib.is_player_in_arena(pl_name) then
                     local arena = arena_lib.get_arena_by_player(pl_name)
+                    local found = false
 
                     for p_name, _ in pairs(arena.players) do
                         if vector.distance(player:get_pos(), minetest.get_player_by_name(p_name):get_pos()) <= 15 and arena.murderer == p_name then
                             minetest.chat_send_player(pl_name, murder.T("The killer is nearby!"))
-                            break
-                        else
-                            minetest.chat_send_player(pl_name, murder.T("The killer is not nearby!"))
+                            found = true
                             break
                         end
                     end
+                    if found == false then minetest.chat_send_player(pl_name, murder.T("The killer is not nearby!")) end
+
                 end
 
                 player:get_inventory():add_item("main", "murder:radar_off")
-                minetest.after(10,
+                minetest.after(5,
                     function() 
                         if arena_lib.is_player_in_arena(pl_name) then player:get_inventory():add_item("main", "murder:radar_on") end
                         player:get_inventory():remove_item("main", "murder:radar_off")

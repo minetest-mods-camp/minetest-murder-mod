@@ -11,10 +11,8 @@ local function timer(arena)
             
             if arena.timer > 0 then timer(arena) 
             else
-                if  arena.murderer ~= "" then
-                    arena_lib.send_message_players_in_arena(arena, murder.T("The time is over, victims won!"))
-                end
-                arena_lib.load_celebration("murder", arena, "Victims")
+                if arena.winner == "" then arena.winner = murder.T("The victims' team") end
+                arena_lib.load_celebration("murder", arena, arena.winner)
             end
         end)
 end
