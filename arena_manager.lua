@@ -5,6 +5,8 @@ local function timer(arena)
         function() 
             -- Update the HUD
             arena.timer = arena.timer - 1 
+            arena.timer = math.abs(arena.timer)
+            arena.timer = math.floor(arena.timer)
             for p_name, _ in pairs(arena.players) do
                 murder.update_HUD(p_name, "timer_ID", arena.timer)
             end
