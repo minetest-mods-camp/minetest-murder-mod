@@ -27,20 +27,20 @@ function murder.manage_roles(arena)
     -- If this player is the murderer update his inventory
     if players_count == random_murderer then
       arena.murderer = pl_name
-      minetest.chat_send_player(pl_name, murder.T("You are the murderer!"))
+      minetest.chat_send_player(pl_name, murder.T("You are the murderer, kill everyone!"))
       player_inv:add_item("main", "murder:knife")
       player_inv:add_item("main", "murder:finder_chip")
     
     -- If this player is the cop update his inventory
     elseif players_count == random_cop then
       arena.cop = pl_name
-      minetest.chat_send_player(pl_name, murder.T("You are the cop!"))
+      minetest.chat_send_player(pl_name, murder.T("You are the cop, kill the murderer but BEWARE if you kill a victim you'll die!"))
       player_inv:add_item("main", "murder:gun")
       player_inv:add_item("main", "murder:radar_on")
       player_inv:add_item("main", "murder:sprint_serum")
 
     else
-      minetest.chat_send_player(pl_name, murder.T("You are a victim!"))
+      minetest.chat_send_player(pl_name, murder.T("You are a victim, survive until the end!"))
       player_inv:add_item("main", "murder:radar_on")
       player_inv:add_item("main", "murder:sprint_serum")
     end
