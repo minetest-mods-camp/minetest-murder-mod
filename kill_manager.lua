@@ -17,7 +17,10 @@ arena_lib.on_death("murder", function(arena, p_name)
 
         -- When somebody dies this sends a message to him
         else
-            if p_name == arena.cop then arena.timer = arena.timer / 2 end
+            if p_name == arena.cop then
+                arena.timer = arena.timer / 2 
+                arena_lib.send_message_players_in_arena(arena, minetest.colorize("#f9a31b", murder.T("The cop is dead, time has been halved!")))
+            end
             minetest.get_player_by_name(p_name):get_inventory():set_list("main", {})
             minetest.get_player_by_name(p_name):get_inventory():set_list("craft", {})
             murder.remove_HUD(p_name)

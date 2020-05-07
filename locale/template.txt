@@ -21,6 +21,7 @@ You are the murderer, kill everyone!=
 You are the cop, kill the murderer but BEWARE if you kill a victim you'll die!=
 You are a victim, survive until the end!=
 The time is over, victims won!=
+The cop is dead, time has been halved!=
 Left click to detect if the killer is within 15 blocks from you!=
 The killer is nearby!=
 The killer is not nearby!=
