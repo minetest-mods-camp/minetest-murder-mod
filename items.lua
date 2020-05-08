@@ -7,7 +7,6 @@ local function register_items()
         description = murder.T("With this you can kill other player, seems fun, doesn't it?"),
         inventory_image = "knife.png",
         damage_groups = {fleshy = 3},
-        groups = {murder_weapon = 1},
         stack_max = 1,
         -- Prevents this item from being dropped
         on_drop = function() end,
@@ -16,12 +15,20 @@ local function register_items()
                 -- If the knife is used on a player kill him
                 if pointed_thing.type == "object" and pointed_thing.ref:is_player() then
                     local hit_pl = pointed_thing.ref
+                    local pl_name = player:get_player_name()
 
                     if hit_pl:get_hp() <= 0 then return end
 
+                    -- Check if the player is in the arena and is fighting, if not it exit
+                    if not arena_lib.is_player_in_arena(pl_name) then return end
+
+                    local arena = arena_lib.get_arena_by_player(pl_name)
+
+                    if arena.winner == "@ended" then return end
+
                     hit_pl:set_hp(0)
-                    minetest.chat_send_player(player:get_player_name(), murder.T("You murdered") .. " " .. hit_pl:get_player_name())
-                    minetest.sound_play("murder_knife_hit", { max_hear_distance = 5 })
+                    minetest.chat_send_player(pl_name, murder.T("You murdered") .. " " .. hit_pl:get_player_name())
+                    minetest.sound_play("murder_knife_hit", { max_hear_distance = 10, pos = player:get_pos() })
                 end
             end
     })
@@ -90,9 +97,18 @@ local function register_items()
         -- Prevents this item from being dropped
         on_drop = function() end,
         on_use = 
+        
             function(itemstack, player)
                 local pmeta = player:get_meta()
-                
+                local pl_name = player:get_player_name()
+
+                -- Check if the player is in the arena and is fighting, if not it exit
+                if not arena_lib.is_player_in_arena(pl_name) then return end
+
+                local arena = arena_lib.get_arena_by_player(pl_name)
+
+                if arena.winner == "@ended" then return end
+
                 if pmeta:get("murder:canShoot") == nil or pmeta:get_int("murder:canShoot") == 1 then
                     local pl_pos = player:get_pos()
                     local pos_head = {x = pl_pos.x, y = pl_pos.y+1.5, z = pl_pos.z}  
@@ -114,7 +130,6 @@ local function register_items()
                     for hit in ray do
                         if hit.type == "object" and hit.ref:is_player() and hit.ref:get_player_name() ~= player:get_player_name() then
                             local hit_name = hit.ref:get_player_name()
-                            local pl_name = player:get_player_name()
 
                             if hit.ref:get_hp() <= 0 then break end
                             
@@ -122,7 +137,6 @@ local function register_items()
 
                             -- Kills the cop if it shoots a victim
                             if arena_lib.is_player_in_arena(hit_name) and arena_lib.is_player_in_arena(pl_name) then
-                                local arena = arena_lib.get_arena_by_player(hit_name)
                                 if arena.murderer ~= hit_name then
                                     minetest.chat_send_player(pl_name, murder.T("You killed a victim!"))
                                     player:set_hp(0)
@@ -133,11 +147,11 @@ local function register_items()
                         end
                     end
 
-                    minetest.sound_play("murder_gun_shoot", { max_hear_distance = 10, gain = 0.5 })
+                    minetest.sound_play("murder_gun_shoot", { max_hear_distance = 20, gain = 0.5, pos = player:get_pos() })
                     pmeta:set_int("murder:canShoot", 0)
                     minetest.after(1, function() pmeta:set_int("murder:canShoot", 1) end)
                 else 
-                    minetest.sound_play("murder_empty_gun", { max_hear_distance = 5, gain = 0.5 })
+                    minetest.sound_play("murder_empty_gun", { max_hear_distance = 10, gain = 0.5 , pos = player:get_pos() })
                 end
                 return nil
             end

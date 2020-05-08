@@ -42,3 +42,9 @@ arena_lib.on_end("murder", function(_, players)
         murder.remove_HUD(pl)
     end
 end)
+
+
+
+arena_lib.on_celebration("murder", function(arena, players)
+    arena.winner = "@ended"
+end)
