@@ -19,6 +19,9 @@ arena_lib.settings("murder", {
     cop = "",
     winner = ""
   },
+  properties = {
+    match_duration = 180
+  },
   hub_spawn_point = {x=0, y=10, z=0},
   load_time = 2
 })

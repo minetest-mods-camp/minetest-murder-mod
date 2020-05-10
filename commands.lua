@@ -36,9 +36,14 @@ ChatCmdBuilder.new("murderadmin", function(cmd)
     end)
 
     -- this sets the sign used to enter the arena
-    cmd:sub("setsign :arena", function(name, arena)
-        arena_lib.set_sign(name, "murder", arena)
+    cmd:sub("signtool :arena", function(name, arena)
+        arena_lib.give_sign_tool(name, "murder", arena)
     end)
+
+    --[[ this sets the match duration of the arena
+    cmd:sub("matchduration :arena :duration:number", function(name, arena, duration)
+        
+    end) ]]
 
     -- enable and disable arenas
     cmd:sub("enable :arenaID:number", function(name, arenaID)
@@ -56,7 +61,7 @@ end, {
 
     - create <arena name> [min players] [max players]
     - setspawn <arena name> [spawnID]
-    - setsign <arena name>
+    - signtool <arena name>
     - enable <arenaID> (use /murderadmin list to see the ids)
     - disable <arenaID>
     - remove <arena name>

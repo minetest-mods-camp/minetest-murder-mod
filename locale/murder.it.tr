@@ -4,11 +4,12 @@
 # textdomain: murder
 
 Murderer=Assassino
+the murderer=l'assassino
 Cop=Poliziotto
 Victim=Vittima
 With this you can use /murderadmin=Con questo puoi usare /murderadmin
 The match will start in 10 seconds!=La partita inizierà tra 10 secondi!
-The murderer has been killed by=L'assassino è stato ucciso da
+the murderer has been killed by=l'assassino è stato ucciso da
 You've been killed!=Sei stato ucciso!
 Left click to find the nearest player's last position!=Clicca con il tasto sinistro per localizzare l'ultima posizione del giocatore più vicino!
 With this you can kill other player, seems fun, doesn't it?=Con questo puoi uccidere gli altri giocatori, sembra divertente no?
@@ -28,4 +29,3 @@ The killer is not nearby!=L'assassino non è nelle vicinanze!
 The radar is recharging!=Il radar si sta ricaricando!
 LAST POSITION=ULTIMA POSIZIONE
 The victims' team=La squadra delle vittime
-the murderer=l'assassino

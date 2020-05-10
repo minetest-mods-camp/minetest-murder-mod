@@ -24,8 +24,8 @@ end
 arena_lib.on_start("murder", function(arena)
     arena_lib.send_message_players_in_arena(arena, minetest.colorize("#f9a31b", murder.T("The match will start in 10 seconds!")))
     minetest.after(10, function()
-        murder.match_duration = 180 - 10
-        arena.timer = murder.match_duration
+        arena.match_duration = 180
+        arena.timer = arena.match_duration
         timer(arena)  
             
         murder.manage_roles(arena)
@@ -48,3 +48,4 @@ end)
 arena_lib.on_celebration("murder", function(arena, players)
     arena.winner = "@ended"
 end)
+

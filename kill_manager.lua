@@ -5,7 +5,12 @@ arena_lib.on_death("murder", function(arena, p_name)
     minetest.after(1, function()
         -- If someone kills the murderer the match finishes and victims win
         if arena.murderer == p_name then
-            arena_lib.send_message_players_in_arena(arena, murder.T("The murderer has been killed by") .. " " .. minetest.colorize("#f9a31b", arena.cop))
+            arena_lib.send_message_players_in_arena(
+                arena, 
+                minetest.colorize("#f9a31b", arena.murderer) .. " " 
+                .. murder.T("the murderer has been killed by") .. " " 
+                .. minetest.colorize("#f9a31b", arena.cop)
+            )
             arena.timer = 0
             arena.winner = murder.T("The victims' team")
 
