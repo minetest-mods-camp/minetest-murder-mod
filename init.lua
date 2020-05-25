@@ -1,12 +1,30 @@
-minetest.register_on_joinplayer(function (player)
-  player:set_hp(20) 
-  player:get_inventory():set_list("main", {}) 
-  player:get_inventory():set_list("craft", {})
-end)
-
-
 murder = {}
 murder.T = minetest.get_translator("murder")
+
+
+function murder.clear_inventory(player)
+  player:get_inventory():remove_item("main", "murder:gun") 
+  player:get_inventory():remove_item("main", "murder:knife") 
+  player:get_inventory():remove_item("main", "murder:finder_chip") 
+  player:get_inventory():remove_item("main", "murder:sprint_serum") 
+  player:get_inventory():remove_item("main", "murder:radar_on") 
+  player:get_inventory():remove_item("main", "murder:radar_off") 
+  player:get_inventory():remove_item("main", "murder:sprint_serum") 
+  
+  player:get_inventory():remove_item("craft", "murder:gun") 
+  player:get_inventory():remove_item("craft", "murder:knife") 
+  player:get_inventory():remove_item("craft", "murder:finder_chip") 
+  player:get_inventory():remove_item("craft", "murder:sprint_serum") 
+  player:get_inventory():remove_item("craft", "murder:radar_on") 
+  player:get_inventory():remove_item("craft", "murder:radar_off") 
+  player:get_inventory():remove_item("craft", "murder:sprint_serum") 
+end
+
+
+minetest.register_on_joinplayer(function (player)
+  player:set_hp(20) 
+  murder.clear_inventory(player)
+end)
 
 
 -- registering the minigame in arena_lib's database
