@@ -40,10 +40,12 @@ ChatCmdBuilder.new("murderadmin", function(cmd)
         arena_lib.give_sign_tool(name, "murder", arena)
     end)
 
-    --[[ this sets the match duration of the arena
-    cmd:sub("matchduration :arena :duration:number", function(name, arena, duration)
-        
-    end) ]]
+    -- this sets the match duration of the arena
+    cmd:sub("matchduration :arenaName :duration:int", function(name, arena_name, duration)
+        local id, arena = arena_lib.get_arena_by_name( "murder", arena_name)
+        arena.match_duration = duration
+        minetest.chat_send_player(name, arena_name .. " match duration set to " .. arena.match_duration)
+    end)
 
     -- enable and disable arenas
     cmd:sub("enable :arenaID:number", function(name, arenaID)
@@ -57,16 +59,18 @@ ChatCmdBuilder.new("murderadmin", function(cmd)
 end, {
   description = [[
     
-    <Obligatory parameter>  [optional parameter]
+    <obligatory parameter>  [optional parameter]
 
     - create <arena name> [min players] [max players]
     - setspawn <arena name> [spawnID]
     - signtool <arena name>
+    - matchduration <arena> <duration>
     - enable <arenaID> (use /murderadmin list to see the ids)
     - disable <arenaID>
     - remove <arena name>
     - list
     - info <arena name>
+    - matchduration <arena> <duration>
     ]],
   privs = { murder_admin = true }
 })

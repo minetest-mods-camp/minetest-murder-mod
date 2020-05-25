@@ -1,5 +1,6 @@
 default
 signs_lib
+arena_lib
 carts?
 doors?
 flowers?

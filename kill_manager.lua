@@ -16,7 +16,7 @@ arena_lib.on_death("murder", function(arena, p_name)
 
         -- If the murderer kills everyone the match finishes and he wins 
         -- (the reason why it checks if there are only 2 players left instead of 1 is because when a player gets killed he doesn't automatically get kicked out from the arena)
-        elseif arena_lib.get_arena_players_count(arena) == 2 then
+        elseif arena.players_amount == 2 then
             arena.winner = minetest.colorize("#f9a31b", arena.murderer) .. " " .. murder.T("the murderer")
             arena.timer = 0
 
@@ -29,8 +29,9 @@ arena_lib.on_death("murder", function(arena, p_name)
             minetest.get_player_by_name(p_name):get_inventory():set_list("main", {})
             minetest.get_player_by_name(p_name):get_inventory():set_list("craft", {})
             murder.remove_HUD(p_name)
-            arena_lib.remove_player_from_arena(p_name, true)
-            minetest.chat_send_player(p_name, murder.T("You've been killed!"))
+            arena_lib.remove_player_from_arena(p_name, 1)
+            minetest.chat_send_player(p_name, murder.T("You died!"))
+            arena_lib.HUD_hide("hotbar", p_name)
         end
     end)
 end)

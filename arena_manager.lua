@@ -14,7 +14,7 @@ local function timer(arena)
             if arena.timer > 0 then timer(arena) 
             else
                 if arena.winner == "" then arena.winner = murder.T("The victims' team") end
-                arena_lib.load_celebration("murder", arena, arena.winner)
+                minetest.after(1, function() arena_lib.load_celebration("murder", arena, arena.winner) end)
             end
         end)
 end
@@ -24,7 +24,6 @@ end
 arena_lib.on_start("murder", function(arena)
     arena_lib.send_message_players_in_arena(arena, minetest.colorize("#f9a31b", murder.T("The match will start in 10 seconds!")))
     minetest.after(10, function()
-        arena.match_duration = 180
         arena.timer = arena.match_duration
         timer(arena)  
             
@@ -37,9 +36,10 @@ end)
 
 
 
-arena_lib.on_end("murder", function(_, players)
+arena_lib.on_end("murder", function(arena, players)
     for pl, _ in pairs(players) do
         murder.remove_HUD(pl)
+        arena_lib.HUD_hide("hotbar", pl)
     end
 end)
 
@@ -48,4 +48,3 @@ end)
 arena_lib.on_celebration("murder", function(arena, players)
     arena.winner = "@ended"
 end)
-
