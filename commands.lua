@@ -48,12 +48,12 @@ ChatCmdBuilder.new("murderadmin", function(cmd)
     end)
 
     -- enable and disable arenas
-    cmd:sub("enable :arenaID:number", function(name, arenaID)
-        arena_lib.enable_arena(name, "murder", arenaID)
+    cmd:sub("enable :arena", function(name, arena)
+        arena_lib.enable_arena(name, "murder", arena)
     end)
 
-    cmd:sub("disable :arenaID:number", function(name, arenaID)
-        arena_lib.disable_arena(name, "murder", arenaID)
+    cmd:sub("disable :arena", function(name, arena)
+        arena_lib.disable_arena(name, "murder", arena)
     end)
 
 end, {
