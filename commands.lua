@@ -65,7 +65,7 @@ end, {
     - setspawn <arena name> [spawnID]
     - signtool <arena name>
     - matchduration <arena> <duration>
-    - enable <arenaID> (use /murderadmin list to see the ids)
+    - enable <arena name>
     - disable <arenaID>
     - remove <arena name>
     - list
