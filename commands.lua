@@ -35,16 +35,21 @@ ChatCmdBuilder.new("murderadmin", function(cmd)
         arena_lib.set_spawner(name, "murder", arena, spawn_ID)
     end)
 
-    -- this sets the sign used to enter the arena
-    cmd:sub("signtool :arena", function(name, arena)
-        arena_lib.give_sign_tool(name, "murder", arena)
+    -- this sets the arena's sign
+    cmd:sub("setsign :arena", function(sender, arena)
+        arena_lib.set_sign(sender, nil, nil, "murder", arena)
     end)
 
     -- this sets the match duration of the arena
     cmd:sub("matchduration :arenaName :duration:int", function(name, arena_name, duration)
         local id, arena = arena_lib.get_arena_by_name( "murder", arena_name)
         arena.match_duration = duration
-        minetest.chat_send_player(name, arena_name .. " match duration set to " .. arena.match_duration)
+        minetest.chat_send_player(name, arena_name .. ": " .. murder.T("match duration set to") .. " " .. arena.match_duration)
+    end)
+
+    -- enter editor mode
+    cmd:sub("edit :arena", function(sender, arena)
+        arena_lib.enter_editor(sender, "murder", arena)
     end)
 
     -- enable and disable arenas
@@ -56,21 +61,29 @@ ChatCmdBuilder.new("murderadmin", function(cmd)
         arena_lib.disable_arena(name, "murder", arena)
     end)
 
+    
+
 end, {
   description = [[
     
-    <obligatory parameter>  [optional parameter]
+    /murderadmin + 
+        <obligatory parameter>  [optional parameter]
 
+    Use this to configure your arena:
     - create <arena name> [min players] [max players]
-    - setspawn <arena name> [spawnID]
-    - signtool <arena name>
+    - edit <arena name> 
     - matchduration <arena> <duration>
-    - enable <arena name>
-    - disable <arenaID>
-    - remove <arena name>
+    - enable <arena>
+
+    Manual configuration:
+    - setspawn <arena name> [spawnID]
+    - setsign <arena name>
+    
+    Other commands:
     - list
     - info <arena name>
-    - matchduration <arena> <duration>
+    - remove <arena name>
+    - disable <arena>
     ]],
   privs = { murder_admin = true }
 })
