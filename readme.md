@@ -13,7 +13,7 @@ The victim has the radar and the sprint serum.
 
 ### Translations <br/><hr/>
 You can translate the mod in your language by creating a file in the locale folder like this: `murder.LANGUAGE.tr`
-and pasting in the `template.txt` file the translation (beware **spaces matter**).
+and pasting in it the translation template that is in the file `template.txt` (beware **spaces matter**).
 
 <br/>
 
