@@ -3,7 +3,7 @@ murder.mod_prefix = "murder:"
 murder.T = minetest.get_translator("murder")
 
 -- importing settings and items
-dofile(minetest.get_modpath("murder") .. "settings/SETTINGS.lua")
+dofile(minetest.get_modpath("murder") .. "SETTINGS.lua")
 dofile(minetest.get_modpath("murder") .. "/items.lua")
 
 
