@@ -1,6 +1,6 @@
 -- THIS REGISTER ALL THE ITEMS AND THEIR LOGIC --
 
--- Generating the items' names, according to the SETTINGS.lua and the translation files
+-- Generating the items' names
 murder.murderer_weapon = murder.mod_prefix .. "knife"
 murder.finder_chip =  murder.mod_prefix .. "finder_chip"
 murder.sprint_serum =  murder.mod_prefix .. "sprint_serum"
