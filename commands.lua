@@ -97,7 +97,7 @@ end, {
     Use this to configure your arena:
     - create <arena name> [min players] [max players]
     - edit <arena name> 
-    - matchduration <arena> <duration>
+    - matchduration <arena> <duration in seconds>
     - enable <arena>
 
     Manual configuration:
