@@ -31,8 +31,8 @@ ChatCmdBuilder.new("murderadmin", function(cmd)
         arena_lib.set_spawner(name, "murder", arena)
       end)
 
-    cmd:sub("setspawn :arena :spawnID:int", function(name, arena, spawn_ID)
-        arena_lib.set_spawner(name, "murder", arena, spawn_ID)
+    cmd:sub("setspawn :arena", function(name, arena)
+        arena_lib.set_spawner(name, "murder", arena)
     end)
 
     -- this sets the arena's sign
@@ -76,7 +76,7 @@ end, {
     - enable <arena>
 
     Manual configuration:
-    - setspawn <arena name> [spawnID]
+    - setspawn <arena name>
     - setsign <arena name>
     
     Other commands:
