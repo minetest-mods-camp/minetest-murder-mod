@@ -1,5 +1,1 @@
-default
 arena_lib
-carts?
-doors?
-flowers?
