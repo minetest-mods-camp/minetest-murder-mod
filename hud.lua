@@ -1,4 +1,4 @@
-local saved_huds = {} -- p_name = {hud_name, index}
+local saved_huds = {} -- p_name = {hud ids}
 
 function murder.generate_HUD(arena, p_name)
 
@@ -32,7 +32,7 @@ function murder.generate_HUD(arena, p_name)
   timer = player:hud_add({
     hud_elem_type = "text",
     position  = {x = 0.966, y = 0.03},
-    text      = timer,
+    text      = arena.match_duration,
     alignment = { x = 1.0},
     scale     = { x = 2, y = 2},
     number    = 0xFFFFFF,
@@ -67,6 +67,7 @@ function murder.update_HUD(p_name, field, new_value)
 end
 
 
+
 -- TODO: Make this an image_waypoint when minetest 5.3 gets released
 function murder.set_waypoint(p_name, target_pos)
 
@@ -79,7 +80,7 @@ function murder.set_waypoint(p_name, target_pos)
     text      = " × " .. murder.T("LAST POSITION"),
     scale     = { x = 5, y = 5},
     number    = 0xdf3e23,
-    size = { x=200, y=200 },
+    size = {x = 200, y = 200},
   })
 
   minetest.after(12, function() player:hud_remove(waypoint) end)
@@ -87,10 +88,13 @@ function murder.set_waypoint(p_name, target_pos)
 end
 
 
+
+-- Remove every hud stored in saved_huds for a player
 function murder.remove_HUD(p_name)
 
   local player = minetest.get_player_by_name(p_name)
   for name, id in pairs(saved_huds[p_name]) do
     player:hud_remove(id)
   end
+  
 end

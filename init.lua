@@ -1,48 +1,66 @@
 murder = {}
+murder.mod_prefix = "murder:"
 murder.T = minetest.get_translator("murder")
+
+-- importing settings and items
+dofile(minetest.get_modpath("murder") .. "settings/SETTINGS.lua")
+dofile(minetest.get_modpath("murder") .. "/items.lua")
+
 
 
 function murder.clear_inventory(player)
-  player:get_inventory():remove_item("main", "murder:gun") 
-  player:get_inventory():remove_item("main", "murder:knife") 
-  player:get_inventory():remove_item("main", "murder:finder_chip") 
-  player:get_inventory():remove_item("main", "murder:sprint_serum") 
-  player:get_inventory():remove_item("main", "murder:radar_on") 
-  player:get_inventory():remove_item("main", "murder:radar_off") 
-  player:get_inventory():remove_item("main", "murder:sprint_serum") 
+
+  player:get_inventory():remove_item("main", murder.gun) 
+  player:get_inventory():remove_item("main", murder.murderer_weapon) 
+  player:get_inventory():remove_item("main", murder.finder_chip) 
+  player:get_inventory():remove_item("main", murder.sprint_serum) 
+  player:get_inventory():remove_item("main", murder.radar_on) 
+  player:get_inventory():remove_item("main", murder.radar_off) 
+  player:get_inventory():remove_item("main", murder.sprint_serum) 
   
-  player:get_inventory():remove_item("craft", "murder:gun") 
-  player:get_inventory():remove_item("craft", "murder:knife") 
-  player:get_inventory():remove_item("craft", "murder:finder_chip") 
-  player:get_inventory():remove_item("craft", "murder:sprint_serum") 
-  player:get_inventory():remove_item("craft", "murder:radar_on") 
-  player:get_inventory():remove_item("craft", "murder:radar_off") 
-  player:get_inventory():remove_item("craft", "murder:sprint_serum") 
+  player:get_inventory():remove_item("craft", murder.gun) 
+  player:get_inventory():remove_item("craft", murder.murderer_weapon) 
+  player:get_inventory():remove_item("craft", murder.finder_chip) 
+  player:get_inventory():remove_item("craft", murder.sprint_serum) 
+  player:get_inventory():remove_item("craft", murder.radar_on) 
+  player:get_inventory():remove_item("craft", murder.radar_off) 
+  player:get_inventory():remove_item("craft", murder.sprint_serum) 
+
 end
 
 
+
 minetest.register_on_joinplayer(function (player)
-  player:set_hp(20) 
+
   murder.clear_inventory(player)
+
 end)
+
 
 
 -- registering the minigame in arena_lib's database
 arena_lib.register_minigame("murder", {
-  prefix = "Murder > ",
+  prefix = murder_settings.prefix,
+
   temp_properties = {
     murderer = "",
     cop = "",
     winner = ""
   },
+  
   properties = {
     match_duration = 0
   },
-  hub_spawn_point = {x=0, y=10, z=0},
-  load_time = 2,
-  queue_waiting_time = 10
+  
+  hub_spawn_point = murder_settings.hub_spawn_point,
+  loading_time = murder_settings.loading_time ,
+  queue_waiting_time = murder_settings.queue_waiting_time,
+  show_nametags = murder_settings.show_nametags,
+  show_minimap = murder_settings.show_minimap,
+  celebration_time = murder_settings.celebration_time
 })
 arena_lib.update_properties("murder")
+
 
 
 -- registering murder_admin privilege
@@ -51,11 +69,10 @@ minetest.register_privilege("murder_admin", {
 })
 
 
+
 -- importing files
-dofile(minetest.get_modpath("murder") .. "/items.lua")
 dofile(minetest.get_modpath("murder") .. "/chatcmdbuilder.lua")
 dofile(minetest.get_modpath("murder") .. "/commands.lua")
 dofile(minetest.get_modpath("murder") .. "/hud.lua")
-dofile(minetest.get_modpath("murder") .. "/roles_manager.lua")
 dofile(minetest.get_modpath("murder") .. "/kill_manager.lua")
 dofile(minetest.get_modpath("murder") .. "/arena_manager.lua")

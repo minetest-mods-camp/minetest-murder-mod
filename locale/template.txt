@@ -3,16 +3,16 @@
 # reviewer(s):
 # textdomain: murder
 
+# In-game messages
 Murderer=
 the murderer=
 Cop=
 Victim=
-With this you can use /murderadmin=
 The match will start in 10 seconds!=
 the murderer has been killed by=
 You died!=
 With this you can kill other player, seems fun, doesn't it?=
-You murdered=
+You murdered @1=
 Left click to find the nearest player's last position!=
 Boost your speed for 6s=
 You feel electrified!=
@@ -29,4 +29,7 @@ The killer is not nearby!=
 The radar is recharging!=
 LAST POSITION=
 The victims' team=
-match duration set to=
+
+# Commands messages
+With this you can use /murderadmin=
+match duration set to @1=

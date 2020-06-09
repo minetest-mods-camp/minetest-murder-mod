@@ -3,17 +3,19 @@
 # reviewer(s):
 # textdomain: murder
 
+
+# In-game messages
+
 Murderer=Assassino
 the murderer=l'assassino
 Cop=Poliziotto
 Victim=Vittima
-With this you can use /murderadmin=Con questo puoi usare /murderadmin
 The match will start in 10 seconds!=La partita inizierà tra 10 secondi!
 the murderer has been killed by=l'assassino è stato ucciso da
 You died!=Sei morto!
 Left click to find the nearest player's last position!=Clicca con il tasto sinistro per localizzare l'ultima posizione del giocatore più vicino!
 With this you can kill other player, seems fun, doesn't it?=Con questo puoi uccidere gli altri giocatori, sembra divertente no?
-You murdered=Hai ucciso
+You murdered @1=Hai ucciso @1
 Boost your speed for 6s=Aumenta la tua velocità per 6s
 You feel electrified!=Ti senti elettrizzato!
 Kill the murderer with this, but beware if you hit a victim you die!=Uccidi l'assassino con questa, ma fa attenzione a non uccidere una vittima o morirai!
@@ -29,4 +31,9 @@ The killer is not nearby!=L'assassino non è nelle vicinanze!
 The radar is recharging!=Il radar si sta ricaricando!
 LAST POSITION=ULTIMA POSIZIONE
 The victims' team=La squadra delle vittime
-match duration set to=durata della partita impostata a
+
+
+# Commands messages
+
+With this you can use /murderadmin=Con questo puoi usare /murderadmin
+match duration set to @1=durata della partita impostata a @1
