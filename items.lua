@@ -34,7 +34,7 @@ local function register_items()
 
                     local arena = arena_lib.get_arena_by_player(p_name)
 
-                    if arena.winner == "@ended" then return end
+                    if arena.winner ~= "" then return end
 
                     hit_pl:set_hp(0)
                     minetest.chat_send_player(p_name, murder.T("You murdered @1", hit_pl:get_player_name()))
@@ -54,6 +54,7 @@ local function register_items()
         on_drop = function() return nil end,
         on_use = 
             function(_, player, pointed_thing)
+
                 local p_name = player:get_player_name()
 
                 if arena_lib.is_player_in_arena(p_name) then
@@ -76,6 +77,7 @@ local function register_items()
 
                 -- Removes the chip from the inventory
                 minetest.after(0, function() player:get_inventory():remove_item("main", murder.finder_chip) end)
+
             end
     })
 
@@ -89,6 +91,7 @@ local function register_items()
         on_drop = function(itemstack, dropper, pos) end,
         on_use = 
             function (_, player)
+
                 local inv = player:get_inventory()
 
                 -- It removes this item from the player inventory, then it sets and resets the player speed
@@ -96,6 +99,7 @@ local function register_items()
                 player: set_physics_override({ speed = 2 })
                 minetest.after(6, function() player: set_physics_override({ speed = 1 }) end)
                 minetest.chat_send_player(player:get_player_name(), minetest.colorize("#df3e23", murder.T("You feel electrified!")))
+
             end      
     })
 
@@ -110,6 +114,7 @@ local function register_items()
         on_use = 
         
             function(itemstack, player)
+
                 local pmeta = player:get_meta()
                 local p_name = player:get_player_name()
 
@@ -118,7 +123,7 @@ local function register_items()
 
                 local arena = arena_lib.get_arena_by_player(p_name)
 
-                if arena.winner == "@ended" then return end
+                if arena.winner ~= "" then return end
 
                 if pmeta:get("murder:canShoot") == nil or pmeta:get_int("murder:canShoot") == 1 then
                     local pl_pos = player:get_pos()
@@ -165,6 +170,7 @@ local function register_items()
                     minetest.sound_play("murder_empty_gun", { max_hear_distance = 10, gain = 0.5 , pos = player:get_pos() })
                 end
                 return nil
+
             end
     })
 
@@ -175,6 +181,7 @@ local function register_items()
         stack_max = 1,
         on_use = 
             function(itemstack, player)
+
                 local p_name = player:get_player_name()
 
                 if arena_lib.is_player_in_arena(p_name) then
@@ -199,6 +206,7 @@ local function register_items()
                         player:get_inventory():remove_item("main", murder.radar_off)
                     end)
                 minetest.after(0, function() player:get_inventory():remove_item("main", murder.radar_on) end)
+                
             end,
         on_drop = function() return nil end
     })

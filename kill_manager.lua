@@ -2,7 +2,7 @@
 
 arena_lib.on_death("murder", function(arena, p_name)
     
-    minetest.after(1, function()
+    minetest.after(0.1, function()
         -- If someone kills the murderer the match finishes and victims win
         if arena.murderer == p_name then
             arena_lib.send_message_players_in_arena(

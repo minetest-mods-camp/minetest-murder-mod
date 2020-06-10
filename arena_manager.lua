@@ -58,6 +58,7 @@ local function timer(arena)
 
     minetest.after(1,
         function() 
+          if arena.timer > 0 then timer(arena) 
             arena.timer = arena.timer - 1 
             arena.timer = math.floor(math.abs(arena.timer))
 
@@ -66,10 +67,9 @@ local function timer(arena)
                 murder.update_HUD(p_name, "timer_ID", arena.timer)
             end
             
-            if arena.timer > 0 then timer(arena) 
             else
                 if arena.winner == "" then arena.winner = murder.T("The victims' team") end
-                minetest.after(1, function() arena_lib.load_celebration("murder", arena, arena.winner) end)
+                minetest.after(0.1, function() arena_lib.load_celebration("murder", arena, arena.winner) end)
             end
         end)
 
