@@ -21,7 +21,8 @@ function murder.generate_HUD(arena, p_name)
   -- Sets the murderer background image
   background = player:hud_add({
     hud_elem_type = "image",
-    position  = {x = 0.91, y = 0.03},
+    position  = {x = 1, y = 0},
+    offset = {x = -173, y = 32},
     text      = "HUD_timer.png",
     alignment = { x = 1.0},
     scale     = { x = 1, y = 1},
@@ -29,9 +30,11 @@ function murder.generate_HUD(arena, p_name)
   })
 
   -- Sets the timer text
+  -- x 0.966  y 0.03
   timer = player:hud_add({
     hud_elem_type = "text",
-    position  = {x = 0.966, y = 0.03},
+    position  = {x = 1, y = 0},
+    offset = {x = -65.28, y = 32},
     text      = arena.match_duration,
     alignment = { x = 1.0},
     scale     = { x = 2, y = 2},
@@ -41,7 +44,8 @@ function murder.generate_HUD(arena, p_name)
   -- Sets the role text
   role = player:hud_add({
     hud_elem_type = "text",
-    position  = {x = 0.929, y = 0.03},
+    position  = {x = 1, y = 0},
+    offset = {x = -134, y = 32},
     text      = role,
     alignment = { x = 0},
     scale     = { x = 100, y = 10},
