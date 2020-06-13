@@ -16,7 +16,7 @@ murder_settings = {}
 murder_settings.hub_spawn_point = {x = 0, y = 10, z = 0}
 
 --  The time between the loading state and the start of the match.
-murder_settings.loading_time = 2
+murder_settings.loading_time = 0
 
 -- The time to wait before the loading phase starts. It gets triggered when the minimium amount of players has been reached to start the queue.
 murder_settings.queue_waiting_time = 10

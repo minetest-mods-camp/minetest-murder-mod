@@ -53,7 +53,7 @@ arena_lib.register_minigame("murder", {
   },
   
   hub_spawn_point = murder_settings.hub_spawn_point,
-  loading_time = murder_settings.loading_time ,
+  load_time = murder_settings.loading_time,
   queue_waiting_time = murder_settings.queue_waiting_time,
   show_nametags = murder_settings.show_nametags,
   show_minimap = murder_settings.show_minimap,
@@ -74,5 +74,4 @@ minetest.register_privilege("murder_admin", {
 dofile(minetest.get_modpath("murder") .. "/chatcmdbuilder.lua")
 dofile(minetest.get_modpath("murder") .. "/commands.lua")
 dofile(minetest.get_modpath("murder") .. "/hud.lua")
-dofile(minetest.get_modpath("murder") .. "/kill_manager.lua")
 dofile(minetest.get_modpath("murder") .. "/arena_manager.lua")
