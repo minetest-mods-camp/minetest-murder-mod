@@ -28,7 +28,7 @@ local function register_items()
                     local p_name = player:get_player_name()
 
                     if hit_pl:get_hp() <= 0 then return end
-
+                    
                     -- Check if the player is in the arena and is fighting, if not it exits
                     if not arena_lib.is_player_in_arena(p_name) then return end
 
@@ -39,6 +39,32 @@ local function register_items()
                     hit_pl:set_hp(0)
                     minetest.chat_send_player(p_name, murder.T("You murdered @1", hit_pl:get_player_name()))
                     minetest.sound_play("murder_knife_hit", { max_hear_distance = 10, pos = player:get_pos() })
+                    minetest.add_particlespawner(
+                        {
+                            amount = 50,
+
+                            time = 0.25,
+
+                            minpos = {x=0, y=0.8, z=0},
+                            maxpos = {x=0, y=1.2, z=0},
+                            minvel = {x=-3, y=-3, z=-3},
+                            maxvel = {x=3, y=1, z=3},
+                            minacc = {x=-3, y=-3, z=-3},
+                            maxacc = {x=3, y=1, z=3},
+                            minexptime = 0.25,
+                            maxexptime = 0.25,
+                            minsize = 1,
+                            maxsize = 4,
+
+                            attached = hit_pl,
+                            -- If defined, particle positions, velocities and accelerations are
+                            -- relative to this object's position and yaw
+
+                            texture = "blood_particle.png",
+                            -- The texture of the particle
+
+                        }
+                    )
                 end
 
             end
@@ -56,6 +82,8 @@ local function register_items()
             function(_, player, pointed_thing)
 
                 local p_name = player:get_player_name()
+                
+                minetest.sound_play("finder-chip", { pos = player:get_pos(), to_player = p_name })
 
                 if arena_lib.is_player_in_arena(p_name) then
                     local nearest_player
@@ -96,7 +124,12 @@ local function register_items()
 
                 -- It removes this item from the player inventory, then it sets and resets the player speed
                 minetest.after(0, function() inv:remove_item("main", murder.sprint_serum) end)
-                player: set_physics_override({ speed = 2 })
+
+                player: set_velocity({x=0, y=0.1, z=0})
+                player: set_physics_override({ speed = 1 })
+                player: set_velocity({x=0, y=0.1, z=0})
+
+
                 minetest.after(6, function() player: set_physics_override({ speed = 1 }) end)
                 minetest.chat_send_player(player:get_player_name(), minetest.colorize("#df3e23", murder.T("You feel electrified!")))
 

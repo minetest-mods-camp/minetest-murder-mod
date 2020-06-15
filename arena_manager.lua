@@ -24,28 +24,38 @@ local function manage_roles(arena)
 
   for p_name, _ in pairs(arena.players) do
     players_count = players_count + 1
-    local player_inv = minetest.get_player_by_name(p_name):get_inventory()
+    local player = minetest.get_player_by_name(p_name)
+    local player_inv = player:get_inventory()
+    
 
-    -- If this player is the murderer update his inventory
+    -- If this player is the murderer
     if players_count == random_murderer then
       arena.murderer = p_name
       arena_lib.HUD_send_msg("hotbar", p_name, murder.T("You are the murderer, kill everyone!"))
 
       player_inv:add_item("main", murder.murderer_weapon)
       player_inv:add_item("main", murder.finder_chip)
+
+      minetest.sound_play("murderer-role", { pos = player:get_pos(), to_player = p_name })
     
-    -- If this player is the cop update his inventory
+    -- If this player is the cop
     elseif players_count == random_cop then
       arena.cop = p_name
+
       arena_lib.HUD_send_msg("hotbar", p_name, murder.T("You are the cop, kill the murderer but BEWARE if you kill a victim you'll die!"))
       player_inv:add_item("main", murder.gun)
       player_inv:add_item("main", murder.radar_on)
       player_inv:add_item("main", murder.sprint_serum)
 
+      minetest.sound_play("cop-role", { pos = player:get_pos(), to_player = p_name })
+      
+
     else
       arena_lib.HUD_send_msg("hotbar", p_name, murder.T("You are a victim, survive until the end!"))
       player_inv:add_item("main", murder.radar_on)
       player_inv:add_item("main", murder.sprint_serum)
+
+      minetest.sound_play("victim-role", { pos = player:get_pos(), to_player = p_name })
     end
   end
 

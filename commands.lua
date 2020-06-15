@@ -88,6 +88,13 @@ ChatCmdBuilder.new("murderadmin", function(cmd)
         arena_lib.disable_arena(name, "murder", arena)
     end)
 
+
+    -- Debug commands
+    cmd:sub("play :sound :gaint:number", function(p_name, sound, gain)
+        minetest.sound_play(sound, { pos = minetest.get_player_by_name(p_name):get_pos(), to_player = p_name, gain = gain})
+    end)
+    
+
 end, {
   description = [[
     
