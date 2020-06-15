@@ -78,7 +78,7 @@ function murder.set_waypoint(p_name, target_pos)
   local player = minetest.get_player_by_name(p_name)
 
   -- Sets the waypoint used by the murderer
-  waypoint = player:hud_add({
+  local waypoint = player:hud_add({
     hud_elem_type = "waypoint",
     world_pos  = {x = target_pos.x, y = target_pos.y + 1, z = target_pos.z},
     text      = " × " .. murder.T("LAST POSITION"),
