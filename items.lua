@@ -125,10 +125,7 @@ local function register_items()
                 -- It removes this item from the player inventory, then it sets and resets the player speed
                 minetest.after(0, function() inv:remove_item("main", murder.sprint_serum) end)
 
-                player: set_velocity({x=0, y=0.1, z=0})
-                player: set_physics_override({ speed = 1 })
-                player: set_velocity({x=0, y=0.1, z=0})
-
+                player: set_physics_override({ speed = 2 })
 
                 minetest.after(6, function() player: set_physics_override({ speed = 1 }) end)
                 minetest.chat_send_player(player:get_player_name(), minetest.colorize("#df3e23", murder.T("You feel electrified!")))
