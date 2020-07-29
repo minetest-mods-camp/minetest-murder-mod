@@ -34,4 +34,5 @@ The victims' team=
 
 # Commands messages
 With this you can use /murderadmin=
-match duration set to @1=
+match duration set to @1 seconds=
+You cannot quit!=

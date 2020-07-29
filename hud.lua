@@ -22,10 +22,10 @@ function murder.generate_HUD(arena, p_name)
   background = player:hud_add({
     hud_elem_type = "image",
     position  = {x = 1, y = 0},
-    offset = {x = -173, y = 32},
+    offset = {x = -179, y = 32},
     text      = "HUD_timer.png",
     alignment = { x = 1.0},
-    scale     = { x = 1, y = 1},
+    scale     = { x = 1.15, y = 1.15},
     number    = 0xFFFFFF,
   })
 
@@ -34,7 +34,7 @@ function murder.generate_HUD(arena, p_name)
   timer = player:hud_add({
     hud_elem_type = "text",
     position  = {x = 1, y = 0},
-    offset = {x = -65.28, y = 32},
+    offset = {x = -57, y = 32},
     text      = arena.match_duration,
     alignment = { x = 1.0},
     scale     = { x = 2, y = 2},
@@ -45,7 +45,7 @@ function murder.generate_HUD(arena, p_name)
   role = player:hud_add({
     hud_elem_type = "text",
     position  = {x = 1, y = 0},
-    offset = {x = -134, y = 32},
+    offset = {x = -136, y = 32},
     text      = role,
     alignment = { x = 0},
     scale     = { x = 100, y = 10},
@@ -72,17 +72,16 @@ end
 
 
 
--- TODO: Make this an image_waypoint when minetest 5.3 gets released
 function murder.set_waypoint(p_name, target_pos)
 
   local player = minetest.get_player_by_name(p_name)
 
   -- Sets the waypoint used by the murderer
   local waypoint = player:hud_add({
-    hud_elem_type = "waypoint",
+    hud_elem_type = "image_waypoint",
     world_pos  = {x = target_pos.x, y = target_pos.y + 1, z = target_pos.z},
-    text      = " × " .. murder.T("LAST POSITION"),
-    scale     = { x = 5, y = 5},
+    text      = "chip_target.png",
+    scale     = {x = 5, y = 5},
     number    = 0xdf3e23,
     size = {x = 200, y = 200},
   })

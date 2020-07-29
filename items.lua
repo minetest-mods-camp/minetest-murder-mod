@@ -124,7 +124,6 @@ local function register_items()
 
                 -- It removes this item from the player inventory, then it sets and resets the player speed
                 minetest.after(0, function() inv:remove_item("main", murder.sprint_serum) end)
-
                 player: set_physics_override({ speed = 2 })
 
                 minetest.after(6, function() player: set_physics_override({ speed = 1 }) end)
@@ -155,7 +154,7 @@ local function register_items()
 
                 if arena.winner ~= "" then return end
 
-                if pmeta:get("murder:canShoot") == nil or pmeta:get_int("murder:canShoot") == 1 then
+                if pmeta:get_int("murder:canShoot") == 1 then
                     local pl_pos = player:get_pos()
                     local pos_head = {x = pl_pos.x, y = pl_pos.y+1.5, z = pl_pos.z}  
                     local shoot_range = 50

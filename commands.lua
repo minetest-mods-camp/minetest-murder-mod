@@ -3,6 +3,35 @@
 ChatCmdBuilder.new("murderadmin", function(cmd)
 
     -- create arena
+    cmd:sub("tutorial", function(name)
+        minetest.chat_send_player(name, [[
+
+        1) Creating the arena using
+
+        /murderadmin create <arena name> [min players] [max players]
+        where min players is equal to the minimun amount of players to make the arena start, and max players to the maximum amount of players that an arena can have.
+        
+        2) Editing the arena using
+        
+        /murderadmin edit <arena name>
+        in this menu you can add spawn points and set up the sign to enter the arena: the spawn points are where the players will spawn when they enter the arena, while the sign is just the way to enter it (by clicking it).
+        
+        3) Setting the match duration in seconds using
+        
+        /murderadmin matchduration <arena name> <duration in seconds>
+        
+        4) Enabling the arena using
+        
+        /murderadmin enable <arena name>
+        
+        Once you've done this you can click the sign and start playing :)
+        Use /help murderadmin to see al the commands.
+        ]])
+    end)
+
+
+
+    -- create arena
     cmd:sub("create :arena", function(name, arena_name)
         arena_lib.create_arena(name, "murder", arena_name)
     end)
@@ -65,7 +94,7 @@ ChatCmdBuilder.new("murderadmin", function(cmd)
         minetest.chat_send_player(name,
          murder_settings.prefix 
         .. minetest.colorize("#f9a31b", arena_name) .. ": " 
-        .. murder.T("match duration set to @1", arena.match_duration))
+        .. murder.T("match duration set to @1 seconds", arena.match_duration))
     end)
 
 
@@ -102,6 +131,7 @@ end, {
         <obligatory parameter>  [optional parameter]
 
     Use this to configure your arena:
+    - tutorial
     - create <arena name> [min players] [max players]
     - edit <arena name> 
     - matchduration <arena> <duration in seconds>

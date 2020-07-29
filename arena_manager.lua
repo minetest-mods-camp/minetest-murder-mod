@@ -1,12 +1,7 @@
 -- Assigning each player a role
 local function manage_roles(arena)
 
-  local players_count = 0
-
-  -- Counts how many players there are in the arena
-  for _ in pairs(arena.players) do
-    players_count = players_count + 1
-  end
+  local players_count = arena.players_amount
 
   -- Chooses a random number between 1 and players_count 
   -- os.clock is used as seed, because its value constantly changes
@@ -233,7 +228,12 @@ end)
 
 
 -- Blocks /quit
-arena_lib.on_prequit("murder", function(arena, p_name) return false end)
+arena_lib.on_prequit("murder", function(arena, p_name) 
+
+  minetest.chat_send_player(p_name, murder.T("You cannot quit!"))
+  return false 
+
+end)
 
 
 
