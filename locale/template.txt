@@ -1,9 +1,12 @@
-# version 1.0
+# version 1.1.1
 # author(s):
 # reviewer(s):
 # textdomain: murder
 
+
+
 # In-game messages
+
 Murderer=
 the murderer=
 Cop=
@@ -33,6 +36,7 @@ LAST POSITION=
 The victims' team=
 
 # Commands messages
+
 With this you can use /murderadmin=
 match duration set to @1 seconds=
 You cannot quit!=

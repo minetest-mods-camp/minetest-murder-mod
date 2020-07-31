@@ -1,0 +1,44 @@
+
+# version 1.1.1
+# author(s): Roland Meier
+# reviewer(s):
+# textdomain: murder
+
+
+
+# In-game messages
+
+Murderer=Mörder
+the murderer=Der Mörder
+Cop=Polizist
+Victim=Opfer
+The match will start in 10 seconds!=Das Spiel beginnt in 10 Sekunden!
+the murderer has been killed by=Der Mörder wurde getötet von
+the murderer quit the server=Der Mörder hat den Server verlassen.
+The cop quit the server=Der Polizist hat den Server verlassen.
+You died!=Du bist gestorben!
+With this you can kill other player, seems fun, doesn't it?=Hiermit Kannst Du andere Spieler töten. Macht Spaß, oder?
+You murdered @1=Du hast @1 getötet.
+Left click to find the nearest player's last position!=Klicke links, um die letzte Position des nächsten Spielers anzuzeigen.
+Boost your speed for 6s=Erhöhe Deine Geschwindigkeit für 6 Sekunden.
+You feel electrified!=Du bekommst einen elektrischen Schlag!
+Kill the murderer with this, but beware if you hit a victim you die!=Bring den Mörder hiermit um. Aber Achtung: Wenn Du ein Opfer hiermit schlägst, stirbst Du!
+You killed a victim=Du hast ein Opfer getötet.
+You are the murderer, kill everyone!=Du bist der Mörder. Töte alle anderen!
+You are the cop, kill the murderer but BEWARE if you kill a victim you'll die!=Du bist der Polizist. Töte den Mörder. Aber ACHTUNG: Wenn Du ein Opfer tötest, stirbst Du!
+You are a victim, survive until the end!=Du bist ein Opfer. Bleibe bis zum Spielende am Leben!
+The time is over, victims won!=Die Zeit ist um, die Opfer haben gewonnen!
+The cop has been eliminated, time has been halved!=Der Polizist wurde getötet, die Zeit wurde halbiert!
+Left click to detect if the killer is within 15 blocks from you!=Klicke links um festzustellen, ob der Mörder im Umkreis von 15 Blocks ist!
+The killer is nearby!=Der Mörder ist in der Nähe!
+The killer is not nearby!=Der Mörder ist nicht in der Nähe!
+The radar is recharging!=Radar lädt auf!
+LAST POSITION=LETZTE POSITION
+The victims' team=Das Opfer Team
+
+
+# Commands messages
+
+With this you can use /murderadmin=Hiermit kannst Du /murderadmin benutzen.
+match duration set to @1 seconds=Spieldauer gesetzt auf @1
+You cannot quit!=
