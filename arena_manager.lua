@@ -170,7 +170,7 @@ end
 local function on_player_dies(arena, p_name, disconnected)
 
   -- When a player disconnects he/she gets kicked before this function,
-  -- if it is the case disconnected will be set to 1 to fix this. 
+  -- if it is the case 'disconnected' will be set to 1 to fix this. 
   if disconnected == true then 
     disconnected = 1 
   else 
@@ -214,15 +214,8 @@ arena_lib.on_end("murder", function(arena, players)
     murder.remove_HUD(p_name)
     arena_lib.HUD_hide("hotbar", p_name)
   end
+  if last_knife ~= nil then last_knife:remove() end
 
-end)
-
-
-
-arena_lib.on_celebration("murder", function(arena, players)
-    
-  arena.winner = "@ended"
-    
 end)
 
 
@@ -241,6 +234,9 @@ end)
 arena_lib.on_disconnect("murder", 
   function(arena, p_name)
 
+    if arena.murderer == p_name then 
+      if last_knife ~= nil then last_knife:remove() end
+    end
     if arena.in_celebration == false then
       minetest.after(0.1, function() on_player_dies(arena, p_name, true) end)
     end

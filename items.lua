@@ -7,14 +7,172 @@ murder.sprint_serum =  murder.mod_prefix .. "sprint_serum"
 murder.radar_on =  murder.mod_prefix .. "radar_on"
 murder.radar_off =  murder.mod_prefix .. "radar_off"
 murder.gun =  murder.mod_prefix .. "gun"
+-- The throwable knife entity declaration 
+local throwable_knife = {
+    initial_properties = {
+        hp_max = 500,
+        physical = true,
+        collide_with_objects = true,
+        collisionbox = {-0.1, -0.22, -0.1, 0.1, 0.22, 0.1},
+        visual = "wielditem",
+        visual_size = {x = 0.4, y = 0.4},
+        textures = {murder.murderer_weapon},
+        spritediv = {x = 1, y = 1},
+        initial_sprite_basepos = {x = 0, y = 0},
+    },
+    player = {},
+    speed = 32,
+    droptime = 0.5,
+}
+local knife_dropped = false
+-- The last knife throwed
+last_knife = nil
 
 
+
+--------------------------
+-- ! Other functions ! --
+--------------------------
+
+-- The function that will be called when the murderer kills someone
+local function murder_player(hit_pl, p_name)
+
+    local player = minetest.get_player_by_name(p_name)
+
+    if hit_pl:get_hp() <= 0 then return end
+
+    hit_pl:set_hp(0)
+    minetest.chat_send_player(p_name, murder.T("You murdered @1", hit_pl:get_player_name()))
+    minetest.sound_play("murder_knife_hit", { max_hear_distance = 10, pos = player:get_pos(), gain = 1 })
+    minetest.add_particlespawner({
+            amount = 50,
+            time = 0.25,
+            minpos = {x=0, y=0.8, z=0},
+            maxpos = {x=0, y=1.2, z=0},
+            minvel = {x=-3, y=-3, z=-3},
+            maxvel = {x=3, y=1, z=3},
+            minacc = {x=-3, y=-3, z=-3},
+            maxacc = {x=3, y=1, z=3},
+            minexptime = 0.25,
+            maxexptime = 0.25,
+            minsize = 1,
+            maxsize = 4,
+            attached = hit_pl,
+            texture = "blood_particle.png",
+        }
+    )
+
+end
+
+
+
+----------------------
+-- ! Knife Entity ! --
+----------------------
+
+-- staticdata = player's username
+function throwable_knife:on_activate(staticdata, dtime_s)
+
+    if staticdata ~= "" then
+        knife_dropped = false
+        self.player = minetest.get_player_by_name(staticdata) 
+        local yaw = self.player:get_look_horizontal()
+        local pitch = self.player:get_look_vertical()
+        local dir = self.player:get_look_dir()
+        local arena = arena_lib.get_arena_by_player(staticdata)
+
+        self.object:set_rotation({x = -pitch, y = yaw+55, z = 0})
+
+        self.object:set_velocity({
+            x=(dir.x * self.speed),
+            y=(dir.y * self.speed),
+            z=(dir.z * self.speed),
+        })
+        
+        -- After 'droptime' seconds this makes the knife go down if it hasn't dropped yet
+        minetest.after(self.droptime, 
+            function()
+
+                if knife_dropped == false then
+                    self.object:set_velocity({
+                        x=(dir.x * self.speed),
+                        y=-self.speed/2,
+                        z=(dir.z * self.speed),
+                    }) 
+                end
+                
+            end
+        )
+
+        -- Save the knife to delete it when the match finishes
+        last_knife = self.object
+    end
+
+    
+    return 
+    
+end
+
+
+-- This stops the knife 
+function throwable_knife:drop()
+
+    local obj = self.object
+    local obj_pos = obj:get_pos()
+
+    knife_dropped = true
+    obj:set_velocity({x=0, y=0, z=0})
+    minetest.after(0.03, function() if obj then obj:set_pos(obj_pos) end end)
+    minetest.sound_play("knife_hit_block", { max_hear_distance = 10, gain = 1, pos = obj_pos })
+end
+
+
+
+function throwable_knife:on_rightclick(clicker)
+
+    local p_name = clicker:get_player_name()
+
+    if arena_lib.is_player_in_arena(p_name, "murder") and arena_lib.get_arena_by_player(p_name).murderer == p_name then
+        minetest.get_player_by_name(p_name):get_inventory():add_item("main", murder.murderer_weapon)
+        self.object:remove()
+    end
+
+end
+
+
+
+function throwable_knife:on_step(dtime, moveresult)
+
+    -- Checks if it collides with something
+    if moveresult.collides == true and moveresult.collisions[1] then
+
+        -- If it hit a player
+        if  moveresult.collisions[1].object and moveresult.collisions[1].object:is_player() then
+            if moveresult.collisions[1].object:get_player_name() ~= self.player:get_player_name() then
+                murder_player(moveresult.collisions[1].object, self.player:get_player_name())
+                return
+            end
+        elseif knife_dropped == false then
+            self:drop()
+            return
+        end
+    end
+
+end
+
+minetest.register_entity("murder:throwable_knife", throwable_knife)
+
+
+
+----------------------------
+-- ! Items Registration ! --
+----------------------------
 
 local function register_items()
     
     -- The knife used by the murderer
     minetest.register_craftitem(murder.murderer_weapon, {
-        description = murder.T("With this you can kill other player, seems fun, doesn't it?"),
+        description = murder.T("With this you can kill other players, seems fun, doesn't it?\nLeft click on something that's not a player to throw it,\nthen right click the knife on the ground to take it back"),
         inventory_image = "knife.png",
         damage_groups = {fleshy = 3},
         stack_max = 1,
@@ -22,52 +180,30 @@ local function register_items()
         on_use =
             function(_, player, pointed_thing)
 
+                local p_name = player:get_player_name()
+                
+                -- Check if the player is in the arena and is fighting, if not it exits
+                if not arena_lib.is_player_in_arena(p_name) then return end
+
+                local arena = arena_lib.get_arena_by_player(p_name)
+
+                if arena.in_game == false then return end
+
                 -- If the knife is used on a player kill him
                 if pointed_thing.type == "object" and pointed_thing.ref:is_player() then
                     local hit_pl = pointed_thing.ref
-                    local p_name = player:get_player_name()
+                    murder_player(hit_pl, p_name)
 
-                    if hit_pl:get_hp() <= 0 then return end
-                    
-                    -- Check if the player is in the arena and is fighting, if not it exits
-                    if not arena_lib.is_player_in_arena(p_name) then return end
-
-                    local arena = arena_lib.get_arena_by_player(p_name)
-
-                    if arena.winner ~= "" then return end
-
-                    hit_pl:set_hp(0)
-                    minetest.chat_send_player(p_name, murder.T("You murdered @1", hit_pl:get_player_name()))
-                    minetest.sound_play("murder_knife_hit", { max_hear_distance = 10, pos = player:get_pos() })
-                    minetest.add_particlespawner(
-                        {
-                            amount = 50,
-
-                            time = 0.25,
-
-                            minpos = {x=0, y=0.8, z=0},
-                            maxpos = {x=0, y=1.2, z=0},
-                            minvel = {x=-3, y=-3, z=-3},
-                            maxvel = {x=3, y=1, z=3},
-                            minacc = {x=-3, y=-3, z=-3},
-                            maxacc = {x=3, y=1, z=3},
-                            minexptime = 0.25,
-                            maxexptime = 0.25,
-                            minsize = 1,
-                            maxsize = 4,
-
-                            attached = hit_pl,
-                            -- If defined, particle positions, velocities and accelerations are
-                            -- relative to this object's position and yaw
-
-                            texture = "blood_particle.png",
-                            -- The texture of the particle
-
-                        }
-                    )
+                -- If it's used on something else    
+                else
+                    -- Throw the knife
+                    minetest.add_entity(vector.add({x=0, y=1.5, z=0}, player:get_pos()), "murder:throwable_knife", player:get_player_name())
+                    minetest.sound_play("throw_knife", { max_hear_distance = 5, gain = 1, pos = player:get_pos() })
+                    minetest.after(0, function() player:get_inventory():remove_item("main", murder.murderer_weapon) end)
                 end
 
-            end
+            end,
+        
     })
  
 
@@ -83,7 +219,7 @@ local function register_items()
 
                 local p_name = player:get_player_name()
                 
-                minetest.sound_play("finder-chip", { pos = player:get_pos(), to_player = p_name })
+                minetest.sound_play("finder-chip", { pos = player:get_pos(), gain = 1, to_player = p_name })
 
                 if arena_lib.is_player_in_arena(p_name) then
                     local nearest_player
@@ -153,7 +289,7 @@ local function register_items()
 
                 local arena = arena_lib.get_arena_by_player(p_name)
 
-                if arena.winner ~= "" then return end
+                if arena.in_game == false then return end
 
                 if pmeta:get_int("murder:canShoot") == 1 then
                     local pl_pos = player:get_pos()
@@ -193,11 +329,11 @@ local function register_items()
                         end
                     end
 
-                    minetest.sound_play("murder_gun_shoot", { max_hear_distance = 20, gain = 0.5, pos = player:get_pos() })
+                    minetest.sound_play("murder_gun_shoot", { max_hear_distance = 20, gain = 1, pos = player:get_pos() })
                     pmeta:set_int("murder:canShoot", 0)
                     minetest.after(1, function() pmeta:set_int("murder:canShoot", 1) end)
                 else 
-                    minetest.sound_play("murder_empty_gun", { max_hear_distance = 10, gain = 0.5 , pos = player:get_pos() })
+                    minetest.sound_play("murder_empty_gun", { max_hear_distance = 10, gain = 1 , pos = player:get_pos() })
                 end
                 return nil
 
@@ -226,7 +362,7 @@ local function register_items()
                         end
                     end
                     if found == false then minetest.chat_send_player(p_name, murder.T("The killer is not nearby!")) end
-                    minetest.sound_play("victim-radar", { pos = player:get_pos(), to_player = p_name })
+                    minetest.sound_play("victim-radar", { pos = player:get_pos(), gain = 1, to_player = p_name })
                 end
 
                 player:get_inventory():add_item("main", murder.radar_off)
@@ -249,5 +385,7 @@ local function register_items()
         on_drop = function() return nil end,
     })
 end
+
+
 
 register_items()

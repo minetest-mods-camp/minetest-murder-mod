@@ -1,4 +1,4 @@
-# version 1.1.1
+# version 1.2.0
 # author(s):
 # reviewer(s):
 # textdomain: murder
@@ -16,7 +16,8 @@ the murderer has been killed by=
 the murderer quit the server=
 The cop quit the server=
 You died!=
-With this you can kill other player, seems fun, doesn't it?=
+# @n means "newline"
+With this you can kill other players, seems fun, doesn't it?@nLeft click on something that's not a player to throw it,@nthen right click the knife on the ground to take it back=
 You murdered @1=
 Left click to find the nearest player's last position!=
 Boost your speed for 6s=

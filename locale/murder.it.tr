@@ -1,4 +1,4 @@
-# version 1.1.1
+# version 1.2.0
 # author(s): Giov4
 # reviewer(s):
 # textdomain: murder
@@ -17,7 +17,8 @@ the murderer quit the server=l'assassino è uscito dal server
 The cop quit the server, time has been halved!=Il poliziotto è uscito dal server, il tempo è stato dimezzato!
 You died!=Sei morto!
 Left click to find the nearest player's last position!=Clicca con il tasto sinistro per localizzare l'ultima posizione del giocatore più vicino!
-With this you can kill other player, seems fun, doesn't it?=Con questo puoi uccidere gli altri giocatori, sembra divertente no?
+# @n means "newline"
+With this you can kill other players, seems fun, doesn't it?@nLeft click on something that's not a player to throw it,@nthen right click the knife on the ground to take it back=Con questo puoi uccidere gli altri giocatori, sembra divertente no?@nClick sinistro su qualcosa che non è un player per lanciarlo@ne click destro sul coltello a terra per riprenderlo
 You murdered @1=Hai ucciso @1
 Boost your speed for 6s=Aumenta la tua velocità per 6s
 You feel electrified!=Ti senti elettrizzato!
