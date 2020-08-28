@@ -84,6 +84,8 @@ end
 arena_lib.on_start("murder", function(arena)
 
   arena_lib.send_message_players_in_arena(arena, minetest.colorize("#f9a31b", murder.T("The match will start in 10 seconds!")))
+  arena_lib.HUD_send_msg_all("broadcast", arena, murder.T("To know what an item does you can read its description in the inventory"), 10)
+
   minetest.after(10,
     function()
       arena.timer = arena.match_duration
@@ -91,7 +93,11 @@ arena_lib.on_start("murder", function(arena)
           
       manage_roles(arena)
       for p_name in pairs(arena.players) do
+        local player = minetest.get_player_by_name(p_name)
+
         murder.generate_HUD(arena, p_name)
+        arena.players[p_name].original_speed = player:get_physics_override().speed
+        player:set_physics_override({speed=1})
       end
 
     end)
@@ -214,10 +220,20 @@ arena_lib.on_end("murder", function(arena, players)
     murder.remove_HUD(p_name)
     arena_lib.HUD_hide("hotbar", p_name)
   end
-  if last_knife ~= nil then last_knife:remove() end
 
 end)
 
+
+
+arena_lib.on_celebration("murder", function(arena)
+
+  remove_knives(arena)
+  for p_name, _ in pairs(arena.players) do
+    local player = minetest.get_player_by_name(p_name)
+    player:set_physics_override({speed=arena.players[p_name].original_speed})
+  end
+
+end)
 
 
 -- Blocks /quit
@@ -235,7 +251,7 @@ arena_lib.on_disconnect("murder",
   function(arena, p_name)
 
     if arena.murderer == p_name then 
-      if last_knife ~= nil then last_knife:remove() end
+      remove_knives(arena)
     end
     if arena.in_celebration == false then
       minetest.after(0.1, function() on_player_dies(arena, p_name, true) end)

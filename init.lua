@@ -45,13 +45,18 @@ arena_lib.register_minigame("murder", {
   temp_properties = {
     murderer = "",
     cop = "",
-    winner = ""
+    winner = "",
+    thrown_knives = {}
   },
   
   properties = {
     match_duration = 0
   },
-  
+
+  player_properties = {
+    original_speed = 1
+  },
+
   hub_spawn_point = murder_settings.hub_spawn_point,
   load_time = murder_settings.loading_time,
   queue_waiting_time = murder_settings.queue_waiting_time,

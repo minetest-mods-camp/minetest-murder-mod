@@ -10,7 +10,7 @@ murder.gun =  murder.mod_prefix .. "gun"
 -- The throwable knife entity declaration 
 local throwable_knife = {
     initial_properties = {
-        hp_max = 500,
+        hp_max = 1000,
         physical = true,
         collide_with_objects = true,
         collisionbox = {-0.1, -0.22, -0.1, 0.1, 0.22, 0.1},
@@ -19,14 +19,13 @@ local throwable_knife = {
         textures = {murder.murderer_weapon},
         spritediv = {x = 1, y = 1},
         initial_sprite_basepos = {x = 0, y = 0},
+        speed = 32,
+        droptime = 0.5,
     },
     player = {},
-    speed = 32,
-    droptime = 0.5,
+    
 }
 local knife_dropped = false
--- The last knife throwed
-last_knife = nil
 
 
 
@@ -66,6 +65,25 @@ end
 
 
 
+function remove_knives(arena)
+    for i = 1, #arena.thrown_knives do
+        arena.thrown_knives[i]:remove()
+    end
+end
+
+
+
+local function remove_knife(knife, arena)
+    for i = 1, #arena.thrown_knives do
+        if knife == arena.thrown_knives[i] then
+            table.remove(arena.thrown_knives, i)
+        end
+    end
+    knife:remove()
+end
+
+
+
 ----------------------
 -- ! Knife Entity ! --
 ----------------------
@@ -84,28 +102,26 @@ function throwable_knife:on_activate(staticdata, dtime_s)
         self.object:set_rotation({x = -pitch, y = yaw+55, z = 0})
 
         self.object:set_velocity({
-            x=(dir.x * self.speed),
-            y=(dir.y * self.speed),
-            z=(dir.z * self.speed),
+            x=(dir.x * self.initial_properties.speed),
+            y=(dir.y * self.initial_properties.speed),
+            z=(dir.z * self.initial_properties.speed),
         })
         
         -- After 'droptime' seconds this makes the knife go down if it hasn't dropped yet
-        minetest.after(self.droptime, 
+        minetest.after(self.initial_properties.droptime, 
             function()
 
                 if knife_dropped == false then
                     self.object:set_velocity({
-                        x=(dir.x * self.speed),
-                        y=-self.speed/2,
-                        z=(dir.z * self.speed),
+                        x=(dir.x * self.initial_properties.speed),
+                        y=-self.initial_properties.speed/2,
+                        z=(dir.z * self.initial_properties.speed),
                     }) 
                 end
                 
             end
         )
-
-        -- Save the knife to delete it when the match finishes
-        last_knife = self.object
+        
     end
 
     
@@ -134,7 +150,7 @@ function throwable_knife:on_rightclick(clicker)
 
     if arena_lib.is_player_in_arena(p_name, "murder") and arena_lib.get_arena_by_player(p_name).murderer == p_name then
         minetest.get_player_by_name(p_name):get_inventory():add_item("main", murder.murderer_weapon)
-        self.object:remove()
+        remove_knife(self.object, arena_lib.get_arena_by_player(p_name))
     end
 
 end
@@ -196,8 +212,8 @@ local function register_items()
 
                 -- If it's used on something else    
                 else
-                    -- Throw the knife
-                    minetest.add_entity(vector.add({x=0, y=1.5, z=0}, player:get_pos()), "murder:throwable_knife", player:get_player_name())
+                    -- Throw the knife and save it
+                    table.insert(arena.thrown_knives, minetest.add_entity(vector.add({x=0, y=1.5, z=0}, player:get_pos()), "murder:throwable_knife", player:get_player_name()))
                     minetest.sound_play("throw_knife", { max_hear_distance = 5, gain = 1, pos = player:get_pos() })
                     minetest.after(0, function() player:get_inventory():remove_item("main", murder.murderer_weapon) end)
                 end

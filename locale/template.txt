@@ -12,12 +12,13 @@ the murderer=
 Cop=
 Victim=
 The match will start in 10 seconds!=
+To know what an item does you can read its description in the inventory=
 the murderer has been killed by=
 the murderer quit the server=
 The cop quit the server=
 You died!=
 # @n means "newline"
-With this you can kill other players, seems fun, doesn't it?@nLeft click on something that's not a player to throw it,@nthen right click the knife on the ground to take it back=
+With this you can kill other players, seems fun, doesn't it?@\nLeft click on something that's not a player to throw it,@\nthen right click the knife on the ground to take it back
 You murdered @1=
 Left click to find the nearest player's last position!=
 Boost your speed for 6s=
