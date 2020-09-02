@@ -119,16 +119,13 @@ ChatCmdBuilder.new("murderadmin", function(cmd)
 
 
     -- Debug commands
-    cmd:sub("play :sound :gaint:number", function(p_name, sound, gain)
+    cmd:sub("play :sound :gain:number", function(p_name, sound, gain)
         minetest.sound_play(sound, { pos = minetest.get_player_by_name(p_name):get_pos(), to_player = p_name, gain = gain})
     end)
     
 
 end, {
   description = [[
-    
-    /murderadmin + 
-        <obligatory parameter>  [optional parameter]
 
     Use this to configure your arena:
     - tutorial
