@@ -1,0 +1,44 @@
+# version 1.2.0
+# author(s): Louis Royer
+# reviewer(s):
+# textdomain: murder
+
+
+
+# In-game messages
+
+Murderer=Meurtrier
+the murderer=le meurtrier
+Cop=Policier
+Victim=Victime
+The match will start in 10 seconds!=Le match va commencer dans 10 secondes !
+To know what an item does you can read its description in the inventory=Pour savoir ce qu’un item fait vous pouvez lire sa description dans l’inventaire
+the murderer has been killed by=le meurtrier a été tué par
+the murderer quit the server=le meurtrier a quitté le serveur
+The cop quit the server=Le policier a quitté le serveur
+You died!=Vous êtes mort
+# @n means "newline"
+With this you can kill other players, seems fun, doesn't it?@nLeft click on something that's not a player to throw it,@nthen right click the knife on the ground to take it back=Avec ceci vous pouvez tuer d’autres joueurs, ça a l’air amusant, n’est-ce pas ?@nFaites un clic gauche sur quelque chose qui n’est pas un joueur pour le lancer,@nensuite faites un clic droit sur le couteau au sol pour le reprendre
+You murdered @1=Vous avez assassiné @1
+Left click to find the nearest player's last position!=Faites un clic gauche pour trouver la dernière position du joueur le plus proche !
+Boost your speed for 6s=Augmente votre vitesse pendant 6 s
+You feel electrified!=Vous avez été électrisé !
+Kill the murderer with this, but beware if you hit a victim you die!=Tuez le meurtrier avec ceci, mais attention : si vous tuez une victime vous mourrez !
+You killed a victim=Vous avez tué une victime
+You are the murderer, kill everyone!=Vous êtes le meurtrier, tuez tout le monde !
+You are the cop, kill the murderer but BEWARE if you kill a victim you'll die!=Vous êtes un policier, tuez le meurtrier mais ATTENTION : si vous tuez une victime vous mourrez !
+You are a victim, survive until the end!=Vous êtes une victime, survivez jusqu’à la fin !
+The time is over, victims won!=Temps écoulé, les victimes ont gagné !
+The cop has been eliminated, time has been halved!=Le policier a été éliminé, le temps est divisé par deux !
+Left click to detect if the killer is within 15 blocks from you!=Clic gauche pour détecter si le tueur est à moins de 15 blocs de vous !
+The killer is nearby!=Le tueur est proche !
+The killer is not nearby!=Le tueur n’est pas proche !
+The radar is recharging!=Le radar se recharge !
+LAST POSITION=DERNIÈRE POSITION
+The victims' team=Équipe de la victime
+
+# Commands messages
+
+With this you can use /murderadmin=Avec ceci vous pouvez utiliser /murderadmin
+match duration set to @1 seconds=durée du match définie à @1 secondes
+You cannot quit!=Vous ne pouvez pas quitter !
