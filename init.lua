@@ -64,7 +64,6 @@ arena_lib.register_minigame("murder", {
   show_minimap = murder_settings.show_minimap,
   celebration_time = murder_settings.celebration_time
 })
-arena_lib.update_properties("murder")
 
 
 
