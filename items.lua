@@ -23,9 +23,10 @@ local throwable_knife = {
         droptime = 0.5,
     },
     player = {},
+    knife_dropped = false
     
 }
-local knife_dropped = false
+
 
 
 
@@ -92,7 +93,7 @@ end
 function throwable_knife:on_activate(staticdata, dtime_s)
 
     if staticdata ~= "" then
-        knife_dropped = false
+        self.knife_dropped = false
         self.player = minetest.get_player_by_name(staticdata) 
         local yaw = self.player:get_look_horizontal()
         local pitch = self.player:get_look_vertical()
@@ -111,7 +112,7 @@ function throwable_knife:on_activate(staticdata, dtime_s)
         minetest.after(self.initial_properties.droptime, 
             function()
 
-                if knife_dropped == false then
+                if self.knife_dropped == false then
                     self.object:set_velocity({
                         x=(dir.x * self.initial_properties.speed),
                         y=-self.initial_properties.speed/2,
@@ -136,7 +137,7 @@ function throwable_knife:drop()
     local obj = self.object
     local obj_pos = obj:get_pos()
 
-    knife_dropped = true
+    self.knife_dropped = true
     obj:set_velocity({x=0, y=0, z=0})
     minetest.after(0.03, function() if obj then obj:set_pos(obj_pos) end end)
     minetest.sound_play("knife_hit_block", { max_hear_distance = 10, gain = 1, pos = obj_pos })
@@ -168,7 +169,7 @@ function throwable_knife:on_step(dtime, moveresult)
                 murder_player(moveresult.collisions[1].object, self.player:get_player_name())
                 return
             end
-        elseif knife_dropped == false then
+        elseif self.knife_dropped == false then
             self:drop()
             return
         end
