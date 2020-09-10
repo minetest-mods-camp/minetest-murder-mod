@@ -13,18 +13,17 @@ local throwable_knife = {
         hp_max = 1000,
         physical = true,
         collide_with_objects = true,
-        collisionbox = {-0.1, -0.22, -0.1, 0.1, 0.22, 0.1},
+        collisionbox = {-0.15, -0.15, -0.15, 0.15, 0.15, 0.15},
         visual = "wielditem",
         visual_size = {x = 0.4, y = 0.4},
         textures = {murder.murderer_weapon},
         spritediv = {x = 1, y = 1},
         initial_sprite_basepos = {x = 0, y = 0},
         speed = 32,
-        droptime = 0.5,
+        gravity = 11,
     },
     player = {},
     knife_dropped = false
-    
 }
 
 
@@ -107,22 +106,7 @@ function throwable_knife:on_activate(staticdata, dtime_s)
             y=(dir.y * self.initial_properties.speed),
             z=(dir.z * self.initial_properties.speed),
         })
-        
-        -- After 'droptime' seconds this makes the knife go down if it hasn't dropped yet
-        minetest.after(self.initial_properties.droptime, 
-            function()
-
-                if self.knife_dropped == false then
-                    self.object:set_velocity({
-                        x=(dir.x * self.initial_properties.speed),
-                        y=-self.initial_properties.speed/2,
-                        z=(dir.z * self.initial_properties.speed),
-                    }) 
-                end
-                
-            end
-        )
-        
+        self.object:set_acceleration({x=dir.x*-3, y=-self.initial_properties.gravity, z=dir.z*-3})   
     end
 
     
@@ -139,7 +123,8 @@ function throwable_knife:drop()
 
     self.knife_dropped = true
     obj:set_velocity({x=0, y=0, z=0})
-    minetest.after(0.03, function() if obj then obj:set_pos(obj_pos) end end)
+    self.object:set_acceleration({x=0, y=0, z=0}) 
+    minetest.after(0.1, function() if obj then obj:set_pos(obj_pos) end end)
     minetest.sound_play("knife_hit_block", { max_hear_distance = 10, gain = 1, pos = obj_pos })
 end
 
@@ -149,7 +134,7 @@ function throwable_knife:on_rightclick(clicker)
 
     local p_name = clicker:get_player_name()
 
-    if arena_lib.is_player_in_arena(p_name, "murder") and arena_lib.get_arena_by_player(p_name).murderer == p_name then
+    if arena_lib.is_player_in_arena(p_name, "murder") and arena_lib.get_arena_by_player(p_name).murderer == p_name and self.knife_dropped then
         minetest.get_player_by_name(p_name):get_inventory():add_item("main", murder.murderer_weapon)
         remove_knife(self.object, arena_lib.get_arena_by_player(p_name))
     end
@@ -265,7 +250,7 @@ local function register_items()
 
     -- The sprint serum used by the murderer
     minetest.register_craftitem(murder.sprint_serum, {
-        description = murder.T("Boost your speed for 6s"),
+        description = murder.T("Boost your speed for 3s"),
         inventory_image = "sprint_serum.png",
         stack_max = 1,
         -- Prevents this item from being dropped
@@ -279,7 +264,7 @@ local function register_items()
                 minetest.after(0, function() inv:remove_item("main", murder.sprint_serum) end)
                 player: set_physics_override({ speed = 2 })
                 
-                minetest.after(6, function() player: set_physics_override({ speed = 1 }) end)
+                minetest.after(3, function() player: set_physics_override({ speed = 1 }) end)
                 minetest.chat_send_player(player:get_player_name(), minetest.colorize("#df3e23", murder.T("You feel electrified!")))
                 minetest.sound_play("sprint-serum", { pos = player:get_pos(), to_player = p_name })
 
@@ -295,7 +280,6 @@ local function register_items()
         -- Prevents this item from being dropped
         on_drop = function() end,
         on_use = 
-        
             function(itemstack, player)
 
                 local pmeta = player:get_meta()
@@ -308,7 +292,7 @@ local function register_items()
 
                 if arena.in_game == false then return end
 
-                if pmeta:get_int("murder:canShoot") == 1 then
+                if pmeta:get_int("murder:canShoot") == 1 or pmeta:get_int("murder:canShoot") == 0 then
                     local pl_pos = player:get_pos()
                     local pos_head = {x = pl_pos.x, y = pl_pos.y+1.5, z = pl_pos.z}  
                     local shoot_range = 50
@@ -347,7 +331,7 @@ local function register_items()
                     end
 
                     minetest.sound_play("murder_gun_shoot", { max_hear_distance = 20, gain = 1, pos = player:get_pos() })
-                    pmeta:set_int("murder:canShoot", 0)
+                    pmeta:set_int("murder:canShoot", 2)
                     minetest.after(1, function() pmeta:set_int("murder:canShoot", 1) end)
                 else 
                     minetest.sound_play("murder_empty_gun", { max_hear_distance = 10, gain = 1 , pos = player:get_pos() })

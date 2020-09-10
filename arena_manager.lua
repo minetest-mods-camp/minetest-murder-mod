@@ -9,7 +9,7 @@ local function manage_roles(arena)
   local random_cop = random_murderer
   local randomizer = 2
 
-  -- This randomly generates the random cop until it is different from the murderer
+  -- This randomly generates the cop until it is different from the murderer
   while random_cop == random_murderer do 
     random_cop = PseudoRandom(os.clock() * randomizer):next(1, players_count)
     randomizer = randomizer + 1
@@ -31,6 +31,7 @@ local function manage_roles(arena)
       player_inv:add_item("main", murder.murderer_weapon)
       player_inv:add_item("main", murder.finder_chip)
 
+      player:set_physics_override({speed=1.1})
       minetest.sound_play("murderer-role", { pos = player:get_pos(), to_player = p_name })
     
     -- If this player is the cop
@@ -58,7 +59,7 @@ end
   
 
 
--- Update the timer
+-- Updates the timer
 local function timer(arena)
 
   minetest.after(1,
@@ -67,7 +68,7 @@ local function timer(arena)
         arena.timer = arena.timer - 1 
         arena.timer = math.floor(math.abs(arena.timer))
 
-        -- Update the HUD
+        -- Updates the HUD
         for p_name, _ in pairs(arena.players) do
           murder.update_HUD(p_name, "timer_ID", arena.timer)
         end
@@ -97,7 +98,9 @@ arena_lib.on_start("murder", function(arena)
 
         murder.generate_HUD(arena, p_name)
         arena.players[p_name].original_speed = player:get_physics_override().speed
-        player:set_physics_override({speed=1})
+
+        if p_name == arena.murderer then player:set_physics_override({speed=1.1})  
+        else player:set_physics_override({speed=1}) end
       end
 
     end)

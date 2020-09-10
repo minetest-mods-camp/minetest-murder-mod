@@ -1,4 +1,3 @@
-
 # version 1.1.1
 # author(s): Roland Meier
 # reviewer(s):
@@ -20,7 +19,7 @@ You died!=Du bist gestorben!
 With this you can kill other player, seems fun, doesn't it?=Hiermit Kannst Du andere Spieler töten. Macht Spaß, oder?
 You murdered @1=Du hast @1 getötet.
 Left click to find the nearest player's last position!=Klicke links, um die letzte Position des nächsten Spielers anzuzeigen.
-Boost your speed for 6s=Erhöhe Deine Geschwindigkeit für 6 Sekunden.
+Boost your speed for 3s=Erhöhe Deine Geschwindigkeit für 3 Sekunden.
 You feel electrified!=Du bekommst einen elektrischen Schlag!
 Kill the murderer with this, but beware if you hit a victim you die!=Bring den Mörder hiermit um. Aber Achtung: Wenn Du ein Opfer hiermit schlägst, stirbst Du!
 You killed a victim=Du hast ein Opfer getötet.
