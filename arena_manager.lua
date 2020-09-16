@@ -87,6 +87,12 @@ arena_lib.on_start("murder", function(arena)
   arena_lib.send_message_players_in_arena(arena, minetest.colorize("#f9a31b", murder.T("The match will start in 10 seconds!")))
   arena_lib.HUD_send_msg_all("broadcast", arena, murder.T("To know what an item does you can read its description in the inventory"), 10)
 
+  -- disable wielding items if there is armor_3d installed
+
+  for p_name in pairs(arena.players) do
+    minetest.get_player_by_name(p_name):get_meta():set_int("show_wielded_item", 2)
+  end
+
   minetest.after(10,
     function()
       arena.timer = arena.match_duration
@@ -222,6 +228,7 @@ arena_lib.on_end("murder", function(arena, players)
   for p_name, _ in pairs(players) do
     murder.remove_HUD(p_name)
     arena_lib.HUD_hide("hotbar", p_name)
+    minetest.get_player_by_name(p_name):get_meta():set_int("show_wielded_item", 0)
   end
 
 end)
@@ -244,6 +251,15 @@ arena_lib.on_prequit("murder", function(arena, p_name)
 
   minetest.chat_send_player(p_name, murder.T("You cannot quit!"))
   return false 
+
+end)
+
+
+
+-- On forcequit
+arena_lib.on_quit("murder", function(arena, p_name) 
+
+  minetest.get_player_by_name(p_name):get_meta():set_int("show_wielded_item", 0)
 
 end)
 

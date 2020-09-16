@@ -33,6 +33,8 @@ end
 minetest.register_on_joinplayer(function (player)
 
   murder.clear_inventory(player)
+  -- enable wielding items if there is armor_3d installed
+  player:get_meta():set_int("show_wielded_item", 0)
 
 end)
 
@@ -64,7 +66,6 @@ arena_lib.register_minigame("murder", {
   show_minimap = murder_settings.show_minimap,
   celebration_time = murder_settings.celebration_time
 })
-
 
 
 -- registering murder_admin privilege
