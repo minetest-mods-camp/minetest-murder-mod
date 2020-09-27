@@ -60,11 +60,12 @@ arena_lib.register_minigame("murder", {
   },
 
   hub_spawn_point = murder_settings.hub_spawn_point,
-  load_time = murder_settings.loading_time,
+  load_time = 0,
   queue_waiting_time = murder_settings.queue_waiting_time,
   show_nametags = murder_settings.show_nametags,
   show_minimap = murder_settings.show_minimap,
-  celebration_time = murder_settings.celebration_time
+  celebration_time = murder_settings.celebration_time,
+  timer = 60
 })
 
 

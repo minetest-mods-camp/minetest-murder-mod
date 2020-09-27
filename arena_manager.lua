@@ -5,18 +5,15 @@ local function manage_roles(arena)
 
   -- Chooses a random number between 1 and players_count 
   -- os.clock is used as seed, because its value constantly changes
-  local random_murderer = PseudoRandom(os.clock()):next(1, players_count)
-  local random_cop = random_murderer
-  local randomizer = 2
+  local random_murderer = math.random(1, players_count)
+  local random_cop = math.random(1, players_count)
 
   -- This randomly generates the cop until it is different from the murderer
-  while random_cop == random_murderer do 
-    random_cop = PseudoRandom(os.clock() * randomizer):next(1, players_count)
-    randomizer = randomizer + 1
+  while random_cop == random_murderer and players_count > 1 do 
+    random_cop = math.random(1, players_count)
   end
 
   players_count = 0
-
   for p_name, _ in pairs(arena.players) do
     players_count = players_count + 1
     local player = minetest.get_player_by_name(p_name)
@@ -56,35 +53,34 @@ local function manage_roles(arena)
   end
 
 end
-  
 
 
--- Updates the timer
-local function timer(arena)
 
-  minetest.after(1,
-    function() 
-      if arena.timer > 0 then timer(arena) 
-        arena.timer = arena.timer - 1 
-        arena.timer = math.floor(math.abs(arena.timer))
+arena_lib.on_timer_tick("murder", function(arena)
 
-        -- Updates the HUD
-        for p_name, _ in pairs(arena.players) do
-          murder.update_HUD(p_name, "timer_ID", arena.timer)
-        end
-      else
-        if arena.winner == "" then arena.winner = murder.T("The victims' team") end
-        minetest.after(0.1, function() arena_lib.load_celebration("murder", arena, arena.winner) end)
-      end
-    end)
+  -- Updates the HUD
+  for p_name, _ in pairs(arena.players) do
+    murder.update_HUD(p_name, "timer_ID", arena.timer_current)
+  end
 
-end
+end)
+
+
+
+arena_lib.on_timeout("murder", function(arena)
+  if arena.winner == "" then
+    arena.winner = murder.T("The victims' team") 
+  end
+  minetest.after(0.1, function() arena_lib.load_celebration("murder", arena, arena.winner) end)
+end)
 
 
 
 arena_lib.on_start("murder", function(arena)
 
-  arena_lib.send_message_players_in_arena(arena, minetest.colorize("#f9a31b", murder.T("The match will start in 10 seconds!")))
+  arena.timer_current = arena.match_duration + murder_settings.loading_time
+
+  arena_lib.send_message_players_in_arena(arena, minetest.colorize("#f9a31b", murder.T("The match will start in @1 seconds!", murder_settings.loading_time)))
   arena_lib.HUD_send_msg_all("broadcast", arena, murder.T("To know what an item does you can read its description in the inventory"), 10)
 
   -- disable wielding items if there is armor_3d installed
@@ -93,11 +89,8 @@ arena_lib.on_start("murder", function(arena)
     minetest.get_player_by_name(p_name):get_meta():set_int("show_wielded_item", 2)
   end
 
-  minetest.after(10,
-    function()
-      arena.timer = arena.match_duration
-      timer(arena)  
-          
+  minetest.after(murder_settings.loading_time,
+    function()          
       manage_roles(arena)
       for p_name in pairs(arena.players) do
         local player = minetest.get_player_by_name(p_name)
@@ -132,7 +125,7 @@ local function victims_wins(arena)
     )
   end
   
-  arena.timer = 0
+  arena.timer_current = 2
   arena.winner = murder.T("The victims' team")
 
 end
@@ -142,7 +135,7 @@ end
 local function murderer_wins(arena)
 
   arena.winner = minetest.colorize("#f9a31b", arena.murderer) .. " " .. murder.T("the murderer")
-  arena.timer = 0
+  arena.timer_current = 2
 
 end
 
@@ -150,7 +143,7 @@ end
 
 local function cop_dies(arena, p_name)
 
-  arena.timer = arena.timer / 2 
+  arena.timer_current = math.ceil(arena.timer_current / 2) 
 
   if minetest.get_player_by_name(arena.cop) == nil then
     arena_lib.send_message_players_in_arena(arena, minetest.colorize("#f9a31b", murder.T("The cop quit the server, time has been halved!")))
@@ -203,7 +196,7 @@ local function on_player_dies(arena, p_name, disconnected)
   -- If the murderer kills everyone
   -- (the reason why it checks if there are only 2 players left instead of 1 is because when a player gets killed 
   -- he doesn't automatically get kicked out from the arena)
-  elseif arena.players_amount+disconnected  == 2 then
+  elseif arena.players_amount+disconnected == 2 then
     murderer_wins(arena)
 
   -- When a victim dies
@@ -240,6 +233,8 @@ arena_lib.on_celebration("murder", function(arena)
   remove_knives(arena)
   for p_name, _ in pairs(arena.players) do
     local player = minetest.get_player_by_name(p_name)
+    
+    minetest.get_player_by_name(p_name):get_meta():set_int("show_wielded_item", 0)
     player:set_physics_override({speed=arena.players[p_name].original_speed})
   end
 
@@ -260,20 +255,22 @@ end)
 arena_lib.on_quit("murder", function(arena, p_name) 
 
   minetest.get_player_by_name(p_name):get_meta():set_int("show_wielded_item", 0)
+  murder.remove_HUD(p_name)
+  arena_lib.HUD_hide("hotbar", p_name)
+  remove_knives(arena)
 
 end)
 
 
 
 -- When a player quits the game call on_player_dies 
-arena_lib.on_disconnect("murder", 
-  function(arena, p_name)
+arena_lib.on_disconnect("murder", function(arena, p_name)
 
-    if arena.murderer == p_name then 
-      remove_knives(arena)
-    end
-    if arena.in_celebration == false then
-      minetest.after(0.1, function() on_player_dies(arena, p_name, true) end)
-    end
+  if arena.murderer == p_name then 
+    remove_knives(arena)
+  end
+  if arena.in_celebration == false then
+    minetest.after(0.1, function() on_player_dies(arena, p_name, true) end)
+  end
 
-  end)
+end)

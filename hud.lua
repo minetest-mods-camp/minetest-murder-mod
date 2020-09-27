@@ -65,8 +65,10 @@ end
 
 function murder.update_HUD(p_name, field, new_value)
 
-  local player = minetest.get_player_by_name(p_name)
-  player:hud_change(saved_huds[p_name][field], "text", new_value)
+  if saved_huds[p_name] then
+    local player = minetest.get_player_by_name(p_name)
+    player:hud_change(saved_huds[p_name][field], "text", new_value)
+  end
 
 end
 

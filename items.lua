@@ -66,20 +66,25 @@ end
 
 
 function remove_knives(arena)
+    
+    if not arena.thrown_knives then return end
     for i = 1, #arena.thrown_knives do
         arena.thrown_knives[i]:remove()
     end
+
 end
 
 
 
 local function remove_knife(knife, arena)
+
     for i = 1, #arena.thrown_knives do
         if knife == arena.thrown_knives[i] then
             table.remove(arena.thrown_knives, i)
         end
     end
     knife:remove()
+
 end
 
 
@@ -126,6 +131,7 @@ function throwable_knife:drop()
     self.object:set_acceleration({x=0, y=0, z=0}) 
     minetest.after(0.1, function() if obj then obj:set_pos(obj_pos) end end)
     minetest.sound_play("knife_hit_block", { max_hear_distance = 10, gain = 1, pos = obj_pos })
+    
 end
 
 
