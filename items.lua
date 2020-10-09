@@ -1,5 +1,4 @@
 -- THIS REGISTER ALL THE ITEMS AND THEIR LOGIC --
-
 -- Generating the items' names
 murder.murderer_weapon = murder.mod_prefix .. "knife"
 murder.finder_chip =  murder.mod_prefix .. "finder_chip"
@@ -12,7 +11,7 @@ local throwable_knife = {
     initial_properties = {
         hp_max = 1000,
         physical = true,
-        collide_with_objects = true,
+        collide_with_objects = false,
         collisionbox = {-0.15, -0.15, -0.15, 0.15, 0.15, 0.15},
         visual = "wielditem",
         visual_size = {x = 0.4, y = 0.4},
@@ -22,7 +21,7 @@ local throwable_knife = {
         speed = 32,
         gravity = 11,
     },
-    player = {},
+    p_name = "",
     knife_dropped = false
 }
 
@@ -32,6 +31,31 @@ local throwable_knife = {
 --------------------------
 -- ! Other functions ! --
 --------------------------
+
+local function look_raycast(object, range)
+
+    local pos = {}
+    local looking_dir = 0
+    local shoot_dir = 0
+
+    if object:is_player() then
+        local pl_pos = object:get_pos()
+        pos = {x = pl_pos.x, y = pl_pos.y+1.5, z = pl_pos.z}
+        looking_dir = object:get_look_dir()
+        shoot_dir = vector.multiply(looking_dir, range)
+    else
+        pos = object:get_pos()
+        looking_dir = vector.normalize(object:get_velocity())
+        shoot_dir = vector.multiply(looking_dir, range)
+    end
+    -- Casts a ray from the player head position 'till the same position * shoot_range
+    local ray = minetest.raycast(vector.add(pos, vector.divide(looking_dir, 4)), vector.add(pos, shoot_dir), true, false)
+
+    return ray, pos, shoot_range, shoot_dir
+    
+end
+
+
 
 -- The function that will be called when the murderer kills someone
 local function murder_player(hit_pl, p_name)
@@ -98,10 +122,11 @@ function throwable_knife:on_activate(staticdata, dtime_s)
 
     if staticdata ~= "" then
         self.knife_dropped = false
-        self.player = minetest.get_player_by_name(staticdata) 
-        local yaw = self.player:get_look_horizontal()
-        local pitch = self.player:get_look_vertical()
-        local dir = self.player:get_look_dir()
+        self.p_name = staticdata
+        local player = minetest.get_player_by_name(self.p_name)
+        local yaw = player:get_look_horizontal()
+        local pitch = player:get_look_vertical()
+        local dir = player:get_look_dir()
         local arena = arena_lib.get_arena_by_player(staticdata)
 
         self.object:set_rotation({x = -pitch, y = yaw+55, z = 0})
@@ -114,7 +139,6 @@ function throwable_knife:on_activate(staticdata, dtime_s)
         self.object:set_acceleration({x=dir.x*-3, y=-self.initial_properties.gravity, z=dir.z*-3})   
     end
 
-    
     return 
     
 end
@@ -128,8 +152,10 @@ function throwable_knife:drop()
 
     self.knife_dropped = true
     obj:set_velocity({x=0, y=0, z=0})
-    self.object:set_acceleration({x=0, y=0, z=0}) 
-    minetest.after(0.1, function() if obj then obj:set_pos(obj_pos) end end)
+    obj:set_acceleration({x=0, y=0, z=0}) 
+    minetest.after(0.1, function() 
+        obj:set_pos(obj_pos)
+    end)
     minetest.sound_play("knife_hit_block", { max_hear_distance = 10, gain = 1, pos = obj_pos })
     
 end
@@ -151,16 +177,34 @@ end
 
 function throwable_knife:on_step(dtime, moveresult)
 
-    -- Checks if it collides with something
-    if moveresult.collides == true and moveresult.collisions[1] then
+    local player = minetest.get_player_by_name(self.p_name)
 
-        -- If it hit a player
-        if  moveresult.collisions[1].object and moveresult.collisions[1].object:is_player() then
-            if moveresult.collisions[1].object:get_player_name() ~= self.player:get_player_name() then
-                murder_player(moveresult.collisions[1].object, self.player:get_player_name())
-                return
-            end
-        elseif self.knife_dropped == false then
+    if player == nil then
+        self.object:remove()
+        return
+    end
+
+    local ray = look_raycast(self.object, 1)
+
+    -- Kills a player with a raycast
+    for hit in ray do
+        if self.knife_dropped then break end
+
+        if hit.type == "object" and hit.ref:is_player() and hit.ref:get_player_name() ~= self.p_name then
+            local hit_name = hit.ref:get_player_name()
+
+            if hit.ref:get_hp() <= 0 then break end
+            
+            murder_player(hit.ref, self.p_name)
+            break
+        end
+    end
+
+    if moveresult.collides == true and moveresult.collisions[1] then
+        local collision = moveresult.collisions[1]
+
+        -- If it hit a block and it hasn't dropped yet
+        if self.knife_dropped == false then
             self:drop()
             return
         end
@@ -205,7 +249,8 @@ local function register_items()
                 -- If it's used on something else    
                 else
                     -- Throw the knife and save it
-                    table.insert(arena.thrown_knives, minetest.add_entity(vector.add({x=0, y=1.5, z=0}, player:get_pos()), "murder:throwable_knife", player:get_player_name()))
+                    local entity = minetest.add_entity(vector.add({x=0, y=1.5, z=0}, player:get_pos()), "murder:throwable_knife", player:get_player_name())
+                    table.insert(arena.thrown_knives, entity)
                     minetest.sound_play("throw_knife", { max_hear_distance = 5, gain = 1, pos = player:get_pos() })
                     minetest.after(0, function() player:get_inventory():remove_item("main", murder.murderer_weapon) end)
                 end
@@ -299,12 +344,7 @@ local function register_items()
                 if arena.in_game == false then return end
 
                 if pmeta:get_int("murder:canShoot") == 1 or pmeta:get_int("murder:canShoot") == 0 then
-                    local pl_pos = player:get_pos()
-                    local pos_head = {x = pl_pos.x, y = pl_pos.y+1.5, z = pl_pos.z}  
-                    local shoot_range = 50
-                    local shoot_dir = vector.multiply(player:get_look_dir(), shoot_range)
-                    -- Casts a ray from the player head position 'till the same position * shoot_range
-                    local ray = minetest.raycast(vector.add(pos_head, vector.divide(player:get_look_dir(), 4)), vector.add(pos_head, shoot_dir), true, false)
+                    local ray, pos_head, shoot_range, shoot_dir = look_raycast(player, 30)
                     local particle_shot = {
                         pos = pos_head,
                         velocity = vector.multiply(shoot_dir, 2),

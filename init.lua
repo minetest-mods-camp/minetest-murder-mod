@@ -65,7 +65,8 @@ arena_lib.register_minigame("murder", {
   show_nametags = murder_settings.show_nametags,
   show_minimap = murder_settings.show_minimap,
   celebration_time = murder_settings.celebration_time,
-  timer = 60
+  timer = 60,
+  disabled_damage_types = {"punch"}
 })
 
 
