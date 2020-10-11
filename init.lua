@@ -50,10 +50,6 @@ arena_lib.register_minigame("murder", {
     winner = "",
     thrown_knives = {}
   },
-  
-  properties = {
-    match_duration = 0
-  },
 
   player_properties = {
     original_speed = 1
@@ -65,8 +61,8 @@ arena_lib.register_minigame("murder", {
   show_nametags = murder_settings.show_nametags,
   show_minimap = murder_settings.show_minimap,
   celebration_time = murder_settings.celebration_time,
-  timer = 60,
-  disabled_damage_types = {"punch"}
+  disabled_damage_types = {"punch"},
+  time_mode = 2
 })
 
 

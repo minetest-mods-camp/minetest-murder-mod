@@ -56,11 +56,11 @@ end
 
 
 
-arena_lib.on_timer_tick("murder", function(arena)
+arena_lib.on_time_tick("murder", function(arena)
 
   -- Updates the HUD
   for p_name, _ in pairs(arena.players) do
-    murder.update_HUD(p_name, "timer_ID", arena.timer_current)
+    murder.update_HUD(p_name, "timer_ID", arena.current_time)
   end
 
 end)
@@ -78,8 +78,6 @@ end)
 
 arena_lib.on_start("murder", function(arena)
 
-  arena.timer_current = arena.match_duration + murder_settings.loading_time
-
   arena_lib.send_message_players_in_arena(arena, minetest.colorize("#f9a31b", murder.T("The match will start in @1 seconds!", murder_settings.loading_time)))
   arena_lib.HUD_send_msg_all("broadcast", arena, murder.T("To know what an item does you can read its description in the inventory"), 10)
 
@@ -90,7 +88,8 @@ arena_lib.on_start("murder", function(arena)
   end
 
   minetest.after(murder_settings.loading_time,
-    function()          
+    function()
+      arena.current_time = arena.initial_time
       manage_roles(arena)
       for p_name in pairs(arena.players) do
         local player = minetest.get_player_by_name(p_name)
@@ -125,7 +124,7 @@ local function victims_wins(arena)
     )
   end
   
-  arena.timer_current = 2
+  arena.current_time = 2
   arena.winner = murder.T("The victims' team")
 
 end
@@ -135,7 +134,7 @@ end
 local function murderer_wins(arena)
 
   arena.winner = minetest.colorize("#f9a31b", arena.murderer) .. " " .. murder.T("the murderer")
-  arena.timer_current = 2
+  arena.current_time = 2
 
 end
 
@@ -143,7 +142,7 @@ end
 
 local function cop_dies(arena, p_name)
 
-  arena.timer_current = math.ceil(arena.timer_current / 2) 
+  arena.current_time = math.ceil(arena.current_time / 2) 
 
   if minetest.get_player_by_name(arena.cop) == nil then
     arena_lib.send_message_players_in_arena(arena, minetest.colorize("#f9a31b", murder.T("The cop quit the server, time has been halved!")))

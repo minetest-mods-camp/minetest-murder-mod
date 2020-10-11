@@ -4,7 +4,7 @@ function murder.generate_HUD(arena, p_name)
 
   local player = minetest.get_player_by_name(p_name)
 
-  local backgound
+  local background
   local timer 
   local role
   local waypoint 
@@ -35,7 +35,7 @@ function murder.generate_HUD(arena, p_name)
     hud_elem_type = "text",
     position  = {x = 1, y = 0},
     offset = {x = -57, y = 32},
-    text      = arena.match_duration,
+    text      = arena.initial_time,
     alignment = { x = 1.0},
     scale     = { x = 2, y = 2},
     number    = 0xFFFFFF,

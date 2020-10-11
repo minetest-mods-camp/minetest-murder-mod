@@ -23,10 +23,8 @@ ChatCmdBuilder.new("murderadmin", function(cmd)
         way to enter it (by clicking it).
 
 
-        3) Setting the match duration in the editor menu: by 
-        clicking on the screwdriver you can modify the 
-        "matchduration" property
-
+        3) Setting the match duration in the editor menu by 
+        clicking on the clock in the settings.
 
 
         4) Enabling the arena using:
