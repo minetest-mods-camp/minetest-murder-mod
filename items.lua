@@ -6,7 +6,7 @@ murder.sprint_serum =  murder.mod_prefix .. "sprint_serum"
 murder.radar_on =  murder.mod_prefix .. "radar_on"
 murder.radar_off =  murder.mod_prefix .. "radar_off"
 murder.gun =  murder.mod_prefix .. "gun"
--- The throwable knife entity declaration 
+-- The throwable knife entity declaration
 local throwable_knife = {
     initial_properties = {
         hp_max = 1000,
@@ -48,11 +48,11 @@ local function look_raycast(object, range)
         looking_dir = vector.normalize(object:get_velocity())
         shoot_dir = vector.multiply(looking_dir, range)
     end
-    -- Casts a ray from the player head position 'till the same position * shoot_range
+    -- Casts a ray from the player head position 'till the same position
     local ray = minetest.raycast(vector.add(pos, vector.divide(looking_dir, 4)), vector.add(pos, shoot_dir), true, false)
 
-    return ray, pos, shoot_range, shoot_dir
-    
+    return ray, pos, shoot_dir
+
 end
 
 
@@ -90,7 +90,7 @@ end
 
 
 function remove_knives(arena)
-    
+
     if not arena.thrown_knives then return end
     for i = 1, #arena.thrown_knives do
         arena.thrown_knives[i]:remove()
@@ -136,15 +136,15 @@ function throwable_knife:on_activate(staticdata, dtime_s)
             y=(dir.y * self.initial_properties.speed),
             z=(dir.z * self.initial_properties.speed),
         })
-        self.object:set_acceleration({x=dir.x*-3, y=-self.initial_properties.gravity, z=dir.z*-3})   
+        self.object:set_acceleration({x=dir.x*-3, y=-self.initial_properties.gravity, z=dir.z*-3})
     end
 
-    return 
-    
+    return
+
 end
 
 
--- This stops the knife 
+-- This stops the knife
 function throwable_knife:drop()
 
     local obj = self.object
@@ -152,12 +152,14 @@ function throwable_knife:drop()
 
     self.knife_dropped = true
     obj:set_velocity({x=0, y=0, z=0})
-    obj:set_acceleration({x=0, y=0, z=0}) 
-    minetest.after(0.1, function() 
+    obj:set_acceleration({x=0, y=0, z=0})
+
+    minetest.after(0.1, function()
         obj:set_pos(obj_pos)
     end)
+
     minetest.sound_play("knife_hit_block", { max_hear_distance = 10, gain = 1, pos = obj_pos })
-    
+
 end
 
 
@@ -188,26 +190,28 @@ function throwable_knife:on_step(dtime, moveresult)
 
     -- Kills a player with a raycast
     for hit in ray do
-        if self.knife_dropped then break end
+        if self.knife_dropped then return end
 
         if hit.type == "object" and hit.ref:is_player() and hit.ref:get_player_name() ~= self.p_name then
             local hit_name = hit.ref:get_player_name()
 
-            if hit.ref:get_hp() <= 0 then break end
-            
+            if hit.ref:get_hp() <= 0 then return end
+
             murder_player(hit.ref, self.p_name)
-            break
+
         end
     end
 
-    if moveresult.collides == true and moveresult.collisions[1] then
-        local collision = moveresult.collisions[1]
-
-        -- If it hit a block and it hasn't dropped yet
-        if self.knife_dropped == false then
-            self:drop()
-            return
+    if moveresult.collides == true then
+      for k, collision in pairs(moveresult.collisions) do
+        if collision.type == "node" then
+          -- If it hit a block and it hasn't dropped yet
+          if self.knife_dropped == false then
+              self:drop()
+              return
+          end
         end
+      end
     end
 
 end
@@ -221,7 +225,7 @@ minetest.register_entity("murder:throwable_knife", throwable_knife)
 ----------------------------
 
 local function register_items()
-    
+
     -- The knife used by the murderer
     minetest.register_craftitem(murder.murderer_weapon, {
         description = murder.T("With this you can kill other players, seems fun, doesn't it?\nLeft click on something that's not a player to throw it,\nthen right click the knife on the ground to take it back"),
@@ -233,7 +237,7 @@ local function register_items()
             function(_, player, pointed_thing)
 
                 local p_name = player:get_player_name()
-                
+
                 -- Check if the player is in the arena and is fighting, if not it exits
                 if not arena_lib.is_player_in_arena(p_name) then return end
 
@@ -246,7 +250,7 @@ local function register_items()
                     local hit_pl = pointed_thing.ref
                     murder_player(hit_pl, p_name)
 
-                -- If it's used on something else    
+                -- If it's used on something else
                 else
                     -- Throw the knife and save it
                     local entity = minetest.add_entity(vector.add({x=0, y=1.5, z=0}, player:get_pos()), "murder:throwable_knife", player:get_player_name())
@@ -256,9 +260,9 @@ local function register_items()
                 end
 
             end,
-        
+
     })
- 
+
 
     -- The following chip used by the murderer
     minetest.register_craftitem(murder.finder_chip, {
@@ -267,11 +271,11 @@ local function register_items()
         stack_max = 1,
         -- Prevents this item from being dropped
         on_drop = function() return nil end,
-        on_use = 
+        on_use =
             function(_, player, pointed_thing)
 
                 local p_name = player:get_player_name()
-                
+
                 minetest.sound_play("finder-chip", { pos = player:get_pos(), gain = 1, to_player = p_name })
 
                 if arena_lib.is_player_in_arena(p_name) then
@@ -282,7 +286,7 @@ local function register_items()
                     for name, _ in pairs(arena.players) do
                         local player2 = minetest.get_player_by_name(name)
 
-                        if nearest_player == nil and p_name ~= name then nearest_player = player2 end 
+                        if nearest_player == nil and p_name ~= name then nearest_player = player2 end
 
                         if p_name ~= name and vector.distance(player:get_pos(), player2:get_pos()) < vector.distance(player:get_pos(), nearest_player:get_pos()) then
                             nearest_player = player2
@@ -306,7 +310,7 @@ local function register_items()
         stack_max = 1,
         -- Prevents this item from being dropped
         on_drop = function(itemstack, dropper, pos) end,
-        on_use = 
+        on_use =
             function (_, player)
 
                 local inv = player:get_inventory()
@@ -314,23 +318,23 @@ local function register_items()
                 -- It removes this item from the player inventory, then it sets and resets the player speed
                 minetest.after(0, function() inv:remove_item("main", murder.sprint_serum) end)
                 player: set_physics_override({ speed = 2 })
-                
+
                 minetest.after(3, function() player: set_physics_override({ speed = 1 }) end)
                 minetest.chat_send_player(player:get_player_name(), minetest.colorize("#df3e23", murder.T("You feel electrified!")))
                 minetest.sound_play("sprint-serum", { pos = player:get_pos(), to_player = p_name })
 
-            end      
+            end
     })
 
 
     -- The gun used by the cop
-    minetest.register_craftitem(murder.gun, { 
+    minetest.register_craftitem(murder.gun, {
         description = murder.T("Kill the murderer with this, but beware if you hit a victim you die!"),
         inventory_image = "gun.png",
         stack_max = 1,
         -- Prevents this item from being dropped
         on_drop = function() end,
-        on_use = 
+        on_use =
             function(itemstack, player)
 
                 local pmeta = player:get_meta()
@@ -343,8 +347,8 @@ local function register_items()
 
                 if arena.in_game == false then return end
 
-                if pmeta:get_int("murder:canShoot") == 1 or pmeta:get_int("murder:canShoot") == 0 then
-                    local ray, pos_head, shoot_range, shoot_dir = look_raycast(player, 30)
+                if pmeta:get_string("murder:canShoot") ~= "false" then
+                    local ray, pos_head, shoot_dir = look_raycast(player, 30)
                     local particle_shot = {
                         pos = pos_head,
                         velocity = vector.multiply(shoot_dir, 2),
@@ -352,16 +356,16 @@ local function register_items()
                         texture = "shoot_particle.png",
                         glow = 12
                     }
-                    
+
                     minetest.add_particle(particle_shot)
 
-                    -- If the raycast hits a player it kills him 
+                    -- If the raycast hits a player it kills him
                     for hit in ray do
                         if hit.type == "object" and hit.ref:is_player() and hit.ref:get_player_name() ~= player:get_player_name() then
                             local hit_name = hit.ref:get_player_name()
 
                             if hit.ref:get_hp() <= 0 then break end
-                            
+
                             hit.ref:set_hp(0, "shot")
 
                             -- Kills the cop if it shoots a victim
@@ -377,9 +381,9 @@ local function register_items()
                     end
 
                     minetest.sound_play("murder_gun_shoot", { max_hear_distance = 20, gain = 1, pos = player:get_pos() })
-                    pmeta:set_int("murder:canShoot", 2)
-                    minetest.after(1, function() pmeta:set_int("murder:canShoot", 1) end)
-                else 
+                    pmeta:set_string("murder:canShoot", "false")
+                    minetest.after(1, function() pmeta:set_string("murder:canShoot", "true") end)
+                else
                     minetest.sound_play("murder_empty_gun", { max_hear_distance = 10, gain = 1 , pos = player:get_pos() })
                 end
                 return nil
@@ -388,11 +392,11 @@ local function register_items()
     })
 
     -- The radar used by the victim
-    minetest.register_craftitem(murder.radar_on, { 
+    minetest.register_craftitem(murder.radar_on, {
         description = murder.T("Left click to detect if the killer is within 15 blocks from you!"),
         inventory_image = "radar_on.png",
         stack_max = 1,
-        on_use = 
+        on_use =
             function(itemstack, player)
 
                 local p_name = player:get_player_name()
@@ -414,17 +418,17 @@ local function register_items()
 
                 player:get_inventory():add_item("main", murder.radar_off)
                 minetest.after(5,
-                    function() 
+                    function()
                         if arena_lib.is_player_in_arena(p_name) then player:get_inventory():add_item("main", murder.radar_on) end
                         player:get_inventory():remove_item("main", murder.radar_off)
                     end)
                 minetest.after(0, function() player:get_inventory():remove_item("main", murder.radar_on) end)
-                
+
             end,
         on_drop = function() return nil end
     })
 
-    minetest.register_craftitem(murder.radar_off, { 
+    minetest.register_craftitem(murder.radar_off, {
         description = murder.T("Left click to detect if the killer is within 15 blocks from you!"),
         inventory_image = "radar_off.png",
         stack_max = 1,
