@@ -185,9 +185,6 @@ local function on_player_dies(arena, p_name, disconnected)
     disconnected = 1
   else
     disconnected = 0
-    local player = minetest.get_player_by_name(p_name)
-
-    player:set_physics_override({speed=arena.players[p_name].original_speed})
   end
 
   -- If someone kills the murderer the match finishes and victims win
@@ -256,8 +253,12 @@ end)
 
 
 
+-- On forcequit
 arena_lib.on_quit("murder", function(arena, p_name)
 
+  local player = minetest.get_player_by_name(p_name)
+  
+  player:set_physics_override({speed=arena.players[p_name].original_speed})
   minetest.get_player_by_name(p_name):get_meta():set_int("show_wielded_item", 0)
   murder.remove_HUD(p_name)
   arena_lib.HUD_hide("hotbar", p_name)
