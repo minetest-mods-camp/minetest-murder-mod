@@ -91,6 +91,7 @@ arena_lib.on_start("murder", function(arena)
     function()
       arena.current_time = arena.initial_time
       manage_roles(arena)
+
       for p_name in pairs(arena.players) do
         local player = minetest.get_player_by_name(p_name)
 
@@ -104,6 +105,16 @@ arena_lib.on_start("murder", function(arena)
     end)
 
 end)
+
+
+
+local function remove_player_from_arena(p_name)
+  murder.clear_inventory(minetest.get_player_by_name(p_name))
+  arena_lib.remove_player_from_arena(p_name, 1)
+  minetest.chat_send_player(p_name, murder.T("You died!"))
+  murder.remove_HUD(p_name)
+  arena_lib.HUD_hide("hotbar", p_name)
+end
 
 
 
@@ -149,11 +160,7 @@ local function cop_dies(arena, p_name)
 
   else
     arena_lib.send_message_players_in_arena(arena, minetest.colorize("#f9a31b", murder.T("The cop has been eliminated, time has been halved!")))
-    murder.clear_inventory(minetest.get_player_by_name(p_name))
-    murder.remove_HUD(p_name)
-    arena_lib.remove_player_from_arena(p_name, 1)
-    minetest.chat_send_player(p_name, murder.T("You died!"))
-    arena_lib.HUD_hide("hotbar", p_name)
+    remove_player_from_arena(p_name)
   end
 
 end
@@ -163,11 +170,7 @@ end
 local function victim_dies(arena, p_name)
 
   if minetest.get_player_by_name(p_name) ~= nil then
-    murder.clear_inventory(minetest.get_player_by_name(p_name))
-    arena_lib.remove_player_from_arena(p_name, 1)
-    minetest.chat_send_player(p_name, murder.T("You died!"))
-    murder.remove_HUD(p_name)
-    arena_lib.HUD_hide("hotbar", p_name)
+    remove_player_from_arena(p_name)
   end
 
 end
@@ -177,11 +180,14 @@ end
 local function on_player_dies(arena, p_name, disconnected)
 
   -- When a player disconnects he/she gets kicked before this function,
-  -- if it is the case 'disconnected' will be set to 1 to fix this.
+  -- if it is the case then 'disconnected' will be set to 1 to fix this.
   if disconnected == true then
     disconnected = 1
   else
     disconnected = 0
+    local player = minetest.get_player_by_name(p_name)
+
+    player:set_physics_override({speed=arena.players[p_name].original_speed})
   end
 
   -- If someone kills the murderer the match finishes and victims win
