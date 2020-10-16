@@ -256,7 +256,6 @@ end)
 
 
 
--- On forcequit
 arena_lib.on_quit("murder", function(arena, p_name)
 
   minetest.get_player_by_name(p_name):get_meta():set_int("show_wielded_item", 0)
