@@ -228,7 +228,7 @@ local function register_items()
 
     -- The knife used by the murderer
     minetest.register_craftitem(murder.murderer_weapon, {
-        description = murder.T("With this you can kill other players, seems fun, doesn't it?\nLeft click on something that's not a player to throw it,\nthen right click the knife on the ground to take it back"),
+        description = murder.T("With this you can kill other players, seems fun, doesn't it?\nRight click in the air to throw it, then right click it again to take it back"),
         inventory_image = "knife.png",
         damage_groups = {fleshy = 3},
         stack_max = 1,
@@ -238,7 +238,6 @@ local function register_items()
 
                 local p_name = player:get_player_name()
 
-                -- Check if the player is in the arena and is fighting, if not it exits
                 if not arena_lib.is_player_in_arena(p_name) then return end
 
                 local arena = arena_lib.get_arena_by_player(p_name)
@@ -249,18 +248,25 @@ local function register_items()
                 if pointed_thing.type == "object" and pointed_thing.ref:is_player() then
                     local hit_pl = pointed_thing.ref
                     murder_player(hit_pl, p_name)
-
-                -- If it's used on something else
-                else
-                    -- Throw the knife and save it
-                    local entity = minetest.add_entity(vector.add({x=0, y=1.5, z=0}, player:get_pos()), "murder:throwable_knife", player:get_player_name())
-                    table.insert(arena.thrown_knives, entity)
-                    minetest.sound_play("throw_knife", { max_hear_distance = 5, gain = 1, pos = player:get_pos() })
-                    minetest.after(0, function() player:get_inventory():remove_item("main", murder.murderer_weapon) end)
                 end
 
             end,
+        on_secondary_use =
+            function(_, player, pointed_thing)
+                local p_name = player:get_player_name()
 
+                if not arena_lib.is_player_in_arena(p_name) then return end
+
+                local arena = arena_lib.get_arena_by_player(p_name)
+
+                if arena.in_game == false then return end
+
+                -- Throw the knife and save it
+                local entity = minetest.add_entity(vector.add({x=0, y=1.5, z=0}, player:get_pos()), "murder:throwable_knife", p_name)
+                table.insert(arena.thrown_knives, entity)
+                minetest.sound_play("throw_knife", { max_hear_distance = 5, gain = 1, pos = player:get_pos() })
+                minetest.after(0, function() player:get_inventory():remove_item("main", murder.murderer_weapon) end)
+            end
     })
 
 
