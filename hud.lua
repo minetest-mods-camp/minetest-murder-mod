@@ -94,7 +94,6 @@ end
 
 
 
--- Remove every hud stored in saved_huds for a player
 function murder.remove_HUD(p_name)
 
   local player = minetest.get_player_by_name(p_name)

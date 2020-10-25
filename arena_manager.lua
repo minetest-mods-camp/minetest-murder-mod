@@ -82,7 +82,6 @@ arena_lib.on_start("murder", function(arena)
   arena_lib.HUD_send_msg_all("broadcast", arena, murder.T("To know what an item does you can read its description in the inventory"), 10)
 
   -- disable wielding items if there is armor_3d installed
-
   for p_name in pairs(arena.players) do
     minetest.get_player_by_name(p_name):get_meta():set_int("show_wielded_item", 2)
   end
@@ -96,12 +95,10 @@ arena_lib.on_start("murder", function(arena)
         local player = minetest.get_player_by_name(p_name)
 
         murder.generate_HUD(arena, p_name)
-        arena.players[p_name].original_speed = player:get_physics_override().speed
 
         if p_name == arena.murderer then player:set_physics_override({speed=1.1})
         else player:set_physics_override({speed=1}) end
       end
-
     end)
 
 end)
@@ -237,7 +234,6 @@ arena_lib.on_celebration("murder", function(arena)
     local player = minetest.get_player_by_name(p_name)
 
     minetest.get_player_by_name(p_name):get_meta():set_int("show_wielded_item", 0)
-    player:set_physics_override({speed=arena.players[p_name].original_speed})
   end
 
 end)
@@ -258,7 +254,6 @@ arena_lib.on_quit("murder", function(arena, p_name)
 
   local player = minetest.get_player_by_name(p_name)
   
-  player:set_physics_override({speed=arena.players[p_name].original_speed})
   minetest.get_player_by_name(p_name):get_meta():set_int("show_wielded_item", 0)
   murder.remove_HUD(p_name)
   arena_lib.HUD_hide("hotbar", p_name)
