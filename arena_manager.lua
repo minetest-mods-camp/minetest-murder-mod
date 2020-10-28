@@ -229,7 +229,7 @@ end)
 
 arena_lib.on_celebration("murder", function(arena)
 
-  remove_knives(arena)
+  murder.remove_knives(arena)
   for p_name, _ in pairs(arena.players) do
     local player = minetest.get_player_by_name(p_name)
 
@@ -266,7 +266,7 @@ end)
 arena_lib.on_disconnect("murder", function(arena, p_name)
 
   if arena.murderer == p_name then
-    remove_knives(arena)
+    murder.remove_knives(arena)
   end
   if arena.in_celebration == false then
     minetest.after(0.1, function() on_player_dies(arena, p_name, true) end)

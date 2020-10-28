@@ -1,41 +1,10 @@
 -- THIS REGISTERS ALL IN-CHAT COMMANDS --
 
-ChatCmdBuilder.new("murderadmin", function(cmd)
+ChatCmdBuilder.new("murder", function(cmd)
 
     -- create arena
     cmd:sub("tutorial", function(name)
-        minetest.chat_send_player(name, [[
-
-        1) Creating the arena using:
-
-        /murderadmin create <arena name> [min players] [max players]
-        where min players is equal to the minimun amount of players 
-        to make the arena start, and max players to the maximum 
-        amount of players that an arena can have.
-
-
-        2) Editing the arena using:
-
-        /murderadmin edit <arena name>
-        in this menu you can add spawn points and set up the sign to
-        enter the arena: the spawn points are where the players will
-        spawn when they enter the arena, while the sign is just the 
-        way to enter it (by clicking it).
-
-
-        3) Setting the match duration in the editor menu by 
-        clicking on the clock in the settings.
-
-
-        4) Enabling the arena using:
-
-        /murderadmin enable <arena name>
-
-
-        Once you've done this you can click the sign and start 
-        playing :)
-        Use /help murderadmin to see all the commands.
-        ]])
+        minetest.chat_send_player(name, "See the TUTORIAL.txt file in the mod folder.")
     end)
 
 
@@ -121,6 +90,8 @@ ChatCmdBuilder.new("murderadmin", function(cmd)
 
 end, {
   description = [[
+      
+    (/help murder)
 
     Use this to configure your arena:
     - tutorial

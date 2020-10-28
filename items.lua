@@ -89,7 +89,7 @@ end
 
 
 
-function remove_knives(arena)
+function murder.remove_knives(arena)
 
     if not arena.thrown_knives then return end
     for i = 1, #arena.thrown_knives do
@@ -144,7 +144,6 @@ function throwable_knife:on_activate(staticdata, dtime_s)
 end
 
 
--- This stops the knife
 function throwable_knife:drop()
 
     local obj = self.object
@@ -156,6 +155,16 @@ function throwable_knife:drop()
 
     minetest.after(0.1, function()
         obj:set_pos(obj_pos)
+    end)
+    minetest.after(15, function()
+        local player = minetest.get_player_by_name(self.p_name)
+        local arena = arena_lib.get_arena_by_player(self.p_name)
+
+        if not player or not arena then return end
+        local pl_inv = player:get_inventory()
+
+        murder.remove_knives(arena)
+        pl_inv:add_item("main", ItemStack(murder.murderer_weapon))
     end)
 
     minetest.sound_play("knife_hit_block", { max_hear_distance = 10, gain = 1, pos = obj_pos })
