@@ -329,13 +329,13 @@ local function register_items()
             function (_, player)
 
                 local inv = player:get_inventory()
-
+                local p_name = player:get_player_name()
                 -- It removes this item from the player inventory, then it sets and resets the player speed
                 minetest.after(0, function() inv:remove_item("main", murder.sprint_serum) end)
                 player: set_physics_override({ speed = 2 })
 
-                minetest.after(3, function() player: set_physics_override({ speed = 1 }) end)
-                minetest.chat_send_player(player:get_player_name(), minetest.colorize("#df3e23", murder.T("You feel electrified!")))
+                minetest.after(3, function() player:set_physics_override({ speed = 1 }) end)
+                minetest.chat_send_player(p_name, minetest.colorize("#df3e23", murder.T("You feel electrified!")))
                 minetest.sound_play("sprint-serum", { pos = player:get_pos(), to_player = p_name })
 
             end

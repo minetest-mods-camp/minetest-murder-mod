@@ -13,7 +13,7 @@ Don't change the variables' names if you don't know what you're doing
 murder_settings = {}
 
 -- Where players will be teleported when a match ends.
-murder_settings.hub_spawn_point = {x = 0, y = 10, z = 0}
+murder_settings.hub_spawn_point = {x = -67, y = 25, z = 102}
 
 --  The time between the loading state and the start of the match.
 murder_settings.loading_time = 10
