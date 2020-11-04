@@ -160,7 +160,7 @@ function throwable_knife:drop()
         local player = minetest.get_player_by_name(self.p_name)
         local arena = arena_lib.get_arena_by_player(self.p_name)
 
-        if not player or not arena then return end
+        if not player or not arena or not arena.thrown_knives[1] then return end
         local pl_inv = player:get_inventory()
 
         murder.remove_knives(arena)
