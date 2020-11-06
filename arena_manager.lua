@@ -75,15 +75,17 @@ arena_lib.on_timeout("murder", function(arena)
 end)
 
 
-
 arena_lib.on_start("murder", function(arena)
 
   arena_lib.send_message_players_in_arena(arena, minetest.colorize("#f9a31b", murder.T("The match will start in @1 seconds!", murder_settings.loading_time)))
   arena_lib.HUD_send_msg_all("broadcast", arena, murder.T("To know what an item does you can read its description in the inventory"), 10)
 
-  -- disable wielding items if there is armor_3d installed
   for p_name in pairs(arena.players) do
-    minetest.get_player_by_name(p_name):get_meta():set_int("show_wielded_item", 2)
+    local player = minetest.get_player_by_name(p_name)
+
+    -- Disable wielding items if there is 3d_armor installed.
+    player:get_meta():set_int("show_wielded_item", 2)
+    player:set_physics_override({speed=1.2})
   end
 
   minetest.after(murder_settings.loading_time,
@@ -96,8 +98,7 @@ arena_lib.on_start("murder", function(arena)
 
         murder.generate_HUD(arena, p_name)
 
-        if p_name == arena.murderer then player:set_physics_override({speed=1.1})
-        else player:set_physics_override({speed=1}) end
+        if p_name == arena.murderer then player:set_physics_override({speed=1.3}) end
       end
     end)
 
