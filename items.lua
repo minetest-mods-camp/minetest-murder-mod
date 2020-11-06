@@ -95,7 +95,8 @@ function murder.remove_knives(arena)
     for i = 1, #arena.thrown_knives do
         arena.thrown_knives[i]:remove()
     end
-
+    arena.thrown_knives = {}
+    
 end
 
 
