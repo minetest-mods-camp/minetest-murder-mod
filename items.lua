@@ -101,19 +101,6 @@ end
 
 
 
-local function remove_knife(knife, arena)
-
-    for i = 1, #arena.thrown_knives do
-        if knife == arena.thrown_knives[i] then
-            table.remove(arena.thrown_knives, i)
-        end
-    end
-    knife:remove()
-
-end
-
-
-
 ----------------------
 -- ! Knife Entity ! --
 ----------------------
@@ -179,10 +166,11 @@ end
 function throwable_knife:on_rightclick(clicker)
 
     local p_name = clicker:get_player_name()
+    local arena = arena_lib.get_arena_by_player(p_name)
 
-    if arena_lib.is_player_in_arena(p_name, "murder") and arena_lib.get_arena_by_player(p_name).murderer == p_name and self.knife_dropped then
+    if arena and arena.murderer == p_name and self.knife_dropped then
         minetest.get_player_by_name(p_name):get_inventory():add_item("main", murder.murderer_weapon)
-        remove_knife(self.object, arena_lib.get_arena_by_player(p_name))
+        murder.remove_knives(arena)
     end
 
 end
@@ -198,7 +186,7 @@ function throwable_knife:on_step(dtime, moveresult)
         return
     end
 
-    local ray = look_raycast(self.object, 1)
+    local ray = look_raycast(self.object, 1.2)
 
     -- Kills a player with a raycast
     for hit in ray do
