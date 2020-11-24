@@ -10,21 +10,21 @@ dofile(minetest.get_modpath("murder") .. "/items.lua")
 
 function murder.clear_inventory(player)
 
-  player:get_inventory():remove_item("main", murder.gun) 
-  player:get_inventory():remove_item("main", murder.murderer_weapon) 
-  player:get_inventory():remove_item("main", murder.finder_chip) 
-  player:get_inventory():remove_item("main", murder.sprint_serum) 
-  player:get_inventory():remove_item("main", murder.radar_on) 
-  player:get_inventory():remove_item("main", murder.radar_off) 
-  player:get_inventory():remove_item("main", murder.sprint_serum) 
-  
-  player:get_inventory():remove_item("craft", murder.gun) 
-  player:get_inventory():remove_item("craft", murder.murderer_weapon) 
-  player:get_inventory():remove_item("craft", murder.finder_chip) 
-  player:get_inventory():remove_item("craft", murder.sprint_serum) 
-  player:get_inventory():remove_item("craft", murder.radar_on) 
-  player:get_inventory():remove_item("craft", murder.radar_off) 
-  player:get_inventory():remove_item("craft", murder.sprint_serum) 
+  player:get_inventory():remove_item("main", murder.gun)
+  player:get_inventory():remove_item("main", murder.murderer_weapon)
+  player:get_inventory():remove_item("main", murder.finder_chip)
+  player:get_inventory():remove_item("main", murder.sprint_serum)
+  player:get_inventory():remove_item("main", murder.radar_on)
+  player:get_inventory():remove_item("main", murder.radar_off)
+  player:get_inventory():remove_item("main", murder.sprint_serum)
+
+  player:get_inventory():remove_item("craft", murder.gun)
+  player:get_inventory():remove_item("craft", murder.murderer_weapon)
+  player:get_inventory():remove_item("craft", murder.finder_chip)
+  player:get_inventory():remove_item("craft", murder.sprint_serum)
+  player:get_inventory():remove_item("craft", murder.radar_on)
+  player:get_inventory():remove_item("craft", murder.radar_off)
+  player:get_inventory():remove_item("craft", murder.sprint_serum)
 
 end
 
@@ -50,9 +50,7 @@ arena_lib.register_minigame("murder", {
     winner = "",
     thrown_knives = {}
   },
-  hub_spawn_point = murder_settings.hub_spawn_point,
   load_time = 0,
-  queue_waiting_time = murder_settings.queue_waiting_time,
   show_nametags = murder_settings.show_nametags,
   show_minimap = murder_settings.show_minimap,
   celebration_time = murder_settings.celebration_time,
@@ -62,7 +60,7 @@ arena_lib.register_minigame("murder", {
 
 
 -- registering murder_admin privilege
-minetest.register_privilege("murder_admin", {  
+minetest.register_privilege("murder_admin", {
   description = murder.T("With this you can use /murderadmin")
 })
 
