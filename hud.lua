@@ -1,24 +1,14 @@
-local saved_huds = {} -- p_name = {hud ids}
+local saved_huds = {} -- pl_name = {hud ids}
 
-function murder.generate_HUD(arena, p_name)
-
-  local player = minetest.get_player_by_name(p_name)
+function murder.generate_HUD(arena, pl_name)
+  local player = minetest.get_player_by_name(pl_name)
 
   local background
-  local timer 
-  local role
-  local waypoint 
+  local timer
+  local role = murder.T(arena.roles[pl_name].name)
+  local waypoint
 
-  -- Assign role
-  if p_name == arena.murderer then
-    role = murder.T("Murderer")
-  elseif p_name == arena.cop then
-    role = murder.T("Cop")
-  else
-    role = murder.T("Victim")
-  end  
-
-  -- Sets the murderer background image
+  -- Sets the role background image.
   background = player:hud_add({
     hud_elem_type = "image",
     position  = {x = 1, y = 0},
@@ -29,8 +19,7 @@ function murder.generate_HUD(arena, p_name)
     number    = 0xFFFFFF,
   })
 
-  -- Sets the timer text
-  -- x 0.966  y 0.03
+  -- Sets the timer text.
   timer = player:hud_add({
     hud_elem_type = "text",
     position  = {x = 1, y = 0},
@@ -41,7 +30,7 @@ function murder.generate_HUD(arena, p_name)
     number    = 0xFFFFFF,
   })
 
-  -- Sets the role text
+  -- Sets the role text.
   role = player:hud_add({
     hud_elem_type = "text",
     position  = {x = 1, y = 0},
@@ -52,53 +41,46 @@ function murder.generate_HUD(arena, p_name)
     number    = 0xFFFFFF,
   })
 
-  -- Save the huds IDs for each player 
-  saved_huds[p_name] = {
+  -- Save the huds IDs for each player. 
+  saved_huds[pl_name] = {
     role_ID = role,
     backgound_ID = background,
     timer_ID = timer,
   }
-
 end
 
 
 
-function murder.update_HUD(p_name, field, new_value)
-
-  if saved_huds[p_name] then
-    local player = minetest.get_player_by_name(p_name)
-    player:hud_change(saved_huds[p_name][field], "text", new_value)
+function murder.update_HUD(pl_name, field, new_value)
+  if saved_huds[pl_name] and saved_huds[pl_name][field] then
+    local player = minetest.get_player_by_name(pl_name)
+    player:hud_change(saved_huds[pl_name][field], "text", new_value)
   end
-
 end
 
 
 
-function murder.set_waypoint(p_name, target_pos)
+function murder.remove_HUD(pl_name)
+  local player = minetest.get_player_by_name(pl_name)
 
-  local player = minetest.get_player_by_name(p_name)
-
-  -- Sets the waypoint used by the murderer
-  local waypoint = player:hud_add({
-    hud_elem_type = "image_waypoint",
-    world_pos  = {x = target_pos.x, y = target_pos.y + 1, z = target_pos.z},
-    text      = "chip_target.png",
-    scale     = {x = 5, y = 5},
-    number    = 0xdf3e23,
-    size = {x = 200, y = 200},
-  })
-
-  minetest.after(12, function() player:hud_remove(waypoint) end)
-
-end
-
-
-
-function murder.remove_HUD(p_name)
-
-  local player = minetest.get_player_by_name(p_name)
-  for name, id in pairs(saved_huds[p_name]) do
+  for name, id in pairs(saved_huds[pl_name]) do
     player:hud_remove(id)
   end
-  
+
+  saved_huds[pl_name] = {}
+end
+
+
+
+function murder.add_temp_hud(pl_name, hud, time)
+  local player = minetest.get_player_by_name(pl_name)
+  hud = player:hud_add(hud)
+  saved_huds[pl_name][tostring(hud)] = hud
+
+  minetest.after(time, function()
+    if saved_huds[pl_name][tostring(hud)] then
+      player:hud_remove(hud)
+      saved_huds[pl_name][tostring(hud)] = nil
+    end
+  end)
 end

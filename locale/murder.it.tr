@@ -1,44 +1,39 @@
-# version 1.2.4
+# version 1.3.0
 # author(s): Giov4
 # reviewer(s):
 # textdomain: murder
+# @n means "newline", while @1, @2 ecc. are in-game parameters 
 
 
 
 # In-game messages
 
-Murderer=Assassino
-the murderer=l'assassino
-Cop=Poliziotto
-Victim=Vittima
 The match will start in @1 seconds!=La partita inizierà tra @1 secondi!
-To know what an item does you can read its description in the inventory=Per sapere cosa fa un oggetto leggi la sua descrizione nell'inventario
-the murderer has been killed by=l'assassino è stato ucciso da
-the murderer quit the server=l'assassino è uscito dal server
-The cop quit the server, time has been halved!=Il poliziotto è uscito dal server, il tempo è stato dimezzato!
-You died!=Sei morto!
-Left click to find the nearest player's last position!=Clicca con il tasto sinistro per localizzare l'ultima posizione del giocatore più vicino!
-# @n means "newline"
-With this you can kill other players, seems fun, doesn't it?@nRight click in the air to throw it, then right click it again to take it back=Con questo puoi uccidere gli altri giocatori, sembra divertente no?@nClick destro nell'aria per lanciarlo e per riprenderlo una volta a terra
-You murdered @1=Hai ucciso @1
-Boost your speed for 3s=Aumenta la tua velocità per 3s
-You feel electrified!=Ti senti elettrizzato!
-Kill the murderer with this, but beware if you hit a victim you die!=Uccidi l'assassino con questa, ma fa attenzione a non uccidere una vittima o morirai!
-You killed a victim!=Hai ucciso una vittima!
-You are the murderer, kill everyone!=Sei l'assassino, uccidi tutti!
-You are the cop, kill the murderer but BEWARE if you kill a victim you'll die!=Sei il poliziotto, ma ATTENZIONE se uccidi una vittima morirai!
-You are a victim, survive until the end!=Sei una vittima, sopravvivi fino alla fine!
-The cop has been eliminated, time has been halved!=Il poliziotto è stato eliminato, il tempo è stato dimezzato!
-The time is over, victims won!=Il tempo è scaduto, le vittime vincono la partita!
-Left click to detect if the killer is within 15 blocks from you!=Clicca con il tasto sinistro per controllare se l'assassino è a meno di 15 blocchi di distanza!
-The killer is nearby!=L'assassino è vicino!
-The killer is not nearby!=L'assassino non è nelle vicinanze!
-The radar is recharging!=Il radar si sta ricaricando!
-LAST POSITION=ULTIMA POSIZIONE
-The victims' team=La squadra delle vittime
+@1 (@2) killed you!=@1 (@2) ti ha ucciso!
+Read your items description to learn their utility=Leggi la descrizione degli oggetti per scoprirne l'utilità
+The @1 team=Il team @1
+
+
+# Murderer
+
+Murderer=Assassino
+Kill everyone!=Uccidi tutti!
+With this you can kill other players, seems fun, doesn't it?@nRight click in the air to throw it, then right click it again to take it back@n(@1s cooldown)=Con questo puoi uccidere gli altri giocatori, sembra divertente no?@nClick destro nell'aria per lanciarlo e per riprenderlo una volta a terra (ricarica di @1s)
+Left click to show the nearest player's last position!=Click sinistro per mostrare la posizione del player più vicino!
+You have to wait @1s to use again the knife!=Devi aspettare @1s per usare di nuovo il coltello!
+Shuffle all players skins!=Rimescola le skin dei giocatori!
+Blind everyone for 5s!=Acceca tutti per 5s!
+
+# Cop
+
+Cop=Poliziotto
+Kill the murderer, but beware if you kill a victim you'll die!=Uccidi l'assassino, se uccidi un altro poliziotto morirai! 
+Shoot and kill!=Spara e uccidi!
+You killed another cop (@1)!=Hai ucciso un altro poliziotto (@1)!
 
 
 # Commands messages
 
-With this you can use /murderadmin=Con questo puoi usare /murderadmin
+It allows you to use /murder=Ti permette di usare /murder
 You cannot quit!=Non puoi uscire!
+The maximum players amount can't exceed the skins amount (@1)!=Il numero di giocatori non può superare quello delle skin (@1)!
