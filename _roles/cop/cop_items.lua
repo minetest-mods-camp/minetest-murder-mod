@@ -2,7 +2,7 @@ minetest.register_craftitem("murder:gun", {
     description = murder.T("Shoot and kill!"),
     inventory_image = "gun.png",
     stack_max = 1,
-    on_drop = function() return false end,
+    on_drop = function() return end,
     on_use =
         function(itemstack, player)
             local pl_name = player:get_player_name()

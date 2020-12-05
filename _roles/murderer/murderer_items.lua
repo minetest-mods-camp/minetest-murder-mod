@@ -6,7 +6,7 @@ minetest.register_craftitem("murder:knife", {
     inventory_image = "knife.png",
     damage_groups = {fleshy = 3},
     stack_max = 1,
-    on_drop = function() return false end,
+    on_drop = function() return end,
     on_use =
         function(_, player, pointed_thing)
             local pl_name = player:get_player_name()
