@@ -1,4 +1,9 @@
--- THIS REGISTERS ALL IN-CHAT COMMANDS --
+-- registering murder_admin privilege
+minetest.register_privilege("murder_admin", {  
+    description = murder.T("It allows you to use /murder")
+})
+
+
 
 ChatCmdBuilder.new("murder", function(cmd)
 
@@ -39,14 +44,14 @@ ChatCmdBuilder.new("murder", function(cmd)
     -- info on a specific arena
     cmd:sub("info :arena", function(name, arena_name)
         arena_lib.print_arena_info(name, "murder", arena_name)
-      end)
+    end)
 
 
 
     -- this sets the spawns using the player position
     cmd:sub("setspawn :arena", function(name, arena)
         arena_lib.set_spawner(name, "murder", arena)
-      end)
+    end)
 
 
 
@@ -103,7 +108,6 @@ end, {
     - list
     - info <arena name>
     - remove <arena name>
-    - removechest <arena name>
     - disable <arena>
     ]],
   privs = { murder_admin = true }

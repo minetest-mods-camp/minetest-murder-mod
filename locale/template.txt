@@ -1,44 +1,36 @@
-# version 1.2.4
+# version 1.3.0
 # author(s):
 # reviewer(s):
 # textdomain: murder
+# @n means "newline", while @1, @2 ecc. are in-game parameters 
 
 
 
 # In-game messages
 
-Murderer=
-the murderer=
-Cop=
-Victim=
 The match will start in @1 seconds!=
-To know what an item does you can read its description in the inventory=
-the murderer has been killed by=
-the murderer quit the server=
-The cop quit the server=
-You died!=
-# @n means "newline"
-With this you can kill other players, seems fun, doesn't it?@nRight click in the air to throw it, then right click it again to take it back=
-You murdered @1=
+@1 (@2) killed you!=
+Read your items description to learn their utility=
+The @1 team=
+
+# Murderer
+
+Murderer=
+Kill everyone!=
+With this you can kill other players, seems fun, doesn't it?@nRight click in the air to throw it, then right click it again to take it back@n(@1s cooldown)=
 Left click to find the nearest player's last position!=
-Boost your speed for 3s=
-You feel electrified!=
-Kill the murderer with this, but beware if you hit a victim you die!=
-You killed a victim=
-You are the murderer, kill everyone!=
-You are the cop, kill the murderer but BEWARE if you kill a victim you'll die!=
-You are a victim, survive until the end!=
-The time is over, victims won!=
-The cop has been eliminated, time has been halved!=
-Left click to detect if the killer is within 15 blocks from you!=
-The killer is nearby!=
-The killer is not nearby!=
-The radar is recharging!=
-LAST POSITION=
-The victims' team=
+You have to wait @1s to use again the knife!=
+Blind everyone for 5s!=
+
+
+# Cop
+
+Cop=
+Kill the murderer, but beware if you kill a victim you'll die!=
+Shoot and kill!=
 
 # Commands messages
 
-With this you can use /murderadmin=
-match duration set to @1 seconds=
+It allows you to use /murder=
 You cannot quit!=
+The maximum players amount can't exceed the skins amount (@1)!=
