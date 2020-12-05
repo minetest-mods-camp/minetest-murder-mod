@@ -12,7 +12,7 @@ Don't change the variables' names if you don't know what you're doing
 murder_settings = {}
 
 --  The time between the loading state and the start of the match.
-murder_settings.loading_time = 15
+murder_settings.loading_time = 10
 
 -- The time between the end of the match and the respawn at the hub.
 murder_settings.celebration_time = 5

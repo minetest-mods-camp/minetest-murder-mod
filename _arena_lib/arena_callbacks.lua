@@ -34,7 +34,8 @@ arena_lib.on_start("murder", function(arena)
       -- Disable wielding items if there is 3d_armor installed.
       player:get_meta():set_int("show_wielded_item", 2)
     end
-
+    
+    murder.assign_skins(arena)
     minetest.after(murder_settings.loading_time, function() on_load(arena) end)
 end)
 
@@ -96,7 +97,6 @@ end)
 function on_load(arena)
     arena.current_time = arena.initial_time
     murder.assign_roles(arena)
-    murder.assign_skins(arena)
     
     for pl_name in pairs(arena.players) do
         murder.generate_HUD(arena, pl_name)
