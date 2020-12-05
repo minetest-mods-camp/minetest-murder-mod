@@ -93,7 +93,7 @@ end
 
 function murder.assign_skins(arena)
     local skins = table.copy(murder_settings.skins)
-
+	
     for pl_name, _ in pairs(arena.players) do
         local random_index = math.random(1, #skins)
         local player = minetest.get_player_by_name(pl_name)
@@ -104,7 +104,10 @@ function murder.assign_skins(arena)
             pl_meta:set_string("murder:original_skin", serialized_skin)
         end
 
-        player_api.set_textures(player, {skins[random_index]})
+		player:set_properties({
+			textures = {skins[random_index]}
+        })
+        
         table.remove(skins, random_index)
     end
 end
@@ -117,7 +120,9 @@ function murder.restore_skin(pl_name)
     local original_skin = minetest.deserialize(pl_meta:get_string("murder:original_skin"))
     
     if original_skin then
-        player_api.set_textures(player, original_skin)
+		player:set_properties({
+			textures = original_skin
+		})
     end
     pl_meta:set_string("murder:original_skin", "")
 end
