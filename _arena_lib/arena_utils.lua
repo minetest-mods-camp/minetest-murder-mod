@@ -116,7 +116,7 @@ function murder.restore_skin(pl_name)
     local pl_meta = player:get_meta()
     local original_skin = minetest.deserialize(pl_meta:get_string("murder:original_skin"))
     
-    if original_skin ~= "" then
+    if original_skin then
         player_api.set_textures(player, original_skin)
     end
     pl_meta:set_string("murder:original_skin", "")
