@@ -93,7 +93,7 @@ end
 
 function throwable_knife:on_step(dtime, moveresult)
     local player = minetest.get_player_by_name(self.pl_name)
-    if player == nil or not murder.is_player_playing(self.pl_name) or self.dropped then
+    if not player or not murder.is_player_playing(self.pl_name) then
         self.object:remove()
         return
     end
