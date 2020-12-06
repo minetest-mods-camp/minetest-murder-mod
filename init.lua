@@ -15,6 +15,7 @@ arena_lib.register_minigame("murder", {
   prefix = murder_settings.prefix,
   temp_properties = {
     roles = {},  -- "player_name" = role
+    match_id = 0
   },
   hub_spawn_point = murder_settings.hub_spawn_point,
   load_time = 0,
@@ -22,7 +23,7 @@ arena_lib.register_minigame("murder", {
   show_nametags = false,
   show_minimap = false,
   celebration_time = murder_settings.celebration_time,
-  disabled_damage_types = {"punch"},
+  disabled_damage_types = {"punch", "fall"},
   time_mode = 2
 })
 

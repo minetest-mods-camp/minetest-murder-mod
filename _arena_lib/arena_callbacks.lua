@@ -15,6 +15,8 @@ end)
 
 
 arena_lib.on_start("murder", function(arena)
+    arena.match_id = math.random(1, 9999999999)
+
     arena_lib.send_message_players_in_arena(
         arena, 
         minetest.colorize("#f9a31b", 

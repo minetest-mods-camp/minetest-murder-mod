@@ -26,14 +26,19 @@ function throwable_knife:on_activate(staticdata, dtime_s)
     if staticdata then
         self.pl_name = staticdata
         local player = minetest.get_player_by_name(self.pl_name)
+        if not player then 
+            obj:remove() 
+            return
+        end
         local yaw = player:get_look_horizontal()
         local pitch = player:get_look_vertical()
         local dir = player:get_look_dir()
         local arena = arena_lib.get_arena_by_player(self.pl_name)
         local knife_props = self.initial_properties
         local murderer_props = arena.roles[self.pl_name].properties
-        local id = murderer_props.thrown_knives_count + 1
-        murderer_props.thrown_knives_count = id
+        local knife_id = murderer_props.thrown_knives_count + 1
+        local match_id = arena.match_id 
+        murderer_props.thrown_knives_count = knife_id
 
         obj:set_rotation({x = -pitch, y = yaw+55, z = 0})
         obj:set_velocity({
@@ -47,8 +52,9 @@ function throwable_knife:on_activate(staticdata, dtime_s)
             local player = minetest.get_player_by_name(self.pl_name)
             local arena = arena_lib.get_arena_by_player(self.pl_name)
             if not murder.is_player_playing(self.pl_name) then return end
-            if id ~= murderer_props.thrown_knives_count then return end
+            if match_id ~= arena.match_id then return end
             if not murderer_props.thrown_knife then return end
+            if knife_id ~= murderer_props.thrown_knives_count then return end
             local pl_inv = player:get_inventory()
 
             murderer_props.remove_knife(arena, self.pl_name)
@@ -72,7 +78,7 @@ function throwable_knife:drop()
         obj:set_pos(obj_pos)
     end)
 
-    minetest.sound_play("knife_hit_block", { max_hear_distance = 10, gain = 1, pos = obj_pos })
+    minetest.sound_play("knife_hit_block", { max_hear_distance = 10, pos = obj_pos })
 end
 
 
@@ -101,8 +107,12 @@ function throwable_knife:on_step(dtime, moveresult)
     local nearest_player, distance = murder.get_nearest_player(arena, self.object:get_pos(), self.pl_name)
 
     if distance and distance <= self.hit_box_range then 
-        murder.kill_player(self.pl_name, nearest_player:get_player_name()) 
-        minetest.sound_play("murder_knife_hit", {max_hear_distance = 10, pos = nearest_player:get_pos()})
+        local hit_pl_name = nearest_player:get_player_name()
+        local hit_pl_pos = nearest_player:get_pos()
+
+        murder.kill_player(self.pl_name, hit_pl_name) 
+        minetest.sound_play("murder_knife_hit", {pos = hit_pl_pos, to_player = hit_pl_name})
+        minetest.sound_play("murder_knife_hit", {max_hear_distance = 10, pos = hit_pl_pos})
     end
 
     if moveresult.collides == true then

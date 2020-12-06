@@ -24,8 +24,9 @@ minetest.register_craftitem("murder:knife", {
                 local hit_pl = pointed_thing.ref
                 local hit_pl_name = hit_pl:get_player_name()
 
+                minetest.sound_play("murder_knife_hit", {max_hear_distance = 10, pos = player:get_pos()})
+                minetest.sound_play("murder_knife_hit", {pos = hit_pl:get_pos(), to_player = hit_pl_name})
                 murder.kill_player(pl_name, hit_pl_name) 
-                minetest.sound_play("murder_knife_hit", {max_hear_distance = 10, pos = hit_pl:get_pos()})
 
                 local kills_disabled = {
                     hud_elem_type = "image",
@@ -58,7 +59,7 @@ minetest.register_craftitem("murder:knife", {
 
             murderer_props.thrown_knife = knife
 
-            minetest.sound_play("throw_knife", {max_hear_distance = 5, gain = 1, pos = player:get_pos()})
+            minetest.sound_play("throw_knife", {max_hear_distance = 5, pos = player:get_pos()})
             minetest.after(0, function() player:get_inventory():remove_item("main", "murder:knife") end)
         end
 })
@@ -86,7 +87,7 @@ minetest.register_craftitem("murder:finder_chip", {
                 size = {x = 200, y = 200},
             }
 
-            minetest.sound_play("finder-chip", { pos = player:get_pos(), gain = 1, to_player = pl_name })
+            minetest.sound_play("finder-chip", { pos = player:get_pos(), to_player = pl_name })
 
             murder.add_temp_hud(pl_name, waypoint, 12)
             minetest.after(0, function() player:get_inventory():remove_item("main", "murder:finder_chip") end)
@@ -128,11 +129,11 @@ minetest.register_craftitem("murder:blinder", {
                 murder.add_temp_hud(pl_to_bind_name, black_screen, 5)
                 murder.add_temp_hud(pl_to_bind_name, eye, 5)
 
-                minetest.sound_play("blinder", { pos = player_to_blind:get_pos(), gain = 1, to_player = pl_to_bind_name})
+                minetest.sound_play("blinder", { pos = player_to_blind:get_pos(), to_player = pl_to_bind_name})
 
                 ::continue::
             end
-            minetest.sound_play("blinder", { pos = player:get_pos(), gain = 1, to_player = pl_name})
+            minetest.sound_play("blinder", { pos = player:get_pos(), to_player = pl_name})
             minetest.after(0, function() pl_inv:remove_item("main", "murder:blinder") end)
         end
 })
@@ -153,6 +154,6 @@ minetest.register_craftitem("murder:skin_shuffler", {
 
             murder.assign_skins(arena)
             minetest.after(0, function() pl_inv:remove_item("main", "murder:skin_shuffler") end)
-            minetest.sound_play("skin-shuffler", {pos = player:get_pos(), gain = 1, to_player = pl_name})
+            minetest.sound_play("skin-shuffler", {pos = player:get_pos(), to_player = pl_name})
         end
 })

@@ -33,18 +33,19 @@ minetest.register_craftitem("murder:gun", {
                         elseif not murder.is_player_playing(hit_name) then break end
 
                         if hit_name ~= pl_name then 
-                            murder.kill_player(pl_name, hit_name) 
+                            murder.kill_player(pl_name, hit_name)
+                            minetest.sound_play("murder_gun_shoot", {pos = hit_object:get_pos(), to_player = hit_name})
                             break
                         end
                     end
                 end
 
-                minetest.sound_play("murder_gun_shoot", {gain = 1, pos = player:get_pos(), to_player = pl_name})
-                
+                minetest.sound_play("murder_gun_shoot", {pos = player:get_pos(), to_player = pl_name})
+
                 cop_props.can_shoot = false
                 minetest.after(reload_delay, function() cop_props.can_shoot = true end)
             else
-                minetest.sound_play("murder_empty_gun", {gain = 1 , pos = player:get_pos(), to_player = pl_name})
+                minetest.sound_play("murder_empty_gun", {pos = player:get_pos(), to_player = pl_name})
             end
             return nil
         end
