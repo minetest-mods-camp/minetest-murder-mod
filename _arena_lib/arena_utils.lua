@@ -62,30 +62,42 @@ end
 
 
 function murder.assign_roles(arena)
-    local temp_roles = table.copy(murder.roles)
+    local temp_roles = table.copy(murder.roles)    
     assert(#murder.roles > 0, "No roles configured!")
     assert(murder.get_default_role(), "Default role not configured!")
+    local players = {}
+    local i = 1
 
     for pl_name in pairs(arena.players) do
-        local random_index
-        local random_role
-        local is_default_role
+        local random_index = math.random(1, arena.players_amount)
 
-        -- Generates the random role until it's not the default one
-        repeat
-            random_index = math.random(1, #temp_roles)
-            random_role = temp_roles[random_index]
-            is_default_role = random_role.name == murder.get_default_role().name
-        until not is_default_role or #temp_roles <= 1
+        while players[random_index]  do
+            random_index = math.random(1, arena.players_amount)
+        end
+
+        players[random_index] = pl_name
+    end
+
+    for i, pl_name in pairs(players) do
+        local role_to_assign
+        local is_default_role = true
+
+        for i, role in pairs(temp_roles) do
+            role_to_assign = role
+            if role.name ~= murder.get_default_role().name then
+                is_default_role = false
+                break
+            end
+        end
 
         -- If the generated role it's not the default one then this assigns it to
         -- the player and removes it from the roles helper table.
-        arena.roles[pl_name] = table.copy(random_role)
-        if #temp_roles > 1 then
+        arena.roles[pl_name] = table.copy(role_to_assign)
+        if not is_default_role then
             table.remove(temp_roles, random_index)
         end
 
-        apply_role(pl_name, random_role)
+        apply_role(pl_name, role_to_assign)
     end
 end
 
