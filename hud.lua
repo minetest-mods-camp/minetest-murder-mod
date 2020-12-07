@@ -6,7 +6,7 @@ function murder.generate_HUD(arena, pl_name)
   local background
   local timer
   local role = murder.T(arena.roles[pl_name].name)
-  local waypoint
+  local vignette
 
   -- Sets the role background image.
   background = player:hud_add({
@@ -17,6 +17,7 @@ function murder.generate_HUD(arena, pl_name)
     alignment = { x = 1.0},
     scale     = { x = 1.15, y = 1.15},
     number    = 0xFFFFFF,
+    z_index = 100
   })
 
   -- Sets the timer text.
@@ -28,6 +29,7 @@ function murder.generate_HUD(arena, pl_name)
     alignment = { x = 1.0},
     scale     = { x = 2, y = 2},
     number    = 0xFFFFFF,
+    z_index = 100,
   })
 
   -- Sets the role text.
@@ -39,6 +41,18 @@ function murder.generate_HUD(arena, pl_name)
     alignment = { x = 0},
     scale     = { x = 100, y = 10},
     number    = 0xFFFFFF,
+    z_index = 100
+  })
+
+  vignette = player:hud_add({
+    hud_elem_type = "image",
+    position = {x = 0.5, y = 0.5},
+    scale = {
+      x = -100,
+      y = -100
+    },
+    text = "vignette.png",
+    z_index = 99
   })
 
   -- Save the huds IDs for each player. 
@@ -46,6 +60,7 @@ function murder.generate_HUD(arena, pl_name)
     role_ID = role,
     backgound_ID = background,
     timer_ID = timer,
+    vignette_ID = vignette
   }
 end
 

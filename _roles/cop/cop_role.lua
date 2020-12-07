@@ -8,6 +8,7 @@ murder.register_role("Cop", {
         local killed_role = arena.roles[killed_pl_name]
 
         if killed_role.name == "Cop" then
+            if not murder.is_player_playing(pl_name) then return end
             murder.print_msg(pl_name, murder.T("You killed another cop (@1)!", killed_pl_name))
             murder.eliminate_role(pl_name)
         end
