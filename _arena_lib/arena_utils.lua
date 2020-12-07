@@ -21,7 +21,7 @@ end
 
 function murder.is_player_playing(pl_name)
     local arena = arena_lib.get_arena_by_player(pl_name)
-    return arena and arena.in_game
+    return arena and not arena.in_celebration
 end
 
 
@@ -37,9 +37,9 @@ end
 function murder.eliminate_role(pl_name)
     local arena = arena_lib.get_arena_by_player(pl_name)
 
-    murder.kick_player(pl_name)
     arena.roles[pl_name].in_game = false
     arena.roles[pl_name].on_eliminated(arena, pl_name)
+    murder.kick_player(pl_name)
 end
 
 
