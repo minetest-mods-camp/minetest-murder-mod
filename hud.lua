@@ -78,6 +78,8 @@ end
 function murder.remove_HUD(pl_name)
   minetest.after(0.5, function()
     local player = minetest.get_player_by_name(pl_name)
+    
+    if not player then return end
 
     for name, id in pairs(saved_huds[pl_name]) do
       player:hud_remove(id)
