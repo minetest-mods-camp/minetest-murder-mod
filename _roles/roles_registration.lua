@@ -75,12 +75,6 @@ function set_callbacks(role)
     role.on_end = function(arena, pl_name)
         local player = minetest.get_player_by_name(pl_name)
         murder.restore_skin(pl_name)
-
-        minetest.after(0, function()
-            player:get_inventory():set_list("main", {})
-            player:get_inventory():set_list("craft", {})
-        end)
-        
         on_end(arena, pl_name)
     end
 
