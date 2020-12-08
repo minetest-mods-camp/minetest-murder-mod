@@ -28,27 +28,10 @@ arena_lib.on_start("murder", function(arena)
         arena, 
         murder.T("Read your items description to learn their utility"), 
         murder_settings.loading_time
-    ) 
-  
-    for pl_name in pairs(arena.players) do
-      local player = minetest.get_player_by_name(pl_name)
-  
-      -- Disable wielding items if there is 3d_armor installed.
-      player:get_meta():set_int("show_wielded_item", 2)
-    end
+    )
     
     murder.assign_skins(arena)
     minetest.after(murder_settings.loading_time, function() on_load(arena) end)
-end)
-
-
-
-arena_lib.on_end("murder", function(arena, players)
-    for pl_name, _ in pairs(players) do
-      murder.remove_HUD(pl_name)
-      arena_lib.HUD_hide("hotbar", pl_name)
-      minetest.get_player_by_name(pl_name):get_meta():set_int("show_wielded_item", 0)
-    end
 end)
 
 
@@ -82,7 +65,6 @@ end)
 
 
 arena_lib.on_disconnect("murder", function(arena, pl_name)
-    arena.roles[pl_name].in_game = false
     arena.roles[pl_name].on_eliminated(arena, pl_name)
 end)
 
@@ -101,7 +83,6 @@ function on_load(arena)
     murder.assign_roles(arena)
     
     for pl_name in pairs(arena.players) do
-        murder.generate_HUD(arena, pl_name)
         arena.roles[pl_name].on_start(arena, pl_name)
     end
 end

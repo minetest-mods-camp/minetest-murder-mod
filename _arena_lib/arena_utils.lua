@@ -26,9 +26,10 @@ end
 
 
 
-function murder.kick_player(pl_name)
-    arena_lib.remove_player_from_arena(pl_name, 1)
+function murder.prekick_operations(pl_name)
     murder.remove_HUD(pl_name)
+    murder.restore_skin(pl_name)
+    minetest.get_player_by_name(pl_name):get_meta():set_int("show_wielded_item", 0)
     arena_lib.HUD_hide("hotbar", pl_name)
 end
 
@@ -36,10 +37,7 @@ end
 
 function murder.eliminate_role(pl_name)
     local arena = arena_lib.get_arena_by_player(pl_name)
-
-    arena.roles[pl_name].in_game = false
     arena.roles[pl_name].on_eliminated(arena, pl_name)
-    murder.kick_player(pl_name)
 end
 
 

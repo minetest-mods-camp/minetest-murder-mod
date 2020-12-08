@@ -1,6 +1,6 @@
 minetest.register_craftitem("murder:gun", {
     description = murder.T("Shoot and kill!"),
-    inventory_image = "gun.png",
+    inventory_image = "murder_gun.png",
     stack_max = 1,
     on_drop = function() return end,
     on_use =

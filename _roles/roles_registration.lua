@@ -59,6 +59,17 @@ function set_callbacks(role)
     local on_start = role.on_start or empty_func
     local on_kill = role.on_kill or empty_func
 
+    role.on_start = function(arena, pl_name)
+        local player = minetest.get_player_by_name(pl_name)
+        arena.roles[pl_name].in_game = true
+
+        murder.generate_HUD(arena, pl_name)
+        -- Disable wielding items if there is 3d_armor installed.
+        player:get_meta():set_int("show_wielded_item", 2)
+        
+        on_start(arena, pl_name)
+    end
+
     role.on_death = function(arena, pl_name, reason)
         if reason and reason.type == "punch" then
             local killer_name = reason.object:get_player_name()
@@ -74,11 +85,15 @@ function set_callbacks(role)
 
     role.on_end = function(arena, pl_name)
         local player = minetest.get_player_by_name(pl_name)
-        murder.restore_skin(pl_name)
+        murder.prekick_operations(pl_name)
         on_end(arena, pl_name)
     end
 
     role.on_eliminated = function(arena, pl_name)
+        arena.roles[pl_name].in_game = false
+        murder.prekick_operations(pl_name)
+        arena_lib.remove_player_from_arena(pl_name, 1)
+
         local last_role = murder.get_last_role_in_game(arena)
         local roles_alive = murder.get_roles_alive(arena)
 
@@ -98,13 +113,7 @@ function set_callbacks(role)
             murder.player_wins(last_pl_name)
         end
 
-        murder.restore_skin(pl_name)
         on_eliminated(arena, pl_name)
-    end
-
-    role.on_start = function(arena, pl_name)
-        arena.roles[pl_name].in_game = true
-        on_start(arena, pl_name)
     end
 
     role.on_kill = function(arena, pl_name, killed_pl_name)

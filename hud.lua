@@ -1,4 +1,4 @@
-local saved_huds = {} -- pl_name = {hud ids}
+local saved_huds = {} -- pl_name = {hud name = id}
 
 function murder.generate_HUD(arena, pl_name)
   local player = minetest.get_player_by_name(pl_name)
@@ -76,19 +76,23 @@ end
 
 
 function murder.remove_HUD(pl_name)
-  local player = minetest.get_player_by_name(pl_name)
+  minetest.after(0.5, function()
+    local player = minetest.get_player_by_name(pl_name)
 
-  for name, id in pairs(saved_huds[pl_name]) do
-    player:hud_remove(id)
-  end
+    for name, id in pairs(saved_huds[pl_name]) do
+      player:hud_remove(id)
+    end
 
-  saved_huds[pl_name] = {}
+    saved_huds[pl_name] = {}
+  end)
 end
 
 
 
 function murder.add_temp_hud(pl_name, hud, time)
+
   local player = minetest.get_player_by_name(pl_name)
+  
   hud = player:hud_add(hud)
   saved_huds[pl_name][tostring(hud)] = hud
 

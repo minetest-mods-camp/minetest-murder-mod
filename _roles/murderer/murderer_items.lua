@@ -3,7 +3,7 @@ minetest.register_craftitem("murder:knife", {
         "With this you can kill other players, seems fun, doesn't it?\nRight click in the air to throw it, then right click it again to take it back\n(@1s cooldown)", 
         murder.get_role_by_name("Murderer").properties.kill_delay
     ),
-    inventory_image = "knife.png",
+    inventory_image = "murder_knife.png",
     damage_groups = {fleshy = 3},
     stack_max = 1,
     on_drop = function() return end,
