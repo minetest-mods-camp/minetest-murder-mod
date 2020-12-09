@@ -98,7 +98,8 @@ function set_callbacks(role)
 
         arena.roles[pl_name].in_game = false
         murder.prekick_operations(pl_name)
-
+        arena_lib.remove_player_from_arena(pl_name, 1)
+        
         local last_role = murder.get_last_role_in_game(arena)
         local count_roles = murder.count_roles_in_game(arena)
 

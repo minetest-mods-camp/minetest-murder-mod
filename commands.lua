@@ -115,6 +115,7 @@ end, {
     - info <arena name>
     - remove <arena name>
     - disable <arena>
+    - logs <arena>
     ]],
   privs = { murder_admin = true }
 })

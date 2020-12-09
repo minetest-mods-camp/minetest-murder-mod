@@ -106,7 +106,7 @@ function throwable_knife:on_step(dtime, moveresult)
     local arena = arena_lib.get_arena_by_player(self.pl_name)
     local nearest_player, distance = murder.get_nearest_player(arena, self.object:get_pos(), self.pl_name)
 
-    if distance and distance <= self.hit_box_range then 
+    if distance and distance <= self.hit_box_range and not self.dropped then 
         local hit_pl_name = nearest_player:get_player_name()
         local hit_pl_pos = nearest_player:get_pos()
 
