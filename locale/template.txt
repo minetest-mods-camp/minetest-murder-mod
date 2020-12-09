@@ -13,6 +13,7 @@ The match will start in @1 seconds!=
 Read your items description to learn their utility=
 The @1 team=
 
+
 # Murderer
 
 Murderer=
@@ -26,7 +27,7 @@ Blind everyone for 5s!=
 # Cop
 
 Cop=
-Kill the murderer, but beware if you kill a victim you'll die!=
+Kill the murderer, but if you kill another cop you'll die!=
 Shoot and kill!=
 
 # Commands messages

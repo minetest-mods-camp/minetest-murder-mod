@@ -1,7 +1,7 @@
 murder.register_role("Cop", {
     default = true,
     name = "Cop",
-    hotbar_description = "Kill the murderer, but beware if you kill a victim you'll die!",
+    hotbar_description = "Kill the murderer, but if you kill another cop you'll die!",
     items = {"murder:gun"}, 
     sound = "cop-role",
     on_kill = function(arena, pl_name, killed_pl_name)

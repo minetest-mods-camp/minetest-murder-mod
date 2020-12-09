@@ -43,7 +43,7 @@ end
 
 
 function murder.get_last_role_in_game(arena)
-    -- adding to roles_in_game the roles alive
+    -- Adding to roles_in_game the roles alive.
     local roles_in_game = {}
     for pl_name, role in pairs(arena.roles) do
         if role.in_game then table.insert(roles_in_game, role) end
@@ -51,7 +51,7 @@ function murder.get_last_role_in_game(arena)
 
     local last_role = roles_in_game[1]
     for pl_name, role in pairs(roles_in_game) do
-        if last_role.name ~= role.name then return nil end
+        if last_role.name ~= role.name then return end
     end
 
     return last_role
@@ -61,11 +61,11 @@ end
 
 function murder.assign_roles(arena)
     local temp_roles = table.copy(murder.roles)    
+    local players = {}
     assert(#murder.roles > 0, "No roles configured!")
     assert(murder.get_default_role(), "Default role not configured!")
-    local players = {}
-    local i = 1
 
+    -- Adding the arena players in the players table with a random order.
     for pl_name in pairs(arena.players) do
         local random_index = math.random(1, arena.players_amount)
 
@@ -76,6 +76,7 @@ function murder.assign_roles(arena)
         players[random_index] = pl_name
     end
 
+    -- Assigning a role to each player.
     for i, pl_name in pairs(players) do
         local role_to_assign
         local is_default_role = true
@@ -84,17 +85,12 @@ function murder.assign_roles(arena)
             role_to_assign = role
             if role.name ~= murder.get_default_role().name then
                 is_default_role = false
+                table.remove(temp_roles, i)
                 break
             end
         end
 
-        -- If the generated role it's not the default one then this assigns it to
-        -- the player and removes it from the roles helper table.
         arena.roles[pl_name] = table.copy(role_to_assign)
-        if not is_default_role then
-            table.remove(temp_roles, random_index)
-        end
-
         apply_role(pl_name, role_to_assign)
     end
 end
@@ -196,7 +192,7 @@ end
 
 
 
-function murder.get_roles_alive(arena)
+function murder.count_roles_in_game(arena)
     local count = 0
     for pl_name, role in pairs(arena.roles) do
         if role.in_game then count = count + 1 end

@@ -95,7 +95,7 @@ function set_callbacks(role)
         arena_lib.remove_player_from_arena(pl_name, 1)
 
         local last_role = murder.get_last_role_in_game(arena)
-        local roles_alive = murder.get_roles_alive(arena)
+        local roles_alive = murder.count_roles_in_game(arena)
 
         if last_role and roles_alive > 1 then
             murder.team_wins(arena, last_role)
