@@ -1,5 +1,6 @@
 local logs = {} -- arena = logs
 
+
 function murder.log(arena, msg)
     if type(arena) == "table" then arena = arena.name end
     logs[arena] = logs[arena] or ""

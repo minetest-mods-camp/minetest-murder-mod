@@ -66,10 +66,10 @@ function murder.assign_roles(arena)
     assert(murder.get_default_role(), "Default role not configured!")
 
     -- Adding the arena players in the players table with a random order.
-    for pl_name in pairs(arena.players) do
+    for pl_name, _ in pairs(arena.players) do
         local random_index = math.random(1, arena.players_amount)
 
-        while players[random_index]  do
+        while players[random_index] do
             random_index = math.random(1, arena.players_amount)
         end
 
@@ -99,12 +99,14 @@ end
 
 function murder.assign_skins(arena)
     local skins = table.copy(murder_settings.skins)
-	
+    
+    -- Assigns a random skin to each player.
     for pl_name, _ in pairs(arena.players) do
         local random_index = math.random(1, #skins)
         local player = minetest.get_player_by_name(pl_name)
         local pl_meta = player:get_meta()
 
+        -- Serializing the player's original textures into metadata.
         if pl_meta:get_string("murder:original_skin") == "" then
             local serialized_skin = minetest.serialize(player:get_properties().textures)
             pl_meta:set_string("murder:original_skin", serialized_skin)
@@ -144,8 +146,8 @@ function murder.get_nearest_player(arena, original_pos, pl_name)
 
     for other_pl_name, _ in pairs(players) do
         local other_pl = minetest.get_player_by_name(other_pl_name)
-        if not nearest_player then -- nearest_player and min_distance initialization.
-            nearest_player = other_pl 
+        if not nearest_player then  -- nearest_player and min_distance initialization.
+            nearest_player = other_pl
             local nearest_pl_center = vector.add({x=0, y=1, z=0}, nearest_player:get_pos())
             min_distance = vector.distance(original_pos, nearest_pl_center)
         end
@@ -193,7 +195,7 @@ end
 
 
 
-function murder.count_roles_in_game(arena)
+function murder.count_players_in_game(arena)
     local count = 0
     for pl_name, role in pairs(arena.roles) do
         if role.in_game then count = count + 1 end

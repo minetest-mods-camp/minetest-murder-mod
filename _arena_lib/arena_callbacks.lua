@@ -82,6 +82,7 @@ end)
 
 
 function on_load(arena)
+    -- Reinitializing the timer to recover the time lost in the custom loading. 
     arena.current_time = arena.initial_time
     murder.assign_roles(arena)
     

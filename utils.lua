@@ -20,7 +20,7 @@ function murder.look_raycast(object, range)
     end
     shoot_dir = vector.multiply(looking_dir, range)
 
-    -- Casts a ray from pos to its looking direction * range.
+    -- Casts a ray from pos to the object looking direction * range.
     local ray = minetest.raycast(
         vector.add(pos, vector.divide(looking_dir, 4)), 
         vector.add(pos, shoot_dir), 
