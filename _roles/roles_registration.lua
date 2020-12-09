@@ -60,6 +60,7 @@ function set_callbacks(role)
     local on_kill = role.on_kill or empty_func
 
     role.on_start = function(arena, pl_name)
+        murder.log(arena, pl_name.." called on start")
         local player = minetest.get_player_by_name(pl_name)
         arena.roles[pl_name].in_game = true
 
@@ -71,6 +72,8 @@ function set_callbacks(role)
     end
 
     role.on_death = function(arena, pl_name, reason)
+        murder.log(arena, pl_name.." called on death ")
+
         if reason and reason.type == "punch" then
             local killer_name = reason.object:get_player_name()
             local killer_role = arena.roles[killer_name]
@@ -84,39 +87,45 @@ function set_callbacks(role)
     end
 
     role.on_end = function(arena, pl_name)
+        murder.log(arena, pl_name .. " called on end")
         local player = minetest.get_player_by_name(pl_name)
         murder.prekick_operations(pl_name)
         on_end(arena, pl_name)
     end
 
     role.on_eliminated = function(arena, pl_name)
+        murder.log(arena, pl_name.." called on eliminated ")
+
         arena.roles[pl_name].in_game = false
         murder.prekick_operations(pl_name)
-        arena_lib.remove_player_from_arena(pl_name, 1)
 
         local last_role = murder.get_last_role_in_game(arena)
-        local roles_alive = murder.count_roles_in_game(arena)
+        local count_roles = murder.count_roles_in_game(arena)
 
-        if last_role and roles_alive > 1 then
+        if last_role then murder.log(arena, "Last role is " .. last_role.name .. " with count " .. count_roles) 
+        else murder.log(arena, "Two or more different roles are in game, count roles alive: " .. count_roles) end
+
+        if last_role and count_roles > 1 then
+            murder.log(arena, "Team " .. last_role.name .. " wins")
             murder.team_wins(arena, last_role)
         elseif last_role then
             local last_pl_name 
             
-            for pl_name, _ in pairs(arena.players) do
-                local pl_role = arena.roles[pl_name]
-
-                if pl_role.in_game and pl_role.name == last_role.name then
+            for pl_name, role in pairs(arena.roles) do
+                if role.in_game and role.name == last_role.name then
                     last_pl_name = pl_name 
                     break
                 end
             end
             murder.player_wins(last_pl_name)
+            murder.log(arena, "Player " .. last_pl_name .. " wins")
         end
 
         on_eliminated(arena, pl_name)
     end
 
     role.on_kill = function(arena, pl_name, killed_pl_name)
+        murder.log(arena, pl_name .. " called on kill")
         on_kill(arena, pl_name, killed_pl_name)
     end
 end

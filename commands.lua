@@ -87,11 +87,17 @@ ChatCmdBuilder.new("murder", function(cmd)
     end)
 
 
+
     -- Debug commands
-    cmd:sub("play :sound :gain:number", function(p_name, sound, gain)
-        minetest.sound_play(sound, { pos = minetest.get_player_by_name(p_name):get_pos(), to_player = p_name, gain = gain})
+    cmd:sub("play :sound :gain:number", function(pl_name, sound, gain)
+        minetest.sound_play(sound, { pos = minetest.get_player_by_name(pl_name):get_pos(), to_player = pl_name, gain = gain})
     end)
-    
+
+
+
+    cmd:sub("logs :arena", function(pl_name, arena)
+        murder.print_logs(arena, pl_name)
+    end)
 
 end, {
   description = [[

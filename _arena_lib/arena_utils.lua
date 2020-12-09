@@ -50,7 +50,7 @@ function murder.get_last_role_in_game(arena)
     end
 
     local last_role = roles_in_game[1]
-    for pl_name, role in pairs(roles_in_game) do
+    for i, role in pairs(roles_in_game) do
         if last_role.name ~= role.name then return end
     end
 
@@ -187,6 +187,7 @@ function murder.kill_player(killer_name, victim_name)
         texture = "blood_particle.png",
     })
 
+    murder.log(arena, killer_name.." killed " .. victim_name)
     arena.roles[victim_name].on_death(arena, victim_name, reason)
 end
 

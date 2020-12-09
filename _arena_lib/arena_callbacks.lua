@@ -16,6 +16,7 @@ end)
 
 arena_lib.on_start("murder", function(arena)
     arena.match_id = math.random(1, 9999999999)
+    murder.log(arena, "\n--- MATCH STARTED ---\n")
 
     arena_lib.send_message_players_in_arena(
         arena, 
@@ -37,6 +38,8 @@ end)
 
 
 arena_lib.on_celebration("murder", function(arena)
+    murder.log(arena, "- celebration started -")
+
     for pl_name, _ in pairs(arena.players) do
         arena.roles[pl_name].on_end(arena, pl_name)
     end

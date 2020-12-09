@@ -29,7 +29,7 @@ murder.register_role("Cop", {
                         number    = 0xdf3e23,
                         size = {x = 200, y = 200},
                     }
-                    murder.add_temp_hud(other_pl_name, death_waypoint, 3)
+                    murder.add_temp_hud(other_pl_name, death_waypoint, 4)
                 end
             end
         end

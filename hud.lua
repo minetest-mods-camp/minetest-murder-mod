@@ -76,7 +76,7 @@ end
 
 
 function murder.remove_HUD(pl_name)
-  minetest.after(0.5, function()
+  minetest.after(1, function()
     local player = minetest.get_player_by_name(pl_name)
     
     if not player then return end

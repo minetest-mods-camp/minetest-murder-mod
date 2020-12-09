@@ -33,6 +33,7 @@ minetest.register_craftitem("murder:gun", {
                         elseif not murder.is_player_playing(hit_name) then break end
 
                         if hit_name ~= pl_name then
+                            murder.log(arena, pl_name .. " is shooting " .. hit_name)
                             murder.kill_player(pl_name, hit_name)
                             minetest.sound_play("murder_gun_shoot", {pos = hit_object:get_pos(), to_player = hit_name})
                             break
