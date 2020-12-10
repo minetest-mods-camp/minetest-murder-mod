@@ -38,7 +38,7 @@
             this gets called when the player dies.
 
         on_kill : function(arena, pl_name, killed_pl_name) =
-            this gets called one step after the player kills someone.
+            this gets called when the player kills someone.
 
         properties : {} = 
             custom properties.
@@ -111,8 +111,8 @@ function set_callbacks(role)
     local on_kill = role.on_kill or empty_func
 
     role.on_start = function(arena, pl_name)
-        murder.log(arena, pl_name.." called on start")
         local player = minetest.get_player_by_name(pl_name)
+        murder.log(arena, pl_name.." is " .. arena.roles[pl_name].name .. " and called on start")
         arena.roles[pl_name].in_game = true
 
         murder.generate_HUD(arena, pl_name)
@@ -129,6 +129,8 @@ function set_callbacks(role)
 
     role.on_death = function(arena, pl_name, reason)
         murder.log(arena, pl_name.." called on death ")
+        on_death(arena, pl_name, reason)
+        murder.eliminate_role(pl_name)
 
         -- If the player was killed using murder.kill_player().
         if reason and reason.type == "punch" then
@@ -136,11 +138,8 @@ function set_callbacks(role)
             local killer_role = arena.roles[killer_name]
 
             murder.print_msg(pl_name, murder.T("@1 (@2) killed you!", killer_name, murder.T(killer_role.name)))
-            minetest.after(0, function() killer_role.on_kill(arena, killer_name, pl_name) end)
+            killer_role.on_kill(arena, killer_name, pl_name)
         end
-
-        on_death(arena, pl_name, reason)
-        murder.eliminate_role(pl_name)
     end
 
     role.on_eliminated = function(arena, pl_name)

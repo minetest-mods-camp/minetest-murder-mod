@@ -17,9 +17,7 @@ arena_lib.register_minigame("murder", {
     roles = {},  -- "player_name" = role
     match_id = 0
   },
-  hub_spawn_point = murder_settings.hub_spawn_point,
   load_time = 0,
-  queue_waiting_time = murder_settings.queue_waiting_time,
   show_nametags = false,
   show_minimap = false,
   celebration_time = murder_settings.celebration_time,
@@ -29,12 +27,12 @@ arena_lib.register_minigame("murder", {
 
 
 
-dofile(minetest.get_modpath("murder") .. "/utils.lua")  
-dofile(minetest.get_modpath("murder") .. "/_debug/logs.lua")  
-dofile(minetest.get_modpath("murder") .. "/_arena_lib/arena_callbacks.lua")  
-dofile(minetest.get_modpath("murder") .. "/_arena_lib/arena_utils.lua")  
+dofile(minetest.get_modpath("murder") .. "/utils.lua")
+dofile(minetest.get_modpath("murder") .. "/_debug/logs.lua")
+dofile(minetest.get_modpath("murder") .. "/_arena_lib/arena_callbacks.lua")
+dofile(minetest.get_modpath("murder") .. "/_arena_lib/arena_utils.lua")
 dofile(minetest.get_modpath("murder") .. "/_roles/roles_registration.lua")
-dofile(minetest.get_modpath("murder") .. "/_roles/cop/cop_role.lua")  
+dofile(minetest.get_modpath("murder") .. "/_roles/cop/cop_role.lua")
 dofile(minetest.get_modpath("murder") .. "/_roles/murderer/murderer_role.lua")
 dofile(minetest.get_modpath("murder") .. "/chatcmdbuilder.lua")
 dofile(minetest.get_modpath("murder") .. "/commands.lua")

@@ -15,7 +15,7 @@ local throwable_knife = {
     },
     pl_name = "",
     dropped = false,
-    hit_box_range = 1
+    hit_box_range = 1.1
 }
 
 
@@ -51,10 +51,12 @@ function throwable_knife:on_activate(staticdata, dtime_s)
         minetest.after(15, function()
             local player = minetest.get_player_by_name(self.pl_name)
             local arena = arena_lib.get_arena_by_player(self.pl_name)
+
             if not murder.is_player_playing(self.pl_name) then return end
-            if match_id ~= arena.match_id then return end
-            if not murderer_props.thrown_knife then return end
-            if knife_id ~= murderer_props.thrown_knives_count then return end
+            if match_id ~= arena.match_id then return end  -- If this is not the same match.
+            if not murderer_props.thrown_knife then return end  -- If the knife has been recovered already. 
+            if knife_id ~= murderer_props.thrown_knives_count then return end  -- If this isn't the same knife.
+            
             local pl_inv = player:get_inventory()
 
             murderer_props.remove_knife(arena, self.pl_name)
@@ -99,10 +101,12 @@ end
 
 function throwable_knife:on_step(dtime, moveresult)
     local player = minetest.get_player_by_name(self.pl_name)
+
     if not player or not murder.is_player_playing(self.pl_name) then
         self.object:remove()
         return
     end
+
     local arena = arena_lib.get_arena_by_player(self.pl_name)
     local nearest_player, distance = murder.get_nearest_player(arena, self.object:get_pos(), self.pl_name)
 
@@ -117,8 +121,8 @@ function throwable_knife:on_step(dtime, moveresult)
 
     if moveresult.collides == true then
       for _, collision in pairs(moveresult.collisions) do
+        -- If it hits a block and it hasn't dropped yet
         if collision.type == "node" then
-          -- If it hit a block and it hasn't dropped yet
           if self.dropped == false then
               self:drop()
               return

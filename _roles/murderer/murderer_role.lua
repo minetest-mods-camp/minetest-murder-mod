@@ -9,10 +9,10 @@ murder.register_role("Murderer", {
         thrown_knife = nil,
         thrown_knives_count = 0,
         remove_knife = function(arena, pl_name)
-            local pl_role = arena.roles[pl_name]
+            local pl_role_props = arena.roles[pl_name].properties
 
-            arena.roles[pl_name].properties.thrown_knife:remove()
-            arena.roles[pl_name].properties.thrown_knife = nil
+            pl_role_props.thrown_knife:remove()
+            pl_role_props.thrown_knife = nil
         end
     },
     physics_override = {speed = 1.3}

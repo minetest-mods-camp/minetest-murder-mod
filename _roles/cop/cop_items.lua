@@ -24,6 +24,7 @@ minetest.register_craftitem("murder:gun", {
 
                 minetest.add_particle(particle_shot)
 
+                -- Shoots using the look_raycast() ray, if it hits a player he/she gets killed.
                 for hit_object in ray do
                     if hit_object.type == "object" and hit_object.ref:is_player() then
                         hit_object = hit_object.ref

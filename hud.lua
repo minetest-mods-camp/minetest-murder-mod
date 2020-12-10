@@ -92,7 +92,6 @@ end
 
 
 function murder.add_temp_hud(pl_name, hud, time)
-
   local player = minetest.get_player_by_name(pl_name)
   
   hud = player:hud_add(hud)

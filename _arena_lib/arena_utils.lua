@@ -79,12 +79,10 @@ function murder.assign_roles(arena)
     -- Assigning a role to each player.
     for i, pl_name in pairs(players) do
         local role_to_assign
-        local is_default_role = true
 
         for i, role in pairs(temp_roles) do
             role_to_assign = role
             if role.name ~= murder.get_default_role().name then
-                is_default_role = false
                 table.remove(temp_roles, i)
                 break
             end

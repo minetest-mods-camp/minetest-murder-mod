@@ -20,15 +20,11 @@ minetest.register_craftitem("murder:knife", {
                 return
             end
 
+            -- If it's used on a player than kill him/her.
             if pointed_thing.type == "object" and pointed_thing.ref:is_player() then
                 local hit_pl = pointed_thing.ref
                 local hit_pl_name = hit_pl:get_player_name()
-
-                minetest.sound_play("murder_knife_hit", {max_hear_distance = 10, pos = player:get_pos()})
-                minetest.sound_play("murder_knife_hit", {pos = hit_pl:get_pos(), to_player = hit_pl_name})
-                murder.kill_player(pl_name, hit_pl_name) 
-
-                local kills_disabled = {
+                local image_kills_disabled = {
                     hud_elem_type = "image",
                     position = {x=0.5, y=0.7},
                     scale = {x=5, y=5},
@@ -36,7 +32,11 @@ minetest.register_craftitem("murder:knife", {
                     z_index = -100
                 }
 
-                murder.add_temp_hud(pl_name, kills_disabled, 8)
+                minetest.sound_play("murder_knife_hit", {max_hear_distance = 10, pos = player:get_pos()})
+                minetest.sound_play("murder_knife_hit", {pos = hit_pl:get_pos(), to_player = hit_pl_name})
+
+                murder.kill_player(pl_name, hit_pl_name) 
+                murder.add_temp_hud(pl_name, image_kills_disabled, 8)
 
                 murderer_props.can_kill = false
                 minetest.after(8, function() murderer_props.can_kill = true end)
@@ -49,18 +49,19 @@ minetest.register_craftitem("murder:knife", {
             local arena = arena_lib.get_arena_by_player(pl_name)
             local murderer_role = arena.roles[pl_name]
             local murderer_props = murderer_role.properties
+            local throw_starting_pos = vector.add({x=0, y=1.5, z=0}, player:get_pos())
             if not murderer_props.can_kill then
                 local kill_delay = murderer_props.kill_delay
                 murder.print_msg(pl_name, murder.T("You have to wait @1s to use again the knife!", kill_delay))
                 return
             end
-            local throw_starting_pos = vector.add({x=0, y=1.5, z=0}, player:get_pos())
+
             local knife = minetest.add_entity(throw_starting_pos, "murder:throwable_knife", pl_name)
 
             murderer_props.thrown_knife = knife
+            minetest.after(0, function() player:get_inventory():remove_item("main", "murder:knife") end)
 
             minetest.sound_play("throw_knife", {max_hear_distance = 5, pos = player:get_pos()})
-            minetest.after(0, function() player:get_inventory():remove_item("main", "murder:knife") end)
         end
 })
 
@@ -78,7 +79,7 @@ minetest.register_craftitem("murder:finder_chip", {
             local arena = arena_lib.get_arena_by_player(pl_name)
             local nearest_player = murder.get_nearest_player(arena, player:get_pos(), pl_name)
             local nearest_pl_pos = nearest_player:get_pos()
-            local waypoint = {
+            local target_waypoint = {
                 hud_elem_type = "image_waypoint",
                 world_pos = {x = nearest_pl_pos.x, y = nearest_pl_pos.y + 1, z = nearest_pl_pos.z},
                 text      = "chip_target.png",
@@ -87,10 +88,10 @@ minetest.register_craftitem("murder:finder_chip", {
                 size = {x = 200, y = 200},
             }
 
-            minetest.sound_play("finder-chip", { pos = player:get_pos(), to_player = pl_name })
-
-            murder.add_temp_hud(pl_name, waypoint, 12)
+            murder.add_temp_hud(pl_name, target_waypoint, 12)
             minetest.after(0, function() player:get_inventory():remove_item("main", "murder:finder_chip") end)
+            
+            minetest.sound_play("finder-chip", { pos = player:get_pos(), to_player = pl_name })
         end
 })
 
@@ -108,9 +109,12 @@ minetest.register_craftitem("murder:blinder", {
             local arena = arena_lib.get_arena_by_player(pl_name)
             local pl_inv = player:get_inventory()
 
-            for pl_to_bind_name, _ in pairs(arena.players) do
-                local player_to_blind = minetest.get_player_by_name(pl_to_bind_name)
-                if pl_to_bind_name == pl_name then goto continue end
+            -- Blinds all players in arena except for the murderer.
+            for pl_to_blind_name, _ in pairs(arena.players) do
+                local player_to_blind = minetest.get_player_by_name(pl_to_blind_name)
+
+                if arena.roles[pl_to_blind_name].name == "Murderer" then goto continue end
+                
                 local black_screen = {
                     hud_elem_type = "image",
                     position = {x=0.5, y=0.5},
@@ -118,7 +122,7 @@ minetest.register_craftitem("murder:blinder", {
                     text = "HUD_blind.png",
                     z_index = -100
                 }
-                local eye = {
+                local image_eye = {
                     hud_elem_type = "image",
                     position = {x=0.5, y=0.5},
                     scale = {x=4, y=4},
@@ -126,13 +130,14 @@ minetest.register_craftitem("murder:blinder", {
                     z_index = -100
                 }
 
-                murder.add_temp_hud(pl_to_bind_name, black_screen, 5)
-                murder.add_temp_hud(pl_to_bind_name, eye, 5)
+                murder.add_temp_hud(pl_to_blind_name, black_screen, 5)
+                murder.add_temp_hud(pl_to_blind_name, image_eye, 5)
 
-                minetest.sound_play("blinder", { pos = player_to_blind:get_pos(), to_player = pl_to_bind_name})
+                minetest.sound_play("blinder", { pos = player_to_blind:get_pos(), to_player = pl_to_blind_name})
 
                 ::continue::
             end
+            
             minetest.sound_play("blinder", { pos = player:get_pos(), to_player = pl_name})
             minetest.after(0, function() pl_inv:remove_item("main", "murder:blinder") end)
         end
