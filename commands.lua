@@ -90,7 +90,7 @@ ChatCmdBuilder.new("murder", function(cmd)
 
     -- Debug commands
     cmd:sub("play :sound :gain:number", function(pl_name, sound, gain)
-        minetest.sound_play(sound, { pos = minetest.get_player_by_name(pl_name):get_pos(), to_player = pl_name, gain = gain})
+        minetest.sound_play(sound, { pos = minetest.get_player_by_name(pl_name):get_pos(), gain = gain})
     end)
 
 

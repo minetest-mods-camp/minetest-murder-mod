@@ -130,8 +130,8 @@ minetest.register_craftitem("murder:blinder", {
                     z_index = -100
                 }
 
-                murder.add_temp_hud(pl_to_blind_name, black_screen, 5)
-                murder.add_temp_hud(pl_to_blind_name, image_eye, 5)
+                murder.add_temp_hud(pl_to_blind_name, black_screen, 3)
+                murder.add_temp_hud(pl_to_blind_name, image_eye, 3)
 
                 minetest.sound_play("blinder", { pos = player_to_blind:get_pos(), to_player = pl_to_blind_name})
 
