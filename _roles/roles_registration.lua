@@ -17,7 +17,7 @@
 
         default_role : bool = 
             if true each player that hasn't got a non-default role
-            yet will become this role.
+            yet will become this one.
 
         sound : string =
             the sound that will be reproduced to the player when this role
@@ -25,7 +25,8 @@
 
         on_start : function(arena, pl_name) = 
             this gets called when this role gets assigned to pl_name
-            (pl_name always refers to the player this role is assigned to).
+            (pl_name always refers to the name of the player to whom this role 
+            is assigned to).
 
         on_end : function(arena, pl_name) =
             this gets called when this match finishes (on_celebration).
@@ -52,7 +53,7 @@
 local function get_valid_role() end
 local function set_callbacks() end
 local function set_physics() end
-murder.roles = {}  -- index = role
+murder.roles = {}  -- index : number = role : {}
 
 
 function murder.register_role(name, def)
@@ -116,7 +117,7 @@ function set_callbacks(role)
         arena.roles[pl_name].in_game = true
 
         murder.generate_HUD(arena, pl_name)
-        -- Disable wielding items if there is 3d_armor installed.
+        -- Hiding the wielded item if 3d_armor is installed.
         player:get_meta():set_int("show_wielded_item", 2)
         
         on_start(arena, pl_name)
@@ -154,7 +155,7 @@ function set_callbacks(role)
         if last_role then murder.log(arena, "Last role is " .. last_role.name .. " with count " .. remaining_players) 
         else murder.log(arena, "Two or more different roles are in game, count players alive: " .. remaining_players) end
 
-        -- If the remaining players have all the same role the team wins.
+        -- If the remaining players have all the same role then their team wins.
         if last_role and remaining_players > 1 then
             murder.log(arena, "Team " .. last_role.name .. " wins")
             murder.team_wins(arena, last_role)

@@ -109,7 +109,7 @@ minetest.register_craftitem("murder:blinder", {
             local arena = arena_lib.get_arena_by_player(pl_name)
             local pl_inv = player:get_inventory()
 
-            -- Blinds all players in arena except for the murderer.
+            -- Blinding all players in arena but the murderer.
             for pl_to_blind_name, _ in pairs(arena.players) do
                 local player_to_blind = minetest.get_player_by_name(pl_to_blind_name)
 

@@ -4,7 +4,7 @@ murder.register_role("Murderer", {
     items = {"murder:knife", "murder:blinder", "murder:skin_shuffler", "murder:finder_chip"},
     sound = "murderer-role",
     properties = {
-        kill_delay = 8,
+        kill_delay = 10,
         can_kill = true,
         thrown_knife = nil,
         thrown_knives_count = 0,

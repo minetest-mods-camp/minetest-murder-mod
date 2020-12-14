@@ -12,7 +12,7 @@ minetest.register_craftitem("murder:gun", {
             local reload_delay = 2
 
             if cop_props.can_shoot then
-                local ray, pos_head, shoot_dir = murder.look_raycast(player, 30)
+                local ray, pos_head, shoot_dir = murder.look_raycast(player, 100)
                 local particle_shot = {
                     pos = pos_head,
                     velocity = vector.multiply(shoot_dir, 2),
@@ -24,7 +24,7 @@ minetest.register_craftitem("murder:gun", {
 
                 minetest.add_particle(particle_shot)
 
-                -- Shoots using the look_raycast() ray, if it hits a player he/she gets killed.
+                -- Shooting using the look_raycast() ray, if it hits a player he/she gets killed.
                 for hit_object in ray do
                     if hit_object.type == "object" and hit_object.ref:is_player() then
                         hit_object = hit_object.ref

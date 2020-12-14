@@ -10,18 +10,20 @@
 
 The match will start in @1 seconds!=
 @1 (@2) killed you!=
+@1 (@2) killed @3 (@4)!=
 Read your items description to learn their utility=
 The @1 team=
 
 
 # Murderer
 
-Murderer=
+Murderer=Assassino
 Kill everyone!=
 With this you can kill other players, seems fun, doesn't it?@nRight click in the air to throw it, then right click it again to take it back@n(@1s cooldown)=
-Left click to find the nearest player's last position!=
+Left click to show the nearest player's last position!=
 You have to wait @1s to use again the knife!=
-Blind everyone for 5s!=
+Shuffle all players skins!=
+Blind everyone for 3s!=
 
 
 # Cop
@@ -29,6 +31,8 @@ Blind everyone for 5s!=
 Cop=
 Kill the murderer, but if you kill another cop you'll die!=
 Shoot and kill!=
+You killed another cop (@1)!=
+
 
 # Commands messages
 

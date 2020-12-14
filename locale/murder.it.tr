@@ -10,6 +10,7 @@
 
 The match will start in @1 seconds!=La partita inizierà tra @1 secondi!
 @1 (@2) killed you!=@1 (@2) ti ha ucciso!
+@1 (@2) killed @3 (@4)!=@1 (@2) ha ucciso @3 (@4)!
 Read your items description to learn their utility=Leggi la descrizione degli oggetti per scoprirne l'utilità
 The @1 team=Il team @1
 
@@ -22,7 +23,7 @@ With this you can kill other players, seems fun, doesn't it?@nRight click in the
 Left click to show the nearest player's last position!=Click sinistro per mostrare la posizione del player più vicino!
 You have to wait @1s to use again the knife!=Devi aspettare @1s per usare di nuovo il coltello!
 Shuffle all players skins!=Rimescola le skin dei giocatori!
-Blind everyone for 5s!=Acceca tutti per 5s!
+Blind everyone for 3s!=Acceca tutti per 5s!
 
 
 # Cop

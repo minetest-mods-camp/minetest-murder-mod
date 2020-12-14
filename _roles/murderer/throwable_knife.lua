@@ -19,7 +19,7 @@ local throwable_knife = {
 }
 
 
--- staticdata = player's username
+-- staticdata = player's username.
 function throwable_knife:on_activate(staticdata, dtime_s)
     local obj = self.object
 
@@ -121,7 +121,7 @@ function throwable_knife:on_step(dtime, moveresult)
 
     if moveresult.collides == true then
       for _, collision in pairs(moveresult.collisions) do
-        -- If it hits a block and it hasn't dropped yet
+        -- If it hits a block and it hasn't dropped yet.
         if collision.type == "node" then
           if self.dropped == false then
               self:drop()

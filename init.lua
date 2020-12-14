@@ -4,7 +4,7 @@ dofile(minetest.get_modpath("murder") .. "/SETTINGS.lua")
 
 
 minetest.register_on_joinplayer(function (player)
-  -- enable wielding items if there is armor_3d installed
+  -- Showing the wielded item if armor_3d is installed.
   player:get_meta():set_int("show_wielded_item", 0)
   murder.restore_skin(player:get_player_name())
 end)
@@ -14,7 +14,7 @@ end)
 arena_lib.register_minigame("murder", {
   prefix = murder_settings.prefix,
   temp_properties = {
-    roles = {},  -- "player_name" = role
+    roles = {},  -- pl_name : string = role : {}
     match_id = 0
   },
   load_time = 0,

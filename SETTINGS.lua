@@ -1,6 +1,6 @@
 --[[
                             ! WARNING !
-Don't change the variables' names if you don't know what you're doing
+Don't change the variables names if you don't know what you're doing!
 
 (murder_settings.variable_name = value)
 ]]

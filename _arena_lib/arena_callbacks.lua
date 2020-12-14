@@ -20,8 +20,12 @@ arena_lib.on_start("murder", function(arena)
 
     arena_lib.send_message_players_in_arena(
         arena, 
-        minetest.colorize("#f9a31b", 
-            murder.T("The match will start in @1 seconds!", murder_settings.loading_time)
+        minetest.colorize("#f9a31b",
+            murder_settings.prefix ..
+            murder.T(
+                "The match will start in @1 seconds!", 
+                murder_settings.loading_time
+            )
         )
     )
     arena_lib.HUD_send_msg_all(
@@ -59,7 +63,7 @@ end)
 
 
 
--- Blocks /quit
+-- Blocking /quit.
 arena_lib.on_prequit("murder", function(arena, pl_name)
     murder.print_msg(pl_name, murder.T("You cannot quit!"))
     return false

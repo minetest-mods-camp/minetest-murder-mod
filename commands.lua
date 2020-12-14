@@ -1,4 +1,4 @@
--- registering murder_admin privilege
+-- Registering the murder_admin privilege.
 minetest.register_privilege("murder_admin", {  
     description = murder.T("It allows you to use /murder")
 })
@@ -7,14 +7,12 @@ minetest.register_privilege("murder_admin", {
 
 ChatCmdBuilder.new("murder", function(cmd)
 
-    -- create arena
     cmd:sub("tutorial", function(name)
         minetest.chat_send_player(name, "See the TUTORIAL.txt file in the mod folder.")
     end)
 
 
 
-    -- create arena
     cmd:sub("create :arena", function(name, arena_name)
         arena_lib.create_arena(name, "murder", arena_name)
     end)
@@ -27,7 +25,6 @@ ChatCmdBuilder.new("murder", function(cmd)
 
 
 
-    -- remove arena
     cmd:sub("remove :arena", function(name, arena_name)
         arena_lib.remove_arena(name, "murder", arena_name)
     end)
@@ -41,41 +38,32 @@ ChatCmdBuilder.new("murder", function(cmd)
 
 
 
-    -- info on a specific arena
     cmd:sub("info :arena", function(name, arena_name)
         arena_lib.print_arena_info(name, "murder", arena_name)
     end)
 
 
 
-    -- this sets the spawns using the player position
+    -- This sets the spawns using the player position.
     cmd:sub("setspawn :arena", function(name, arena)
         arena_lib.set_spawner(name, "murder", arena)
     end)
 
 
 
-    cmd:sub("setspawn :arena", function(name, arena)
-        arena_lib.set_spawner(name, "murder", arena)
-    end)
-
-
-
-    -- this sets the arena's sign
+    -- This sets the arena sign.
     cmd:sub("setsign :arena", function(sender, arena)
         arena_lib.set_sign(sender, nil, nil, "murder", arena)
     end)
 
 
     
-    -- enter editor mode
     cmd:sub("edit :arena", function(sender, arena)
         arena_lib.enter_editor(sender, "murder", arena)
     end)
 
 
 
-    -- enable and disable arenas
     cmd:sub("enable :arena", function(name, arena)
         arena_lib.enable_arena(name, "murder", arena)
     end)
@@ -88,7 +76,7 @@ ChatCmdBuilder.new("murder", function(cmd)
 
 
 
-    -- Debug commands
+    -- Debug commands:
     cmd:sub("play :sound :gain:number", function(pl_name, sound, gain)
         minetest.sound_play(sound, { pos = minetest.get_player_by_name(pl_name):get_pos(), gain = gain})
     end)

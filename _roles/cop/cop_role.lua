@@ -14,6 +14,19 @@ murder.register_role("Cop", {
             murder.print_msg(pl_name, murder.T("You killed another cop (@1)!", killed_pl_name))
             murder.eliminate_role(pl_name)
             minetest.after(0, function() player_inv:remove_item("main", "murder:gun") end)
+        elseif killed_role.name == "Murderer" then
+            local pl_role = arena.roles[pl_name]
+            
+            if murder.count_players_in_game(arena) == 1 then return end
+
+            arena_lib.send_message_players_in_arena(
+                arena,
+                murder_settings.prefix .. 
+                murder.T(
+                    "@1 (@2) killed @3 (@4)!", 
+                    pl_name, murder.T(pl_role.name), killed_pl_name, murder.T(killed_role.name)
+                )
+            )
         end
     end,
     on_death = function(arena, pl_name, reason)
@@ -22,8 +35,8 @@ murder.register_role("Cop", {
             local killer_role = arena.roles[killer_name]
             local pl_pos = minetest.get_player_by_name(pl_name):get_pos()
 
-            -- If the player's been killed by another role then add a death
-            -- waypoint for 4s.
+            -- Adding a 4s lasting waypoint to the death place if the player's
+            -- been killed by another role.
             if killer_role.name ~= "Cop" then
                 for other_pl_name, _ in pairs(arena.players) do
                     local death_waypoint = {

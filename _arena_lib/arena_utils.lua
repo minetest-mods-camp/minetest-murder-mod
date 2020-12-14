@@ -7,12 +7,15 @@ function murder.player_wins(pl_name)
     local winner = pl_name .. " (" .. player_role_name .. ")"
     local player = minetest.get_player_by_name(pl_name)
 
+    if arena.in_celebration then return end
+
     arena_lib.load_celebration("murder", arena, winner)
 end
 
 
 
 function murder.team_wins(arena, role)
+    if arena.in_celebration then return end
     local winner = murder.T("The @1 team", murder.T(role.name))
     arena_lib.load_celebration("murder", arena, winner)
 end
@@ -43,7 +46,7 @@ end
 
 
 function murder.get_last_role_in_game(arena)
-    -- Adding to roles_in_game the roles alive.
+    -- Adding to roles_in_game the roles in game.
     local roles_in_game = {}
     for pl_name, role in pairs(arena.roles) do
         if role.in_game then table.insert(roles_in_game, role) end
@@ -98,13 +101,13 @@ end
 function murder.assign_skins(arena)
     local skins = table.copy(murder_settings.skins)
     
-    -- Assigns a random skin to each player.
+    -- Assigning a random skin to each player.
     for pl_name, _ in pairs(arena.players) do
         local random_index = math.random(1, #skins)
         local player = minetest.get_player_by_name(pl_name)
         local pl_meta = player:get_meta()
 
-        -- Serializing the player's original textures into metadata.
+        -- Serializing the player's original textures into a metadata.
         if pl_meta:get_string("murder:original_skin") == "" then
             local serialized_skin = minetest.serialize(player:get_properties().textures)
             pl_meta:set_string("murder:original_skin", serialized_skin)
