@@ -3,7 +3,7 @@ minetest.register_craftitem("murder:knife", {
         "With this you can kill other players, seems fun, doesn't it?\nRight click in the air to throw it, then right click it again to take it back\n(@1s cooldown)", 
         murder.get_role_by_name("Murderer").properties.kill_delay
     ),
-    inventory_image = "murder_knife.png",
+    inventory_image = "item_murder_knife.png",
     damage_groups = {fleshy = 3},
     stack_max = 1,
     on_drop = function() return end,
@@ -28,7 +28,7 @@ minetest.register_craftitem("murder:knife", {
                     hud_elem_type = "image",
                     position = {x=0.5, y=0.7},
                     scale = {x=5, y=5},
-                    text = "kills_disabled.png",
+                    text = "HUD_kills_disabled.png",
                     z_index = -100
                 }
 
@@ -67,9 +67,9 @@ minetest.register_craftitem("murder:knife", {
 
 
 
-minetest.register_craftitem("murder:finder_chip", {
+minetest.register_craftitem("murder:locator", {
     description = murder.T("Left click to show the nearest player's last position!"),
-    inventory_image = "finder_chip.png",
+    inventory_image = "item_locator.png",
     stack_max = 1,
     on_drop = function() return nil end,
     on_use =
@@ -82,14 +82,14 @@ minetest.register_craftitem("murder:finder_chip", {
             local target_waypoint = {
                 hud_elem_type = "image_waypoint",
                 world_pos = {x = nearest_pl_pos.x, y = nearest_pl_pos.y + 1, z = nearest_pl_pos.z},
-                text      = "chip_target.png",
+                text      = "HUD_target.png",
                 scale     = {x = 5, y = 5},
                 number    = 0xdf3e23,
                 size = {x = 200, y = 200},
             }
 
             murder.add_temp_hud(pl_name, target_waypoint, 12)
-            minetest.after(0, function() player:get_inventory():remove_item("main", "murder:finder_chip") end)
+            minetest.after(0, function() player:get_inventory():remove_item("main", "murder:locator") end)
             
             minetest.sound_play("finder-chip", { pos = player:get_pos(), to_player = pl_name })
         end
@@ -98,8 +98,8 @@ minetest.register_craftitem("murder:finder_chip", {
 
 
 minetest.register_craftitem("murder:blinder", {
-    description = murder.T("Blind everyone for 5s!"),
-    inventory_image = "blinder.png",
+    description = murder.T("Blinds everyone for @1s!", 3),
+    inventory_image = "item_blinder.png",
     stack_max = 1,
     on_drop = function() return nil end,
     on_use =
@@ -146,8 +146,8 @@ minetest.register_craftitem("murder:blinder", {
 
 
 minetest.register_craftitem("murder:skin_shuffler", {
-    description = murder.T("Shuffle all players skins!"),
-    inventory_image = "skin_shuffler.png",
+    description = murder.T("Shuffles all players skins!"),
+    inventory_image = "item_skin_shuffler.png",
     stack_max = 1,
     on_drop = function() return nil end,
     on_use =

@@ -42,7 +42,7 @@ murder.register_role("Cop", {
                     local death_waypoint = {
                         hud_elem_type = "image_waypoint",
                         world_pos = {x = pl_pos.x, y = pl_pos.y + 1, z = pl_pos.z},
-                        text      = "murder_player_killed.png",
+                        text      = "HUD_player_killed.png",
                         scale     = {x = 5, y = 5},
                         size = {x = 200, y = 200},
                     }

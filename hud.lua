@@ -51,7 +51,7 @@ function murder.generate_HUD(arena, pl_name)
       x = -100,
       y = -100
     },
-    text = "vignette.png",
+    text = "HUD_vignette.png",
     z_index = 99
   })
 

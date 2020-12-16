@@ -22,14 +22,14 @@ murder_settings.prefix = "Murder > "
 
 -- The skins that can be applied to each player.
 murder_settings.skins = {
-    "black_cyan.png",
-    "black_gray.png",
-    "black_green.png",
-    "black_pink.png",
-    "black_yellow.png",
-    "white_cyan.png",
-    "white_gray.png",
-    "white_green.png",
-    "white_pink.png",
-    "white_yellow.png"
+    "skin_black_cyan.png",
+    "skin_black_gray.png",
+    "skin_black_green.png",
+    "skin_black_pink.png",
+    "skin_black_yellow.png",
+    "skin_white_cyan.png",
+    "skin_white_gray.png",
+    "skin_white_green.png",
+    "skin_white_pink.png",
+    "skin_white_yellow.png"
 }

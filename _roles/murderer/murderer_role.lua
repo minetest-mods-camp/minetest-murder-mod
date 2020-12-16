@@ -1,7 +1,7 @@
 murder.register_role("Murderer", {
     name = "Murderer",
     hotbar_description = "Kill everyone!",
-    items = {"murder:knife", "murder:blinder", "murder:skin_shuffler", "murder:finder_chip"},
+    items = {"murder:knife", "murder:blinder", "murder:skin_shuffler", "murder:locator"},
     sound = "murderer-role",
     properties = {
         kill_delay = 10,

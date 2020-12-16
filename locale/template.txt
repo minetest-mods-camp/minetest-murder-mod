@@ -22,8 +22,8 @@ Kill everyone!=
 With this you can kill other players, seems fun, doesn't it?@nRight click in the air to throw it, then right click it again to take it back@n(@1s cooldown)=
 Left click to show the nearest player's last position!=
 You have to wait @1s to use again the knife!=
-Shuffle all players skins!=
-Blind everyone for 3s!=
+Shuffles all players skins!=
+Blinds everyone for @1s!=
 
 
 # Cop

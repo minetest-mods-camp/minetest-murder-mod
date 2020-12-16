@@ -1,6 +1,6 @@
 minetest.register_craftitem("murder:gun", {
     description = murder.T("Shoot and kill!"),
-    inventory_image = "murder_gun.png",
+    inventory_image = "item_murder_gun.png",
     stack_max = 1,
     on_drop = function() return end,
     on_use =
@@ -17,7 +17,7 @@ minetest.register_craftitem("murder:gun", {
                     pos = pos_head,
                     velocity = vector.multiply(shoot_dir, 2),
                     size = 1,
-                    texture = "shoot_particle.png",
+                    texture = "particle_shoot.png",
                     glow = 12,
                     playername = pl_name
                 }

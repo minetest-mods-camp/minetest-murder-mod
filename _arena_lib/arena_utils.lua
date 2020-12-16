@@ -187,7 +187,7 @@ function murder.kill_player(killer_name, victim_name)
         maxexptime = 0.25,
         minsize = 1,
         maxsize = 4,
-        texture = "blood_particle.png",
+        texture = "particle_blood.png",
     })
 
     murder.log(arena, killer_name.." killed " .. victim_name)
