@@ -15,7 +15,7 @@ local throwable_knife = {
     },
     pl_name = "",
     dropped = false,
-    hit_box_range = 1.1
+    hit_box_range = 1.2
 }
 
 
