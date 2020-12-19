@@ -1,17 +1,17 @@
-murder.register_role("Cop", {
+murder.register_role("Detective", {
     default = true,
-    name = "Cop",
-    hotbar_description = "Kill the murderer, but if you kill another cop you'll die!",
+    name = "Detective",
+    hotbar_description = "Kill the murderer, if you kill another detective you'll die!",
     items = {"murder:gun"}, 
-    sound = "cop-role",
+    sound = "detective-role",
     on_kill = function(arena, pl_name, killed_pl_name)
         local killed_role = arena.roles[killed_pl_name]
 
-        -- If the player killed another cop.
-        if killed_role.name == "Cop" then
+        -- If the player killed another detective.
+        if killed_role.name == "Detective" then
             local player_inv = minetest.get_player_by_name(pl_name):get_inventory()
 
-            murder.print_msg(pl_name, murder.T("You killed another cop (@1)!", killed_pl_name))
+            murder.print_msg(pl_name, murder.T("You killed another detective (@1)!", killed_pl_name))
             murder.eliminate_role(pl_name)
             minetest.after(0, function() player_inv:remove_item("main", "murder:gun") end)
         elseif killed_role.name == "Murderer" then
@@ -37,7 +37,7 @@ murder.register_role("Cop", {
 
             -- Adding a 4s lasting waypoint to the death place if the player's
             -- been killed by another role.
-            if killer_role.name ~= "Cop" then
+            if killer_role.name ~= "Detective" then
                 for other_pl_name, _ in pairs(arena.players) do
                     local death_waypoint = {
                         hud_elem_type = "image_waypoint",
@@ -59,4 +59,4 @@ murder.register_role("Cop", {
 
 
 
-dofile(minetest.get_modpath("murder") .. "/_roles/cop/cop_items.lua")
+dofile(minetest.get_modpath("murder") .. "/_roles/detective/detective_items.lua")

@@ -13,6 +13,7 @@ The match will start in @1 seconds!=
 @1 (@2) killed @3 (@4)!=
 Read your items description to learn their utility=
 The @1 team=
+@1 won!=
 
 
 # Murderer
@@ -26,12 +27,12 @@ Shuffles all players skins!=
 Blinds everyone for @1s!=
 
 
-# Cop
+# Detective
 
-Cop=
-Kill the murderer, but if you kill another cop you'll die!=
+Detective=
+Kill the murderer, if you kill another detective you'll die!=
 Shoot and kill!=
-You killed another cop (@1)!=
+You killed another detective (@1)!=
 
 
 # Commands messages

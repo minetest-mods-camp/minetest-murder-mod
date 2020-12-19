@@ -15,7 +15,7 @@ murder_settings = {}
 murder_settings.loading_time = 10
 
 -- The time between the end of the match and the respawn at the hub.
-murder_settings.celebration_time = 5
+murder_settings.celebration_time = 7
 
 -- What's going to appear in most of the lines printed by murder.
 murder_settings.prefix = "Murder > "

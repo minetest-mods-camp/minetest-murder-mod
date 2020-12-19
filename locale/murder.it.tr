@@ -13,7 +13,7 @@ The match will start in @1 seconds!=La partita inizierà tra @1 secondi!
 @1 (@2) killed @3 (@4)!=@1 (@2) ha ucciso @3 (@4)!
 Read your items description to learn their utility=Leggi la descrizione degli oggetti per scoprirne l'utilità
 The @1 team=Il team @1
-
+@1 won!=@1 ha vinto!
 
 # Murderer
 
@@ -26,12 +26,12 @@ Shuffles all players skins!=Rimescola le skin dei giocatori!
 Blinds everyone for @1s!=Acceca tutti per @1s!
 
 
-# Cop
+# Detective
 
-Cop=Poliziotto
-Kill the murderer, but if you kill another cop you'll die!=Uccidi l'assassino, se uccidi un altro poliziotto morirai! 
+Detective=Detective
+Kill the murderer, if you kill another detective you'll die!=Uccidi l'assassino, se uccidi un altro detective morirai! 
 Shoot and kill!=Spara e uccidi!
-You killed another cop (@1)!=Hai ucciso un altro poliziotto (@1)!
+You killed another detective (@1)!=Hai ucciso un altro detective (@1)!
 
 
 # Commands messages

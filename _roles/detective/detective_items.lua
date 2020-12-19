@@ -8,10 +8,10 @@ minetest.register_craftitem("murder:gun", {
             local pl_name = player:get_player_name()
             if not murder.is_player_playing(pl_name) then return end
             local arena = arena_lib.get_arena_by_player(pl_name)
-            local cop_props = arena.roles[pl_name].properties
+            local detective_props = arena.roles[pl_name].properties
             local reload_delay = 2
 
-            if cop_props.can_shoot then
+            if detective_props.can_shoot then
                 local ray, pos_head, shoot_dir = murder.look_raycast(player, 100)
                 local particle_shot = {
                     pos = pos_head,
@@ -44,8 +44,8 @@ minetest.register_craftitem("murder:gun", {
 
                 minetest.sound_play("murder_gun_shoot", {pos = player:get_pos(), to_player = pl_name})
 
-                cop_props.can_shoot = false
-                minetest.after(reload_delay, function() cop_props.can_shoot = true end)
+                detective_props.can_shoot = false
+                minetest.after(reload_delay, function() detective_props.can_shoot = true end)
             else
                 minetest.sound_play("murder_empty_gun", {pos = player:get_pos(), to_player = pl_name})
             end
