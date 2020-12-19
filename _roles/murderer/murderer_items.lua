@@ -36,10 +36,10 @@ minetest.register_craftitem("murder:knife", {
                 minetest.sound_play("murder_knife_hit", {pos = hit_pl:get_pos(), to_player = hit_pl_name})
 
                 murder.kill_player(pl_name, hit_pl_name) 
-                murder.add_temp_hud(pl_name, image_kills_disabled, 8)
+                murder.add_temp_hud(pl_name, image_kills_disabled, murderer_props.kill_delay)
 
                 murderer_props.can_kill = false
-                minetest.after(8, function() murderer_props.can_kill = true end)
+                minetest.after(murderer_props.kill_delay, function() murderer_props.can_kill = true end)
             end
         end,
     on_secondary_use =
@@ -82,7 +82,7 @@ minetest.register_craftitem("murder:locator", {
             local target_waypoint = {
                 hud_elem_type = "image_waypoint",
                 world_pos = {x = nearest_pl_pos.x, y = nearest_pl_pos.y + 1, z = nearest_pl_pos.z},
-                text      = "HUD_target.png",
+                text      = "item_locator.png",
                 scale     = {x = 5, y = 5},
                 number    = 0xdf3e23,
                 size = {x = 200, y = 200},
