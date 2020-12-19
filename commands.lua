@@ -89,8 +89,9 @@ ChatCmdBuilder.new("murder", function(cmd)
 
 end, {
   description = [[
-      
-    (/help murder)
+     
+    ADMIN COMMANDS
+    (Use /help murder to read it all)
 
     Use this to configure your arena:
     - tutorial

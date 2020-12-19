@@ -40,4 +40,4 @@ The victims' team=Das Opfer Team
 
 With this you can use /murderadmin=Hiermit kannst Du /murderadmin benutzen.
 match duration set to @1 seconds=Spieldauer gesetzt auf @1
-You cannot quit!=
+#You cannot quit!=
