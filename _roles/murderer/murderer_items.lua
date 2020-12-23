@@ -138,7 +138,7 @@ minetest.register_craftitem("murder:blinder", {
                 ::continue::
             end
             
-            minetest.sound_play("blinder", { pos = player:get_pos(), to_player = pl_name})
+            minetest.sound_play("murder_blinder", { pos = player:get_pos(), to_player = pl_name})
             minetest.after(0, function() pl_inv:remove_item("main", "murder:blinder") end)
         end
 })

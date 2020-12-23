@@ -20,8 +20,8 @@
             yet will become this one.
 
         sound : string =
-            the sound that will be reproduced to the player when this role
-            will be assigned to him/her.
+            the sound that will be reproduced to the player when this role 
+            gets assigned to him/her.
 
         on_start : function(arena, pl_name) = 
             this gets called when this role gets assigned to pl_name
@@ -29,7 +29,7 @@
             is assigned to).
 
         on_end : function(arena, pl_name) =
-            this gets called when this match finishes (on_celebration).
+            this gets called when the match finishes (on_celebration).
 
         on_eliminated : function(arena, pl_name) =
             this gets called when the player gets eliminated by 
