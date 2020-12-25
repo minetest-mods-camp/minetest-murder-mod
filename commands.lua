@@ -103,8 +103,8 @@ end, {
     - list
     - info <arena name>
     - remove <arena name>
-    - disable <arena>
-    - logs <arena>
+    - disable <arena name>
+    - logs <arena name>
     ]],
   privs = { murder_admin = true }
 })
