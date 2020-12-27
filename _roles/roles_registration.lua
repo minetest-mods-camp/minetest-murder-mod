@@ -23,26 +23,27 @@
             the sound that will be reproduced to the player when this role 
             gets assigned to him/her.
 
-        on_start : function(arena, pl_name) = 
-            this gets called when this role gets assigned to pl_name
-            (pl_name always refers to the name of the player to whom this role 
-            is assigned to).
+        on_start : function(self, arena, pl_name) = 
+            this gets called when this role gets assigned to pl_name, self
+            is the role table assigned to the player while pl_name is his/her
+            name.
 
-        on_end : function(arena, pl_name) =
+        on_end : function(self, arena, pl_name) =
             this gets called when the match finishes (on_celebration).
 
-        on_eliminated : function(arena, pl_name) =
+        on_eliminated : function(self, arena, pl_name) =
             this gets called when the player gets eliminated by 
             murder.eliminate(pl_name) or when disconnecting.
         
-        on_death : function(arena, pl_name, reason) =
+        on_death : function(self, arena, pl_name, reason) =
             this gets called when the player dies.
 
-        on_kill : function(arena, pl_name, killed_pl_name) =
+        on_kill : function(self, arena, pl_name, killed_pl_name) =
             this gets called when the player kills someone.
 
-        properties : {} = 
-            custom properties.
+        ... other functions or custom properties, just make sure
+        that their names don't conflict with the already existing
+        ones.
     }
 ]]
 
@@ -111,26 +112,26 @@ function set_callbacks(role)
     local on_start = role.on_start or empty_func
     local on_kill = role.on_kill or empty_func
 
-    role.on_start = function(arena, pl_name)
+    role.on_start = function(self, arena, pl_name)
         local player = minetest.get_player_by_name(pl_name)
-        murder.log(arena, pl_name.." is " .. arena.roles[pl_name].name .. " and called on start")
-        arena.roles[pl_name].in_game = true
+        murder.log(arena, pl_name.." is " .. self.name .. " and called on start")
+        self.in_game = true
 
         murder.generate_HUD(arena, pl_name)
         -- Hiding the wielded item if 3d_armor is installed.
         player:get_meta():set_int("show_wielded_item", 2)
         
-        on_start(arena, pl_name)
+        on_start(self, arena, pl_name)
     end
 
-    role.on_kill = function(arena, pl_name, killed_pl_name)
+    role.on_kill = function(self, arena, pl_name, killed_pl_name)
         murder.log(arena, pl_name .. " called on kill")
-        on_kill(arena, pl_name, killed_pl_name)
+        on_kill(self, arena, pl_name, killed_pl_name)
     end
 
-    role.on_death = function(arena, pl_name, reason)
+    role.on_death = function(self, arena, pl_name, reason)
         murder.log(arena, pl_name.." called on death ")
-        on_death(arena, pl_name, reason)
+        on_death(self, arena, pl_name, reason)
         murder.eliminate_role(pl_name)
 
         -- If the player was killed using murder.kill_player().
@@ -139,14 +140,14 @@ function set_callbacks(role)
             local killer_role = arena.roles[killer_name]
 
             murder.print_msg(pl_name, murder.T("@1 (@2) killed you!", killer_name, murder.T(killer_role.name)))
-            killer_role.on_kill(arena, killer_name, pl_name)
+            on_kill(killer_role, arena, killer_name, pl_name)
         end
     end
 
-    role.on_eliminated = function(arena, pl_name)
+    role.on_eliminated = function(self, arena, pl_name)
         murder.log(arena, pl_name.." called on eliminated ")
 
-        arena.roles[pl_name].in_game = false
+        self.in_game = false
         murder.prekick_operations(pl_name)
 
         local last_role = murder.get_last_role_in_game(arena)
@@ -175,13 +176,13 @@ function set_callbacks(role)
         end
 
         arena_lib.remove_player_from_arena(pl_name, 1)
-        on_eliminated(arena, pl_name)
+        on_eliminated(self, arena, pl_name)
     end
 
-    role.on_end = function(arena, pl_name)
+    role.on_end = function(self, arena, pl_name)
         murder.log(arena, pl_name .. " called on end")
         murder.prekick_operations(pl_name)
-        on_end(arena, pl_name)
+        on_end(self, arena, pl_name)
     end
 end
 

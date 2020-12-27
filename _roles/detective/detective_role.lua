@@ -4,19 +4,17 @@ murder.register_role("Detective", {
     hotbar_description = "Kill the murderer, if you kill another detective you'll die!",
     items = {"murder:gun"}, 
     sound = "detective-role",
-    on_kill = function(arena, pl_name, killed_pl_name)
+    on_kill = function(self, arena, pl_name, killed_pl_name)
         local killed_role = arena.roles[killed_pl_name]
 
         -- If the player killed another detective.
-        if killed_role.name == "Detective" then
+        if killed_role.name == self.name then
             local player_inv = minetest.get_player_by_name(pl_name):get_inventory()
 
             murder.print_msg(pl_name, murder.T("You killed another detective (@1)!", killed_pl_name))
             murder.eliminate_role(pl_name)
             minetest.after(0, function() player_inv:remove_item("main", "murder:gun") end)
-        elseif killed_role.name == "Murderer" then
-            local pl_role = arena.roles[pl_name]
-            
+        elseif killed_role.name == "Murderer" then            
             if murder.count_players_in_game(arena) == 1 then return end
 
             arena_lib.send_message_players_in_arena(
@@ -24,12 +22,12 @@ murder.register_role("Detective", {
                 murder_settings.prefix .. 
                 murder.T(
                     "@1 (@2) killed @3 (@4)!", 
-                    pl_name, murder.T(pl_role.name), killed_pl_name, murder.T(killed_role.name)
+                    pl_name, murder.T(self.name), killed_pl_name, murder.T(killed_role.name)
                 )
             )
         end
     end,
-    on_death = function(arena, pl_name, reason)
+    on_death = function(self, arena, pl_name, reason)
         if reason and reason.type == "punch" then
             local killer_name = reason.object:get_player_name()
             local killer_role = arena.roles[killer_name]
@@ -37,7 +35,7 @@ murder.register_role("Detective", {
 
             -- Adding a 4s lasting waypoint to the death place if the player's
             -- been killed by another role.
-            if killer_role.name ~= "Detective" then
+            if killer_role.name ~= self.name then
                 for other_pl_name, _ in pairs(arena.players) do
                     local death_waypoint = {
                         hud_elem_type = "image_waypoint",
@@ -52,9 +50,7 @@ murder.register_role("Detective", {
             end
         end
     end,
-    properties = {
-        can_shoot = true
-    }
+    can_shoot = true
 })
 
 

@@ -35,10 +35,10 @@ function throwable_knife:on_activate(staticdata, dtime_s)
         local dir = player:get_look_dir()
         local arena = arena_lib.get_arena_by_player(self.pl_name)
         local knife_props = self.initial_properties
-        local murderer_props = arena.roles[self.pl_name].properties
-        local knife_id = murderer_props.thrown_knives_count + 1
+        local murderer = arena.roles[self.pl_name]
+        local knife_id = murderer.thrown_knives_count + 1
         local match_id = arena.match_id 
-        murderer_props.thrown_knives_count = knife_id
+        murderer.thrown_knives_count = knife_id
 
         obj:set_rotation({x = -pitch, y = yaw+55, z = 0})
         obj:set_velocity({
@@ -54,12 +54,12 @@ function throwable_knife:on_activate(staticdata, dtime_s)
 
             if not murder.is_player_playing(self.pl_name) then return end
             if match_id ~= arena.match_id then return end  -- If this is not the same match.
-            if not murderer_props.thrown_knife then return end  -- If the knife has been recovered already. 
-            if knife_id ~= murderer_props.thrown_knives_count then return end  -- If this isn't the same knife.
+            if not murderer.thrown_knife then return end  -- If the knife has been recovered already. 
+            if knife_id ~= murderer.thrown_knives_count then return end  -- If this isn't the same knife.
             
             local pl_inv = player:get_inventory()
 
-            murderer_props.remove_knife(arena, self.pl_name)
+            murderer:remove_knife()
             pl_inv:add_item("main", ItemStack("murder:knife"))
         end)
     else
@@ -90,10 +90,10 @@ function throwable_knife:on_rightclick(clicker)
     local arena = arena_lib.get_arena_by_player(pl_name)
 
     if murder.is_player_playing(pl_name) and pl_name == self.pl_name and self.dropped then
-        local murderer_props = arena.roles[pl_name].properties
+        local murderer = arena.roles[pl_name]
 
         minetest.get_player_by_name(pl_name):get_inventory():add_item("main", "murder:knife")
-        murderer_props.remove_knife(arena, pl_name)
+        murderer:remove_knife()
     end
 end
 
@@ -110,6 +110,7 @@ function throwable_knife:on_step(dtime, moveresult)
     local arena = arena_lib.get_arena_by_player(self.pl_name)
     local nearest_player, distance = murder.get_nearest_player(arena, self.object:get_pos(), self.pl_name)
 
+    -- Killing the player, if his/her distance from the knife is less or equal the hitbox size.
     if distance and distance <= self.hit_box_range and not self.dropped then 
         local hit_pl_name = nearest_player:get_player_name()
         local hit_pl_pos = nearest_player:get_pos()

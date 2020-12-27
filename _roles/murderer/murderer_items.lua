@@ -1,7 +1,7 @@
 minetest.register_craftitem("murder:knife", {
     description = murder.T(
         "With this you can kill other players, seems fun, doesn't it?\nRight click in the air to throw it, then right click it again to take it back\n(@1s cooldown)", 
-        murder.get_role_by_name("Murderer").properties.kill_delay
+        murder.get_role_by_name("Murderer").kill_delay
     ),
     inventory_image = "item_murder_knife.png",
     damage_groups = {fleshy = 3},
@@ -12,10 +12,10 @@ minetest.register_craftitem("murder:knife", {
             local pl_name = player:get_player_name()
             if not murder.is_player_playing(pl_name) then return end
             local arena = arena_lib.get_arena_by_player(pl_name)
-            local murderer_props = arena.roles[pl_name].properties
-            local kill_delay = murderer_props.kill_delay
+            local murderer = arena.roles[pl_name]
+            local kill_delay = murderer.kill_delay
             
-            if not murderer_props.can_kill then
+            if not murderer.can_kill then
                 murder.print_msg(pl_name, murder.T("You have to wait @1s to use again the knife!", kill_delay))
                 return
             end
@@ -36,10 +36,10 @@ minetest.register_craftitem("murder:knife", {
                 minetest.sound_play("murder_knife_hit", {pos = hit_pl:get_pos(), to_player = hit_pl_name})
 
                 murder.kill_player(pl_name, hit_pl_name) 
-                murder.add_temp_hud(pl_name, image_kills_disabled, murderer_props.kill_delay)
+                murder.add_temp_hud(pl_name, image_kills_disabled, murderer.kill_delay)
 
-                murderer_props.can_kill = false
-                minetest.after(murderer_props.kill_delay, function() murderer_props.can_kill = true end)
+                murderer.can_kill = false
+                minetest.after(murderer.kill_delay, function() murderer.can_kill = true end)
             end
         end,
     on_secondary_use =
@@ -47,18 +47,18 @@ minetest.register_craftitem("murder:knife", {
             local pl_name = player:get_player_name()
             if not murder.is_player_playing(pl_name) then return end
             local arena = arena_lib.get_arena_by_player(pl_name)
-            local murderer_role = arena.roles[pl_name]
-            local murderer_props = murderer_role.properties
+            local murderer = arena.roles[pl_name]
             local throw_starting_pos = vector.add({x=0, y=1.5, z=0}, player:get_pos())
-            if not murderer_props.can_kill then
-                local kill_delay = murderer_props.kill_delay
+
+            if not murderer.can_kill then
+                local kill_delay = murderer.kill_delay
                 murder.print_msg(pl_name, murder.T("You have to wait @1s to use again the knife!", kill_delay))
                 return
             end
 
             local knife = minetest.add_entity(throw_starting_pos, "murder:throwable_knife", pl_name)
 
-            murderer_props.thrown_knife = knife
+            murderer.thrown_knife = knife
             minetest.after(0, function() player:get_inventory():remove_item("main", "murder:knife") end)
 
             minetest.sound_play("throw_knife", {max_hear_distance = 5, pos = player:get_pos()})
@@ -88,7 +88,7 @@ minetest.register_craftitem("murder:locator", {
                 size = {x = 200, y = 200},
             }
 
-            murder.add_temp_hud(pl_name, target_waypoint, 12)
+            murder.add_temp_hud(pl_name, target_waypoint, 10)
             minetest.after(0, function() player:get_inventory():remove_item("main", "murder:locator") end)
             
             minetest.sound_play("finder-chip", { pos = player:get_pos(), to_player = pl_name })

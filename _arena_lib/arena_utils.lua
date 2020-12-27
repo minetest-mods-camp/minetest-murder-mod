@@ -40,7 +40,7 @@ end
 
 function murder.eliminate_role(pl_name)
     local arena = arena_lib.get_arena_by_player(pl_name)
-    arena.roles[pl_name].on_eliminated(arena, pl_name)
+    arena.roles[pl_name]:on_eliminated(arena, pl_name)
 end
 
 
@@ -138,12 +138,12 @@ end
 
 
 
-function murder.get_nearest_player(arena, original_pos, pl_name)
+function murder.get_nearest_player(arena, original_pos, excluded_pl_name)
     local nearest_player
     local min_distance
     local players = table.copy(arena.players)
 
-    if pl_name then players[pl_name] = nil end 
+    if excluded_pl_name then players[excluded_pl_name] = nil end 
 
     for other_pl_name, _ in pairs(players) do
         local other_pl = minetest.get_player_by_name(other_pl_name)
@@ -191,7 +191,7 @@ function murder.kill_player(killer_name, victim_name)
     })
 
     murder.log(arena, killer_name.." killed " .. victim_name)
-    arena.roles[victim_name].on_death(arena, victim_name, reason)
+    arena.roles[victim_name]:on_death(arena, victim_name, reason)
 end
 
 

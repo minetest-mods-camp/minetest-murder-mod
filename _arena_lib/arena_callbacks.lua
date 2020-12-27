@@ -46,7 +46,7 @@ arena_lib.on_celebration("murder", function(arena, winner_name)
     winner_name = murder.T("@1 won!", winner_name)
 
     for pl_name, _ in pairs(arena.players) do
-        arena.roles[pl_name].on_end(arena, pl_name)
+        arena.roles[pl_name]:on_end(arena, pl_name)
     end
 
     arena_lib.HUD_send_msg_all("broadcast", arena, winner_name, murder_settings.celebration_time)
@@ -55,7 +55,7 @@ end)
 
 
 arena_lib.on_death("murder", function(arena, pl_name, reason)
-    arena.roles[pl_name].on_death(arena, pl_name, reason)
+    arena.roles[pl_name]:on_death(arena, pl_name, reason)
 end)
 
 
@@ -75,7 +75,7 @@ end)
 
 
 arena_lib.on_disconnect("murder", function(arena, pl_name)
-    arena.roles[pl_name].on_eliminated(arena, pl_name)
+    arena.roles[pl_name]:on_eliminated(arena, pl_name)
 end)
 
 
@@ -94,6 +94,6 @@ function on_load(arena)
     murder.assign_roles(arena)
     
     for pl_name in pairs(arena.players) do
-        arena.roles[pl_name].on_start(arena, pl_name)
+        arena.roles[pl_name]:on_start(arena, pl_name)
     end
 end
