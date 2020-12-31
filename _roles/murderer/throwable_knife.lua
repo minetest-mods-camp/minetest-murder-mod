@@ -3,8 +3,8 @@ local throwable_knife = {
     initial_properties = {
         hp_max = 999,
         physical = true,
-        collide_with_objects = false,
-        collisionbox = {-0.15, -0.15, -0.15, 0.15, 0.15, 0.15},
+        collide_with_objects = true,
+        collisionbox = {-0.17, -0.17, -0.17, 0.17, 0.17, 0.17},
         visual = "wielditem",
         visual_size = {x = 0.4, y = 0.4},
         textures = {"murder:knife"},
@@ -15,7 +15,6 @@ local throwable_knife = {
     },
     pl_name = "",
     dropped = false,
-    hit_box_range = 1.2
 }
 
 
@@ -107,19 +106,6 @@ function throwable_knife:on_step(dtime, moveresult)
         return
     end
 
-    local arena = arena_lib.get_arena_by_player(self.pl_name)
-    local nearest_player, distance = murder.get_nearest_player(arena, self.object:get_pos(), self.pl_name)
-
-    -- Killing the player, if his/her distance from the knife is less or equal the hitbox size.
-    if distance and distance <= self.hit_box_range and not self.dropped then 
-        local hit_pl_name = nearest_player:get_player_name()
-        local hit_pl_pos = nearest_player:get_pos()
-
-        murder.kill_player(self.pl_name, hit_pl_name) 
-        minetest.sound_play("murder_knife_hit", {pos = hit_pl_pos, to_player = hit_pl_name})
-        minetest.sound_play("murder_knife_hit", {max_hear_distance = 10, pos = hit_pl_pos})
-    end
-
     if moveresult.collides == true then
       for _, collision in pairs(moveresult.collisions) do
         -- If it hits a block and it hasn't dropped yet.
@@ -128,6 +114,15 @@ function throwable_knife:on_step(dtime, moveresult)
               self:drop()
               return
           end
+        elseif collision.type == "object" and collision.object:is_player() and not self.dropped then
+            local hit_pl_name = collision.object:get_player_name()
+            local hit_pl_pos = collision.object:get_pos()
+            
+            if hit_pl_name == self.pl_name then return end
+
+            murder.kill_player(self.pl_name, hit_pl_name) 
+            minetest.sound_play("murder_knife_hit", {pos = hit_pl_pos, to_player = hit_pl_name})
+            minetest.sound_play("murder_knife_hit", {max_hear_distance = 10, pos = hit_pl_pos})
         end
       end
     end
