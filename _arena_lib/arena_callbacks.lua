@@ -48,8 +48,6 @@ arena_lib.on_celebration("murder", function(arena, winner_name)
     for pl_name, _ in pairs(arena.players) do
         arena.roles[pl_name]:on_end(arena, pl_name)
     end
-
-    arena_lib.HUD_send_msg_all("broadcast", arena, winner_name, murder_settings.celebration_time)
 end)
 
 
