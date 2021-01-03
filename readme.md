@@ -19,3 +19,13 @@ and pasting in it the translation template that is in the file `template.txt` (b
 
 ### Dependencies <hr/>
 * [arena_lib](https://gitlab.com/zughy-friends-minetest/arena_lib/) by Zughy and friends
+
+<br/>
+
+### Resources <hr/>
+* 2D graphic assets by [Zughy](https://gitlab.com/marco_a)
+* Sounds downloaded on [freesound](https://freesound.org/people/Bratish/sounds/500293/), unfortunately the conversion process from mp3 to ogg erased information such the authors D:
+
+<br/>
+
+Images are under CC BY-SA 4.0 while sounds are under CC0 1.0
