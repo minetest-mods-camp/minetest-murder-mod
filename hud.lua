@@ -2,10 +2,11 @@ local saved_huds = {} -- pl_name = {hud name = id}
 
 function murder.generate_HUD(arena, pl_name)
   local player = minetest.get_player_by_name(pl_name)
+  local pl_role = arena.roles[pl_name]
 
   local background
   local timer
-  local role = murder.T(arena.roles[pl_name].name)
+  local role = murder.T(pl_role.name)
   local vignette
 
   -- Sets the role background image.
@@ -13,7 +14,7 @@ function murder.generate_HUD(arena, pl_name)
     hud_elem_type = "image",
     position  = {x = 1, y = 0},
     offset = {x = -179, y = 32},
-    text      = "HUD_timer.png",
+    text      = pl_role.HUD_timer or "HUD_murder_timer.png",
     alignment = { x = 1.0},
     scale     = { x = 1.15, y = 1.15},
     number    = 0xFFFFFF,
@@ -24,7 +25,7 @@ function murder.generate_HUD(arena, pl_name)
   timer = player:hud_add({
     hud_elem_type = "text",
     position  = {x = 1, y = 0},
-    offset = {x = -57, y = 32},
+    offset = {x = -51, y = 32},
     text      = arena.initial_time,
     alignment = { x = 1.0},
     scale     = { x = 2, y = 2},
@@ -51,7 +52,7 @@ function murder.generate_HUD(arena, pl_name)
       x = -100,
       y = -100
     },
-    text = "HUD_vignette.png",
+    text = "HUD_murder_vignette.png",
     z_index = 99
   })
 

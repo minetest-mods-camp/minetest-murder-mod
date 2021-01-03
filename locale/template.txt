@@ -30,7 +30,7 @@ Blinds everyone for @1s!=
 # Detective
 
 Detective=
-Kill the murderer, if you kill another detective you'll die!=
+Kill the murderer, if you kill another detective you'll die=
 Shoot and kill!=
 You killed another detective (@1)!=
 

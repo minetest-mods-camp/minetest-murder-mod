@@ -24,7 +24,7 @@ end
 
 function murder.is_player_playing(pl_name)
     local arena = arena_lib.get_arena_by_player(pl_name)
-    return arena and not arena.in_celebration
+    return arena and not arena.in_celebration and not arena.in_loading
 end
 
 
@@ -187,7 +187,7 @@ function murder.kill_player(killer_name, victim_name)
         maxexptime = 0.25,
         minsize = 1,
         maxsize = 4,
-        texture = "particle_blood.png",
+        texture = "particle_murder_blood.png",
     })
 
     murder.log(arena, killer_name.." killed " .. victim_name)
@@ -209,6 +209,9 @@ end
 function apply_role(pl_name, role)
     local player = minetest.get_player_by_name(pl_name)
     local player_inv = player:get_inventory()
+    
+    player_inv:set_list("main", {})
+    player_inv:set_list("craft", {})
 
     arena_lib.HUD_send_msg("hotbar", pl_name, murder.T(role.hotbar_description))
 

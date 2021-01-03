@@ -80,7 +80,7 @@ end)
 
 arena_lib.on_time_tick("murder", function(arena)
     for pl_name, _ in pairs(arena.players) do
-      murder.update_HUD(pl_name, "timer_ID", arena.current_time)
+        murder.update_HUD(pl_name, "timer_ID", arena.current_time)
     end
 end)
     

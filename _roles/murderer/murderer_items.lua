@@ -28,7 +28,7 @@ minetest.register_craftitem("murder:knife", {
                     hud_elem_type = "image",
                     position = {x=0.5, y=0.7},
                     scale = {x=5, y=5},
-                    text = "HUD_kills_disabled.png",
+                    text = "HUD_murder_kills_disabled.png",
                     z_index = -100
                 }
 
@@ -69,7 +69,7 @@ minetest.register_craftitem("murder:knife", {
 
 minetest.register_craftitem("murder:locator", {
     description = murder.T("Left click to show the nearest player's last position!"),
-    inventory_image = "item_locator.png",
+    inventory_image = "item_murder_locator.png",
     stack_max = 1,
     on_drop = function() return nil end,
     on_use =
@@ -82,7 +82,7 @@ minetest.register_craftitem("murder:locator", {
             local target_waypoint = {
                 hud_elem_type = "image_waypoint",
                 world_pos = {x = nearest_pl_pos.x, y = nearest_pl_pos.y + 1, z = nearest_pl_pos.z},
-                text      = "item_locator.png",
+                text      = "item_murder_locator.png",
                 scale     = {x = 5, y = 5},
                 number    = 0xdf3e23,
                 size = {x = 200, y = 200},
@@ -99,7 +99,7 @@ minetest.register_craftitem("murder:locator", {
 
 minetest.register_craftitem("murder:blinder", {
     description = murder.T("Blinds everyone for @1s!", 3),
-    inventory_image = "item_blinder.png",
+    inventory_image = "item_murder_blinder.png",
     stack_max = 1,
     on_drop = function() return nil end,
     on_use =
@@ -119,14 +119,14 @@ minetest.register_craftitem("murder:blinder", {
                     hud_elem_type = "image",
                     position = {x=0.5, y=0.5},
                     scale = {x=-100, y=-100},
-                    text = "HUD_blind.png",
+                    text = "HUD_murder_blind.png",
                     z_index = -100
                 }
                 local image_eye = {
                     hud_elem_type = "image",
                     position = {x=0.5, y=0.5},
                     scale = {x=4, y=4},
-                    text = "HUD_eye.png",
+                    text = "HUD_murder_eye.png",
                     z_index = -100
                 }
 
@@ -147,7 +147,7 @@ minetest.register_craftitem("murder:blinder", {
 
 minetest.register_craftitem("murder:skin_shuffler", {
     description = murder.T("Shuffles all players skins!"),
-    inventory_image = "item_skin_shuffler.png",
+    inventory_image = "item_murder_skin_shuffler.png",
     stack_max = 1,
     on_drop = function() return nil end,
     on_use =

@@ -4,6 +4,12 @@ end
 
 
 
+function murder.print_error(pl_name, msg)
+    minetest.chat_send_player(pl_name, minetest.colorize("#e6482e", murder_settings.prefix .. msg))
+end
+
+
+
 function murder.look_raycast(object, range)
     local pos = {}
     local looking_dir = 0
@@ -29,4 +35,25 @@ function murder.look_raycast(object, range)
     )
 
     return ray, pos, shoot_dir
+end
+
+
+
+function murder.randomize_indexed_table(table)
+    local random_table = {}
+    local table_size = 0
+
+    for key, _ in pairs(table) do table_size = table_size + 1 end
+
+    for key, value in pairs(table) do
+        local random_index = math.random(1, table_size)
+
+        while random_table[random_index] do
+            random_index = math.random(1, table_size)
+        end
+
+        random_table[random_index] = value
+    end
+
+    return random_table
 end

@@ -15,6 +15,7 @@ Read your items description to learn their utility=Leggi la descrizione degli og
 The @1 team=Il team @1
 @1 won!=@1 ha vinto!
 
+
 # Murderer
 
 Murderer=Assassino
@@ -29,7 +30,7 @@ Blinds everyone for @1s!=Acceca tutti per @1s!
 # Detective
 
 Detective=Detective
-Kill the murderer, if you kill another detective you'll die!=Uccidi l'assassino, se uccidi un altro detective morirai! 
+Kill the murderer, if you kill another detective you'll die=Uccidi l'assassino, se uccidi un altro detective morirai
 Shoot and kill!=Spara e uccidi!
 You killed another detective (@1)!=Hai ucciso un altro detective (@1)!
 

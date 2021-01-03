@@ -15,7 +15,7 @@ arena_lib.register_minigame("murder", {
   prefix = murder_settings.prefix,
   temp_properties = {
     roles = {},  -- pl_name : string = role : {}
-    match_id = 0,
+    match_id = 0
   },
   load_time = 0,
   show_nametags = false,

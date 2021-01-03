@@ -1,7 +1,7 @@
 --[[
     Explanations:
     When the code refers to the player'S role it means the role table 
-    associated to him/her in the arena.roles[pl_name] arena property.
+    associated to him/her in the arena.roles[pl_name] property.
 
     The definition table to put in register_role() is the following:
     {
@@ -18,6 +18,9 @@
         default_role : bool = 
             if true each player that hasn't got a non-default role
             yet will become this one.
+
+        HUD_timer : string =
+            a custom texture for the timer HUD.
 
         sound : string =
             the sound that will be reproduced to the player when this role 
@@ -140,7 +143,7 @@ function set_callbacks(role)
             local killer_role = arena.roles[killer_name]
 
             murder.print_msg(pl_name, murder.T("@1 (@2) killed you!", killer_name, murder.T(killer_role.name)))
-            on_kill(killer_role, arena, killer_name, pl_name)
+            killer_role:on_kill(arena, killer_name, pl_name)
         end
     end
 

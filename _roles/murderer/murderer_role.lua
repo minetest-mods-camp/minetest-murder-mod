@@ -6,6 +6,7 @@ murder.register_role("Murderer", {
     kill_delay = 15,
     can_kill = true,
     physics_override = {speed = 1.3},
+    HUD_timer = "HUD_murder_murderer_timer.png",
     thrown_knife = nil,
     thrown_knives_count = 0,
     remove_knife = function(self)

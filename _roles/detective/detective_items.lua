@@ -17,7 +17,7 @@ minetest.register_craftitem("murder:gun", {
                     pos = pos_head,
                     velocity = vector.multiply(shoot_dir, 2),
                     size = 1,
-                    texture = "particle_shoot.png",
+                    texture = "particle_murder_shoot.png",
                     glow = 12,
                     playername = pl_name
                 }
