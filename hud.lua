@@ -52,7 +52,7 @@ function murder.generate_HUD(arena, pl_name)
       x = -100,
       y = -100
     },
-    text = "HUD_murder_vignette.png",
+    text = pl_role.vignette or "HUD_murder_vignette.png",
     z_index = 99
   })
 

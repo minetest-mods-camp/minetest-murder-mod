@@ -9,6 +9,7 @@ murder.register_role("Murderer", {
     HUD_timer = "HUD_murder_murderer_timer.png",
     thrown_knife = nil,
     thrown_knives_count = 0,
+    vignette = "HUD_murder_murderer_vignette.png",
     remove_knife = function(self)
         self.thrown_knife:remove()
         self.thrown_knife = nil

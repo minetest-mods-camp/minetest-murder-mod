@@ -22,6 +22,9 @@
         HUD_timer : string =
             a custom texture for the timer HUD.
 
+        vignette : string =
+            a custom vignette texture.
+
         sound : string =
             the sound that will be reproduced to the player when this role 
             gets assigned to him/her.
