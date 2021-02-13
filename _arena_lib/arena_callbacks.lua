@@ -73,7 +73,8 @@ end)
 
 
 
-arena_lib.on_disconnect("murder", function(arena, pl_name)
+arena_lib.on_disconnect("murder", function(arena, pl_name, is_spectator)
+    if is_spectator return end
     arena.roles[pl_name]:on_eliminated(arena, pl_name)
 end)
 
