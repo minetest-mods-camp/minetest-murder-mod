@@ -18,8 +18,9 @@ arena_lib.on_start("murder", function(arena)
     arena.match_id = math.random(1, 9999999999)
     murder.log(arena, "\n--- MATCH STARTED ---\n")
 
-    arena_lib.send_message_players_in_arena(
+    arena_lib.send_message_in_arena(
         arena, 
+        "players",
         minetest.colorize("#f9a31b",
             murder_settings.prefix ..
             murder.T(

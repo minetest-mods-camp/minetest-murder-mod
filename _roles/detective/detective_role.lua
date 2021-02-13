@@ -21,8 +21,9 @@ murder.register_role("Detective", {
         elseif killed_role.name == "Murderer" then     
             if murder.count_players_in_game(arena) == 1 then return end
 
-            arena_lib.send_message_players_in_arena(
+            arena_lib.send_message_in_arena(
                 arena,
+                "players",
                 murder_settings.prefix .. 
                 murder.T(
                     "@1 (@2) killed @3 (@4)!", 

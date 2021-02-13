@@ -15,14 +15,14 @@ arena_lib.register_minigame("murder", {
   prefix = murder_settings.prefix,
   temp_properties = {
     roles = {},  -- pl_name : string = role : {}
-    match_id = 0
+    match_id = 0,
   },
   load_time = 0,
   show_nametags = false,
   show_minimap = false,
   celebration_time = murder_settings.celebration_time,
   disabled_damage_types = {"punch", "fall"},
-  time_mode = 2
+  time_mode = "decremental"
 })
 
 
