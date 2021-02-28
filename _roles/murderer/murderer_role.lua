@@ -4,9 +4,9 @@ murder.register_role("Murderer", {
     items = {
         "murder:knife",
         "murder:blinder",
-        {name = "murder:bomb_placer", required_players_amount = 5},
-        {name = "murder:skin_shuffler", required_players_amount = 4}, 
-        {name = "murder:locator", required_players_amount = 4}
+        {name = "murder:bomb_placer", required_players_amount = 4},
+        {name = "murder:locator", required_players_amount = 4},
+        {name = "murder:skin_shuffler", required_players_amount = 5}
     },
     sound = "murderer-role",
     physics_override = {speed = 1.3},
