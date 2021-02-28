@@ -80,7 +80,7 @@ function murder.remove_HUD(pl_name)
   minetest.after(1, function()
     local player = minetest.get_player_by_name(pl_name)
     
-    if not player then return end
+    if not player or not saved_huds[pl_name] then return end
 
     for name, id in pairs(saved_huds[pl_name]) do
       player:hud_remove(id)
@@ -96,12 +96,15 @@ function murder.add_temp_hud(pl_name, hud, time)
   local player = minetest.get_player_by_name(pl_name)
   
   hud = player:hud_add(hud)
+  saved_huds[pl_name] = saved_huds[pl_name] or {}
   saved_huds[pl_name][tostring(hud)] = hud
 
   minetest.after(time, function()
-    if saved_huds[pl_name][tostring(hud)] then
+    if saved_huds[pl_name] and saved_huds[pl_name][tostring(hud)] then
       player:hud_remove(hud)
       saved_huds[pl_name][tostring(hud)] = nil
     end
   end)
+
+  return hud
 end

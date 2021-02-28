@@ -6,14 +6,19 @@
     The definition table to put in register_role() is the following:
     {
         name : string =
-            the role name.
+            the role name, it is automatically translated in chat
+            messages.
 
         hotbar_description : string =
             a short description explaining its purpose, it will be
-            showed in the hotbar.
+            showed in the hotbar and automatically translated
+            in chat messages.
 
-        items : { “name” or {name : string, count : number}, ...} =
-            the items that he/she will receive when the match starts.
+        items : { "name" or {name : string, required_players_amount : number}, ...} =
+            the items that the player will receive when the match starts.
+            required_players_amount means the required amount of players in the match 
+            to use that item; if it is specified, make sure to create a disabled version
+            of that item using murder.generate_disabled_item(itemstack).
 
         default_role : bool = 
             if true each player that hasn't got a non-default role
@@ -86,6 +91,37 @@ end
 
 
 
+function murder.generate_disabled_item(itemstack)
+    local item_name = itemstack:get_name()
+    local definition = itemstack:get_definition()
+    local needed_players
+
+    minetest.register_craftitem(item_name .. "_disabled", {
+        description = definition.description,
+        inventory_image = definition.inventory_image .. "^itemoverlay_not_enough_players.png",
+        stack_max = 1,
+        on_drop = function() return nil end,
+        on_use = function(_, player)
+            local pl_name = player:get_player_name()
+            local arena = arena_lib.get_arena_by_player(pl_name)
+            if not murder.is_player_playing(pl_name) then return end
+            local role = arena.roles[pl_name]
+
+            for i, item in pairs(role.items) do
+                local item_name = item.name or item
+                
+                if item_name == definition.name then
+                    needed_players = item.required_players_amount
+                    break
+                end
+            end
+            murder.print_error(pl_name, murder.T("There must be at least @1 players to use this", needed_players))
+        end
+    }) 
+end
+
+
+
 function get_valid_role(name, role)
     role.default = role.default or false
     set_physics(role)
@@ -119,8 +155,8 @@ function set_callbacks(role)
     local on_kill = role.on_kill or empty_func
 
     role.on_start = function(self, arena, pl_name)
+        murder.log(arena, pl_name .." is " .. self.name .. " and called on start")
         local player = minetest.get_player_by_name(pl_name)
-        murder.log(arena, pl_name.." is " .. self.name .. " and called on start")
         self.in_game = true
 
         murder.generate_HUD(arena, pl_name)
@@ -136,7 +172,7 @@ function set_callbacks(role)
     end
 
     role.on_death = function(self, arena, pl_name, reason)
-        murder.log(arena, pl_name.." called on death ")
+        murder.log(arena, pl_name .. " called on death")
         on_death(self, arena, pl_name, reason)
         murder.eliminate_role(pl_name)
 
@@ -152,20 +188,19 @@ function set_callbacks(role)
 
     role.on_eliminated = function(self, arena, pl_name)
         murder.log(arena, pl_name.." called on eliminated ")
-
         self.in_game = false
-        murder.prekick_operations(pl_name)
-
         local last_role = murder.get_last_role_in_game(arena)
         local remaining_players = murder.count_players_in_game(arena)
+
+        murder.prekick_operations(pl_name)
 
         if last_role then murder.log(arena, "Last role is " .. last_role.name .. " with count " .. remaining_players) 
         else murder.log(arena, "Two or more different roles are in game, count players alive: " .. remaining_players) end
 
-        -- If the remaining players have all the same role then their team wins.
+        -- If the remaining players have all the same role, their team wins.
         if last_role and remaining_players > 1 then
-            murder.log(arena, "Team " .. last_role.name .. " wins")
             murder.team_wins(arena, last_role)
+            murder.log(arena, "Team " .. last_role.name .. " wins")
         elseif last_role then
             local last_pl_name 
             
@@ -196,23 +231,13 @@ end
 
 function set_physics(role)
     local phys = role.physics_override or {}
-    local speed = phys.speed or 1.2
-    local gravity = phys.gravity or 1
-    local acceleration = phys.acceleration or 1
-    local jump = phys.jump or 1
-    local sneak = phys.sneak or true
-    local sneak_glitch = phys.sneak_glitch or false
-    local new_move = phys.new_move or true
-
-    phys = {
-        speed = speed, 
-        gravity = gravity, 
-        acceleration = acceleration, 
-        jump = jump,
-        sneak = sneak,
-        sneak_glitch = sneak_glitch,
-        new_move = new_move
-    }
+    phys.speed = phys.speed or 1.2
+    phys.gravity = phys.gravity or 1
+    phys.acceleration = phys.acceleration or 1
+    phys.jump = phys.jump or 1
+    phys.sneak = phys.sneak or true
+    phys.sneak_glitch = phys.sneak_glitch or false
+    phys.new_move = phys.new_move or true
 
     role.physics_override = phys
 end

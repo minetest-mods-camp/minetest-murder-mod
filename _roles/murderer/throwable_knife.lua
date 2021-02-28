@@ -105,6 +105,8 @@ function throwable_knife:on_step(dtime, moveresult)
         self.object:remove()
         return
     end
+    
+    local arena = arena_lib.get_arena_by_player(self.pl_name)
 
     if moveresult.collides == true then
       for _, collision in pairs(moveresult.collisions) do
@@ -117,12 +119,11 @@ function throwable_knife:on_step(dtime, moveresult)
         elseif collision.type == "object" and collision.object:is_player() and not self.dropped then
             local hit_pl_name = collision.object:get_player_name()
             local hit_pl_pos = collision.object:get_pos()
-            
+            local murderer = arena.roles[self.pl_name]
+
             if hit_pl_name == self.pl_name then return end
 
-            murder.kill_player(self.pl_name, hit_pl_name) 
-            minetest.sound_play("murder_knife_hit", {pos = hit_pl_pos, to_player = hit_pl_name})
-            minetest.sound_play("murder_knife_hit", {max_hear_distance = 10, pos = hit_pl_pos})
+            murderer:kill_player(self.pl_name, hit_pl_name) 
         end
       end
     end

@@ -1,4 +1,4 @@
-# version 2.0.0
+# version 2.1.0
 # author(s): Giov4
 # reviewer(s):
 # textdomain: murder
@@ -12,6 +12,7 @@ The match will start in @1 seconds!=La partita inizierà tra @1 secondi!
 @1 (@2) killed you!=@1 (@2) ti ha ucciso!
 @1 (@2) killed @3 (@4)!=@1 (@2) ha ucciso @3 (@4)!
 Read your items description to learn their utility=Leggi la descrizione degli oggetti per scoprirne l'utilità
+There must be at least @1 players to use this=Ci devono essere almeno @1 giocatori per usarlo
 The @1 team=Il team @1
 @1 won!=@1 ha vinto!
 
@@ -21,10 +22,13 @@ The @1 team=Il team @1
 Murderer=Assassino
 Kill everyone!=Uccidi tutti!
 With this you can kill other players, seems fun, doesn't it?@nRight click in the air to throw it, then right click it again to take it back@n(@1s cooldown)=Con questo puoi uccidere gli altri giocatori, sembra divertente no?@nClick destro nell'aria per lanciarlo e per riprenderlo una volta a terra (ricarica di @1s)
-Left click to show the nearest player's last position!=Click sinistro per mostrare la posizione del player più vicino!
-You have to wait @1s to use again the knife!=Devi aspettare @1s per usare di nuovo il coltello!
-Shuffles all players skins!=Rimescola le skin dei giocatori!
-Blinds everyone for @1s!=Acceca tutti per @1s!
+Left click to show the nearest player's last position=Click sinistro per mostrare la posizione del giocatore più vicino
+You have to wait @1s to use again the knife!=Devi aspettare @1s per usare di nuovo il coltello
+Shuffles all players skins!=Rimescola le skin dei giocatori
+Blinds everyone for @1s=Acceca tutti per @1s
+Left click to place a remotely detonable bomb=Click sinistro per piazzare una bomba detonabile a distanza!
+Insert the code to deactivate the bomb=Inserisci il codice per disattivare la bomba
+There's already a node here!=C'è già un nodo qui!
 
 
 # Detective

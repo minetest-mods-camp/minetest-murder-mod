@@ -5,7 +5,7 @@ arena_lib.on_enable("murder", function(arena, pl_name)
     local skins_count = #murder_settings.skins
     
     if arena.max_players > skins_count then
-        murder.print_msg(pl_name, murder.T("The maximum players amount can't exceed the skins amount (@1)!", skins_count))
+        murder.print_error(pl_name, murder.T("The maximum players amount can't exceed the skins amount (@1)!", skins_count))
         return false
     end
 
@@ -42,12 +42,20 @@ end)
 
 
 
+arena_lib.on_join("murder", function(pl_name, arena, as_spectator)
+    minetest.get_player_by_name(pl_name):get_meta():set_int("show_wielded_item", 2)
+end)
+
+
+
 arena_lib.on_celebration("murder", function(arena, winner_name)
     murder.log(arena, "- celebration started -")
-    winner_name = murder.T("@1 won!", winner_name)
 
     for pl_name, _ in pairs(arena.players) do
         arena.roles[pl_name]:on_end(arena, pl_name)
+    end
+    for pl_name, _ in pairs(arena.spectators) do
+        minetest.get_player_by_name(pl_name):get_meta():set_int("show_wielded_item", 0)
     end
 end)
 
@@ -67,13 +75,20 @@ end)
 
 -- Blocking /quit.
 arena_lib.on_prequit("murder", function(arena, pl_name)
-    murder.print_msg(pl_name, murder.T("You cannot quit!"))
+    murder.print_error(pl_name, murder.T("You cannot quit!"))
     return false
 end)
 
 
 
+arena_lib.on_quit("murder", function(arena, pl_name, is_spectator)
+    minetest.get_player_by_name(pl_name):get_meta():set_int("show_wielded_item", 0)
+end)
+
+
+
 arena_lib.on_disconnect("murder", function(arena, pl_name, is_spectator)
+    minetest.get_player_by_name(pl_name):get_meta():set_int("show_wielded_item", 0)
     if is_spectator then return end
     arena.roles[pl_name]:on_eliminated(arena, pl_name)
 end)

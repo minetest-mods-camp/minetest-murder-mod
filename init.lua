@@ -16,6 +16,10 @@ arena_lib.register_minigame("murder", {
   temp_properties = {
     roles = {},  -- pl_name : string = role : {}
     match_id = 0,
+    emergency_data = {}
+  },
+  player_properties = {
+    emergency_hud = -1
   },
   load_time = 0,
   show_nametags = false,
@@ -37,3 +41,4 @@ dofile(minetest.get_modpath("murder") .. "/_roles/murderer/murderer_role.lua")
 dofile(minetest.get_modpath("murder") .. "/chatcmdbuilder.lua")
 dofile(minetest.get_modpath("murder") .. "/commands.lua")
 dofile(minetest.get_modpath("murder") .. "/hud.lua")
+dofile(minetest.get_modpath("murder") .. "/sounds.lua")

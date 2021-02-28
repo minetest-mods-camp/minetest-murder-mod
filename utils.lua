@@ -6,6 +6,7 @@ end
 
 function murder.print_error(pl_name, msg)
     minetest.chat_send_player(pl_name, minetest.colorize("#e6482e", murder_settings.prefix .. msg))
+    minetest.sound_play("murder-error", {to_player = pl_name})
 end
 
 

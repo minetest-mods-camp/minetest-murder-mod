@@ -13,33 +13,11 @@ minetest.register_craftitem("murder:knife", {
             if not murder.is_player_playing(pl_name) then return end
             local arena = arena_lib.get_arena_by_player(pl_name)
             local murderer = arena.roles[pl_name]
-            local kill_delay = murderer.kill_delay
             
-            if not murderer.can_kill then
-                murder.print_msg(pl_name, murder.T("You have to wait @1s to use again the knife!", kill_delay))
-                return
-            end
-
             -- If it's used on a player than kill him/her.
             if pointed_thing.type == "object" and pointed_thing.ref:is_player() then
-                local hit_pl = pointed_thing.ref
-                local hit_pl_name = hit_pl:get_player_name()
-                local image_kills_disabled = {
-                    hud_elem_type = "image",
-                    position = {x=0.5, y=0.7},
-                    scale = {x=5, y=5},
-                    text = "HUD_murder_kills_disabled.png",
-                    z_index = -100
-                }
-
-                minetest.sound_play("murder_knife_hit", {max_hear_distance = 10, pos = player:get_pos()})
-                minetest.sound_play("murder_knife_hit", {pos = hit_pl:get_pos(), to_player = hit_pl_name})
-
-                murder.kill_player(pl_name, hit_pl_name) 
-                murder.add_temp_hud(pl_name, image_kills_disabled, murderer.kill_delay)
-
-                murderer.can_kill = false
-                minetest.after(murderer.kill_delay, function() murderer.can_kill = true end)
+                local hit_pl_name = pointed_thing.ref:get_player_name()
+                murderer:kill_player(pl_name, hit_pl_name)
             end
         end,
     on_secondary_use =
@@ -48,27 +26,15 @@ minetest.register_craftitem("murder:knife", {
             if not murder.is_player_playing(pl_name) then return end
             local arena = arena_lib.get_arena_by_player(pl_name)
             local murderer = arena.roles[pl_name]
-            local throw_starting_pos = vector.add({x=0, y=1.5, z=0}, player:get_pos())
 
-            if not murderer.can_kill then
-                local kill_delay = murderer.kill_delay
-                murder.print_msg(pl_name, murder.T("You have to wait @1s to use again the knife!", kill_delay))
-                return
-            end
-
-            local knife = minetest.add_entity(throw_starting_pos, "murder:throwable_knife", pl_name)
-
-            murderer.thrown_knife = knife
-            minetest.after(0, function() player:get_inventory():remove_item("main", "murder:knife") end)
-
-            minetest.sound_play("throw_knife", {max_hear_distance = 5, pos = player:get_pos()})
+            murderer:throw_knife(pl_name)
         end
 })
 
 
 
 minetest.register_craftitem("murder:locator", {
-    description = murder.T("Left click to show the nearest player's last position!"),
+    description = murder.T("Left click to show the nearest player's last position"),
     inventory_image = "item_murder_locator.png",
     stack_max = 1,
     on_drop = function() return nil end,
@@ -95,10 +61,12 @@ minetest.register_craftitem("murder:locator", {
         end
 })
 
+murder.generate_disabled_item(ItemStack("murder:locator"))
+
 
 
 minetest.register_craftitem("murder:blinder", {
-    description = murder.T("Blinds everyone for @1s!", 3),
+    description = murder.T("Blinds everyone for @1s", 3),
     inventory_image = "item_murder_blinder.png",
     stack_max = 1,
     on_drop = function() return nil end,
@@ -160,5 +128,58 @@ minetest.register_craftitem("murder:skin_shuffler", {
             murder.assign_skins(arena)
             minetest.after(0, function() pl_inv:remove_item("main", "murder:skin_shuffler") end)
             minetest.sound_play("skin-shuffler", {pos = player:get_pos(), to_player = pl_name})
+        end
+})
+
+murder.generate_disabled_item(ItemStack("murder:skin_shuffler"))
+
+
+
+minetest.register_craftitem("murder:bomb_placer", {
+    description = murder.T("Left click to place a remotely detonable bomb"),
+    inventory_image = "item_murder_bomb_placer.png",
+    stack_max = 1,
+    on_drop = function() return nil end,
+    on_use =
+        function(_, player, pointed_thing)
+            local pl_name = player:get_player_name()
+            if not murder.is_player_playing(pl_name) then return end
+            local arena = arena_lib.get_arena_by_player(pl_name)
+            local pl_inv = player:get_inventory()
+            local pl_pos = vector.round(player:get_pos())
+            local murderer = arena.roles[pl_name]
+
+            if minetest.get_node(pl_pos).name ~= "air" then
+                murder.print_error(pl_name, murder.T("There's already a node here!"))
+                return 
+            end
+            murderer.bomb_pos = pl_pos
+            
+            minetest.after(0, function() pl_inv:remove_item("main", "murder:bomb_placer") end)
+            minetest.after(0, function() pl_inv:add_item("main", "murder:detonator") end)
+            minetest.sound_play("murder-bomb-placer", {pos = player:get_pos(), to_player = pl_name})
+        end
+})
+
+murder.generate_disabled_item(ItemStack("murder:bomb_placer"))
+
+
+
+minetest.register_craftitem("murder:detonator", {
+    description = murder.T("Left click to detone the bomb"),
+    inventory_image = "item_murder_detonator.png",
+    stack_max = 1,
+    on_drop = function() return nil end,
+    on_use =
+        function(_, player, pointed_thing)
+            local pl_name = player:get_player_name()
+            if not murder.is_player_playing(pl_name) then return end
+            local arena = arena_lib.get_arena_by_player(pl_name)
+            local pl_inv = player:get_inventory()
+
+            murder.place_bomb(arena, pl_name)
+            
+            minetest.after(0, function() pl_inv:remove_item("main", "murder:detonator") end)
+            minetest.sound_play("murder-detonator", {to_player = pl_name})
         end
 })

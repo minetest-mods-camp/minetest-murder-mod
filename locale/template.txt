@@ -1,4 +1,4 @@
-# version 2.0.0
+# version 2.1.0
 # author(s):
 # reviewer(s):
 # textdomain: murder
@@ -12,6 +12,7 @@ The match will start in @1 seconds!=
 @1 (@2) killed you!=
 @1 (@2) killed @3 (@4)!=
 Read your items description to learn their utility=
+There must be at least @1 players to use this=
 The @1 team=
 @1 won!=
 
@@ -21,10 +22,13 @@ The @1 team=
 Murderer=Assassino
 Kill everyone!=
 With this you can kill other players, seems fun, doesn't it?@nRight click in the air to throw it, then right click it again to take it back@n(@1s cooldown)=
-Left click to show the nearest player's last position!=
+Left click to show the nearest player's last position=
 You have to wait @1s to use again the knife!=
 Shuffles all players skins!=
-Blinds everyone for @1s!=
+Blinds everyone for @1s=
+Left click to place a remotely detonable bomb=
+Insert the code to deactivate the bomb=
+There's already a node here!=
 
 
 # Detective

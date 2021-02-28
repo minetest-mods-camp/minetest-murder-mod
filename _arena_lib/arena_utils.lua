@@ -30,6 +30,7 @@ end
 
 
 function murder.prekick_operations(pl_name)
+    murder.stop_sounds(pl_name)
     murder.remove_HUD(pl_name)
     murder.restore_skin(pl_name)
     minetest.get_player_by_name(pl_name):get_meta():set_int("show_wielded_item", 0)
@@ -63,7 +64,7 @@ end
 
 
 function murder.assign_roles(arena)
-    local temp_roles = table.copy(murder.roles)    
+    local temp_roles = table.copy(murder.roles)
     local players = {}
     assert(#murder.roles > 0, "No roles configured!")
     assert(murder.get_default_role(), "Default role not configured!")
@@ -209,16 +210,24 @@ end
 function apply_role(pl_name, role)
     local player = minetest.get_player_by_name(pl_name)
     local player_inv = player:get_inventory()
-    
+    local arena = arena_lib.get_arena_by_player(pl_name)
+
     player_inv:set_list("main", {})
     player_inv:set_list("craft", {})
 
     arena_lib.HUD_send_msg("hotbar", pl_name, murder.T(role.hotbar_description))
 
     for i, item in pairs(role.items) do
-        player_inv:add_item("main", ItemStack(item))
+        local item_name = item.name or item
+
+        if item.required_players_amount and arena.players_amount < item.required_players_amount then
+            item_name = item_name .. "_disabled"
+        end
+
+        player_inv:add_item("main", ItemStack(item_name))
     end
 
     player:set_physics_override(role.physics_override)
+
     minetest.sound_play(role.sound, {pos = player:get_pos(), to_player = pl_name})   
 end
