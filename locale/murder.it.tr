@@ -27,8 +27,10 @@ You have to wait @1s to use again the knife!=Devi aspettare @1s per usare di nuo
 Shuffles all players skins!=Rimescola le skin dei giocatori
 Blinds everyone for @1s=Acceca tutti per @1s
 Left click to place a remotely detonable bomb=Click sinistro per piazzare una bomba detonabile a distanza!
+Bomb placed, remotely detonate it with the detonator=Bomba piazzata, detonala in remoto con il detonatore
 Insert the code to deactivate the bomb=Inserisci il codice per disattivare la bomba
 There's already a node here!=C'è già un nodo qui!
+Wrong code=Codice errato
 
 
 # Detective

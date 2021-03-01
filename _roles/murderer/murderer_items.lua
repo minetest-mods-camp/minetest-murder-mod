@@ -151,12 +151,16 @@ minetest.register_craftitem("murder:bomb_placer", {
 
             if minetest.get_node(pl_pos).name ~= "air" then
                 murder.print_error(pl_name, murder.T("There's already a node here!"))
-                return 
+                return
             end
-            murderer.bomb_pos = pl_pos
             
-            minetest.after(0, function() pl_inv:remove_item("main", "murder:bomb_placer") end)
-            minetest.after(0, function() pl_inv:add_item("main", "murder:detonator") end)
+            murderer.bomb_pos = pl_pos
+            arena_lib.HUD_send_msg("broadcast", pl_name, murder.T("Bomb placed, remotely detonate it with the detonator"), 6)
+
+            minetest.after(0, function()
+                pl_inv:remove_item("main", "murder:bomb_placer")
+                pl_inv:add_item("main", "murder:detonator")
+            end)
             minetest.sound_play("murder-bomb-placer", {pos = player:get_pos(), to_player = pl_name})
         end
 })

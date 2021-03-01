@@ -27,8 +27,10 @@ You have to wait @1s to use again the knife!=
 Shuffles all players skins!=
 Blinds everyone for @1s=
 Left click to place a remotely detonable bomb=
+Bomb placed, remotely detonate it with the detonator=
 Insert the code to deactivate the bomb=
 There's already a node here!=
+Wrong code=
 
 
 # Detective
