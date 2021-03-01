@@ -1,8 +1,12 @@
 function murder.remove_bomb(arena)
-    minetest.set_node(arena.emergency_data.bomb_pos, {name = "air"})
+    if arena.emergency_data and arena.emergency_data.bomb_pos then 
+        minetest.set_node(arena.emergency_data.bomb_pos, {name = "air"})
+    end
 
     -- Removing the waypoint and stopping the sound for each player.
     for pl_name, props in pairs(arena.players) do
+        if props.emergency_sound == -1 then break end
+
         minetest.get_player_by_name(pl_name):hud_remove(props.emergency_hud)
         minetest.sound_stop(props.emergency_sound)
     end
@@ -26,6 +30,7 @@ function murder.place_bomb(arena, pl_name)
     murderer.bomb_detonated = true
     arena.emergency_data.bomb_pos = murderer.bomb_pos
     arena.emergency_data.murderer = murderer
+    local original_match_id = arena.match_id
 
     -- Adding a waypoint and playing music to each player and spectator.
     for pl_name, props in pairs(arena.players) do
@@ -36,8 +41,8 @@ function murder.place_bomb(arena, pl_name)
     end
 
     -- Bomb explosion.
-    minetest.after(detonation_time, function() 
-        if murderer.bomb_detonated then
+    minetest.after(detonation_time, function()
+        if arena.in_game and original_match_id == arena.match_id and murderer.bomb_detonated then
             for pl_name, props in pairs(arena.players) do
                 minetest.sound_play("murder-explosion", {to_player = pl_name})
             end

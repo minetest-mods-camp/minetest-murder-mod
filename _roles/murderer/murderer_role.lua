@@ -65,6 +65,9 @@ murder.register_role("Murderer", {
         minetest.sound_play("throw_knife", {max_hear_distance = 5, pos = player:get_pos()})
 
         return true
+    end,
+    on_end = function(self, arena, pl_name)
+        murder.remove_bomb(arena)
     end
 })
 

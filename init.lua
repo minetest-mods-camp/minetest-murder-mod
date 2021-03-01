@@ -19,7 +19,8 @@ arena_lib.register_minigame("murder", {
     emergency_data = {}
   },
   player_properties = {
-    emergency_hud = -1
+    emergency_hud = -1,
+    emergency_sound = -1
   },
   load_time = 0,
   show_nametags = false,

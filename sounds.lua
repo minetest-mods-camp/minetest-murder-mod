@@ -18,7 +18,7 @@ end
 function murder.add_temp_sound(pl_name, name, def, time)
   local player = minetest.get_player_by_name(pl_name)
   
-  sound = minetest.sound_play(name, def)
+  local sound = minetest.sound_play(name, def)
   saved_sounds[pl_name] = saved_sounds[pl_name] or {}
   saved_sounds[pl_name][sound] = sound
 
