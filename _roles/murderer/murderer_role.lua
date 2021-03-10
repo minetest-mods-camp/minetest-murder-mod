@@ -12,12 +12,12 @@ murder.register_role("Murderer", {
     physics_override = {speed = 1.3},
     HUD_timer = "HUD_murder_murderer_timer.png",
     vignette = "HUD_murder_murderer_vignette.png",
-    kill_delay = 15,
     can_kill = true,
+    kill_delay = 15,
     thrown_knife = nil,
     thrown_knives_count = 0,
     bomb_pos = nil,
-    bomb_detonation_time = 25,
+    bomb_detonation_time = 30,
     bomb_detonated = false,
     remove_knife = function(self)
         self.thrown_knife:remove()
@@ -34,7 +34,7 @@ murder.register_role("Murderer", {
         }
 
         if not self.can_kill then
-            murder.print_error(pl_name, murder.T("You have to wait @1s to use again the knife!", self.kill_delay))
+            murder.print_error(pl_name, murder.T("You have to wait for @1s to use the knife again", self.kill_delay))
             return false
         end
 

@@ -1,13 +1,10 @@
-dofile(minetest.get_modpath("murder") .. "/_roles/detective/detective_items.lua")
-
-
-
 murder.register_role("Detective", {
     default = true,
     name = "Detective",
     hotbar_description = "Kill the murderer, if you kill another detective you'll die",
     items = {"murder:gun"}, 
     sound = "detective-role",
+    can_shoot = true,
     on_kill = function(self, arena, pl_name, killed_pl_name)
         local killed_role = arena.roles[killed_pl_name]
 
@@ -54,6 +51,9 @@ murder.register_role("Detective", {
                 end
             end
         end
-    end,
-    can_shoot = true
+    end
 })
+
+
+
+dofile(minetest.get_modpath("murder") .. "/_roles/detective/detective_items.lua")

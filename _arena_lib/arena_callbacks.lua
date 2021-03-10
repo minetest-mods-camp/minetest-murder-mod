@@ -1,6 +1,7 @@
 local function on_load() end
 
 
+
 arena_lib.on_enable("murder", function(arena, pl_name)
     local skins_count = #murder_settings.skins
     

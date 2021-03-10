@@ -1,5 +1,4 @@
 --[[
-    Explanations:
     When the code refers to the player'S role it means the role table 
     associated to him/her in the arena.roles[pl_name] property.
 
@@ -22,7 +21,7 @@
 
         default_role : bool = 
             if true each player that hasn't got a non-default role
-            yet will become this one.
+            yet, will become this one.
 
         HUD_timer : string =
             a custom texture for the timer HUD.
@@ -35,7 +34,7 @@
             gets assigned to him/her.
 
         on_start : function(self, arena, pl_name) = 
-            this gets called when this role gets assigned to pl_name, self
+            this gets called when this role gets assigned to pl_name. self
             is the role table assigned to the player while pl_name is his/her
             name.
 
@@ -66,6 +65,7 @@ local function get_valid_role() end
 local function set_callbacks() end
 local function set_physics() end
 murder.roles = {}  -- index : number = role : {}
+
 
 
 function murder.register_role(name, def)
@@ -100,7 +100,7 @@ function murder.generate_disabled_item(itemstack)
         description = definition.description,
         inventory_image = definition.inventory_image .. "^itemoverlay_not_enough_players.png",
         stack_max = 1,
-        on_drop = function() return nil end,
+        on_drop = function() return end,
         on_use = function(_, player)
             local pl_name = player:get_player_name()
             local arena = arena_lib.get_arena_by_player(pl_name)
@@ -156,6 +156,7 @@ function set_callbacks(role)
 
     role.on_start = function(self, arena, pl_name)
         murder.log(arena, pl_name .." is " .. self.name .. " and called on start")
+
         local player = minetest.get_player_by_name(pl_name)
         self.in_game = true
 
@@ -167,7 +168,7 @@ function set_callbacks(role)
     end
 
     role.on_kill = function(self, arena, pl_name, killed_pl_name)
-        murder.log(arena, pl_name .. " called on kill")
+        murder.log(arena, pl_name .. " called on kill (killed: " .. killed_pl_name .. ")")
         on_kill(self, arena, pl_name, killed_pl_name)
     end
 
@@ -188,6 +189,7 @@ function set_callbacks(role)
 
     role.on_eliminated = function(self, arena, pl_name)
         murder.log(arena, pl_name.." called on eliminated ")
+        
         self.in_game = false
         local last_role = murder.get_last_role_in_game(arena)
         local remaining_players = murder.count_players_in_game(arena)

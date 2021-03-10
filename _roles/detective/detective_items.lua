@@ -36,18 +36,18 @@ minetest.register_craftitem("murder:gun", {
                         if hit_name ~= pl_name then
                             murder.log(arena, pl_name .. " is shooting " .. hit_name)
                             murder.kill_player(pl_name, hit_name)
-                            minetest.sound_play("murder_gun_shoot", {pos = hit_object:get_pos(), to_player = hit_name})
+                            minetest.sound_play("murder_gun_shoot", {to_player = hit_name})
                             break
                         end
                     end
                 end
 
-                minetest.sound_play("murder_gun_shoot", {pos = player:get_pos(), to_player = pl_name})
+                minetest.sound_play("murder_gun_shoot", {to_player = pl_name})
 
                 detective.can_shoot = false
                 minetest.after(reload_delay, function() detective.can_shoot = true end)
             else
-                minetest.sound_play("murder_empty_gun", {pos = player:get_pos(), to_player = pl_name})
+                minetest.sound_play("murder_empty_gun", {to_player = pl_name})
             end
             return nil
         end

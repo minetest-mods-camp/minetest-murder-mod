@@ -1,10 +1,11 @@
 local function apply_role() end
 
 
+
 function murder.player_wins(pl_name)
     local arena = arena_lib.get_arena_by_player(pl_name)
-    local player_role_name = murder.T(arena.roles[pl_name].name)
-    local winner = pl_name .. " (" .. player_role_name .. ")"
+    local role_name = murder.T(arena.roles[pl_name].name)
+    local winner = pl_name .. " (" .. role_name .. ")"
     local player = minetest.get_player_by_name(pl_name)
 
     if arena.in_celebration then return end
@@ -24,7 +25,7 @@ end
 
 function murder.is_player_playing(pl_name)
     local arena = arena_lib.get_arena_by_player(pl_name)
-    return arena and not arena.in_celebration and not arena.in_loading
+    return arena and not arena.in_celebration and not arena.in_loading and not arena.in_queue
 end
 
 
@@ -47,7 +48,6 @@ end
 
 
 function murder.get_last_role_in_game(arena)
-    -- Adding to roles_in_game the roles in game.
     local roles_in_game = {}
     for pl_name, role in pairs(arena.roles) do
         if role.in_game then table.insert(roles_in_game, role) end
@@ -66,6 +66,7 @@ end
 function murder.assign_roles(arena)
     local temp_roles = table.copy(murder.roles)
     local players = {}
+    
     assert(#murder.roles > 0, "No roles configured!")
     assert(murder.get_default_role(), "Default role not configured!")
 
@@ -86,6 +87,7 @@ function murder.assign_roles(arena)
 
         for i, role in pairs(temp_roles) do
             role_to_assign = role
+
             if role.name ~= murder.get_default_role().name then
                 table.remove(temp_roles, i)
                 break
@@ -199,9 +201,11 @@ end
 
 function murder.count_players_in_game(arena)
     local count = 0
+
     for pl_name, role in pairs(arena.roles) do
         if role.in_game then count = count + 1 end
     end
+
     return count
 end
 
@@ -212,11 +216,9 @@ function apply_role(pl_name, role)
     local player_inv = player:get_inventory()
     local arena = arena_lib.get_arena_by_player(pl_name)
 
-    player_inv:set_list("main", {})
-    player_inv:set_list("craft", {})
-
     arena_lib.HUD_send_msg("hotbar", pl_name, murder.T(role.hotbar_description))
 
+    -- Adding the role items to the player.
     for i, item in pairs(role.items) do
         local item_name = item.name or item
 

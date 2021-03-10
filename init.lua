@@ -3,6 +3,7 @@ murder.T = minetest.get_translator("murder")
 dofile(minetest.get_modpath("murder") .. "/SETTINGS.lua")
 
 
+
 minetest.register_on_joinplayer(function (player)
   -- Showing the wielded item if armor_3d is installed.
   player:get_meta():set_int("show_wielded_item", 0)
