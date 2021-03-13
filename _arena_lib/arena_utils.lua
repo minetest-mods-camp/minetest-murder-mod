@@ -231,5 +231,5 @@ function apply_role(pl_name, role)
 
     player:set_physics_override(role.physics_override)
 
-    minetest.sound_play(role.sound, {pos = player:get_pos(), to_player = pl_name})   
+    minetest.sound_play(role.sound, {to_player = pl_name})   
 end

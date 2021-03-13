@@ -14,7 +14,7 @@ minetest.register_node("murder:bomb", {
         local pl_name = clicker:get_player_name()
         local arena = arena_lib.get_arena_by_player(pl_name)
         local node_id = tonumber(minetest.get_meta(pos):get_string("match_id"))
-        local random_code = math.random(10000000, 99999999)
+        local random_code = math.random(100000, 999999)
         local formspec =
             "formspec_version[3]" ..
             "size[11,11]" ..

@@ -182,7 +182,8 @@ minetest.register_craftitem("murder:detonator", {
             local pl_inv = player:get_inventory()
 
             murder.place_bomb(arena, pl_name)
-            
+            arena_lib.HUD_send_msg_all("broadcast", arena, murder.T("Defuse the bomb or the murderer will win!"), 6)
+
             minetest.after(0, function() pl_inv:remove_item("main", "murder:detonator") end)
             minetest.sound_play("murder-detonator", {to_player = pl_name})
         end

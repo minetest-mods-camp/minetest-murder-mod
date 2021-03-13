@@ -1,5 +1,7 @@
 minetest.register_on_player_receive_fields(function(player, formname, fields)
-    if not formname:find("murder:formspec_bomb/") or not fields.btn_stop then return end
+    if not formname:find("murder:formspec_bomb/") or (not fields.btn_stop and not fields.key_enter) then
+        return 
+    end
 
     local code = formname:gsub("murder:formspec_bomb/", "")
     local pl_name = player:get_player_name()
