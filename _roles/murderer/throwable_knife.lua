@@ -36,10 +36,10 @@ function throwable_knife:on_activate(staticdata, dtime_s)
         local knife_props = self.initial_properties
         local murderer = arena.roles[self.pl_name]
         local knife_id = murderer.thrown_knives_count + 1
-        local match_id = arena.match_id 
+        local original_match_id = arena.match_id 
         murderer.thrown_knives_count = knife_id
 
-        obj:set_rotation({x = -pitch, y = yaw+55, z = 0})
+        obj:set_rotation({x = -pitch, y = yaw + 55, z = 0})
         obj:set_velocity({
             x=(dir.x * knife_props.speed),
             y=(dir.y * knife_props.speed),
@@ -47,12 +47,13 @@ function throwable_knife:on_activate(staticdata, dtime_s)
         })
         obj:set_acceleration({x = dir.x * -3, y = -knife_props.gravity, z = dir.z * -3})
 
+        -- Giving the knife back to the player after 15s.
         minetest.after(15, function()
             local player = minetest.get_player_by_name(self.pl_name)
             local arena = arena_lib.get_arena_by_player(self.pl_name)
 
             if not murder.is_player_playing(self.pl_name) then return end
-            if match_id ~= arena.match_id then return end  -- If this is not the same match.
+            if original_match_id ~= arena.match_id then return end  -- If this is not the same match.
             if not murderer.thrown_knife then return end  -- If the knife has been recovered already. 
             if knife_id ~= murderer.thrown_knives_count then return end  -- If this isn't the same knife.
             
@@ -110,12 +111,13 @@ function throwable_knife:on_step(dtime, moveresult)
 
     if moveresult.collides == true then
       for _, collision in pairs(moveresult.collisions) do
-        -- If it hits a block and it hasn't dropped yet.
+        -- Dropping the knife if it hits a block and hasn't dropped yet.
         if collision.type == "node" then
           if self.dropped == false then
               self:drop()
               return
           end
+        -- Killing the player with which the knife collides.
         elseif collision.type == "object" and collision.object:is_player() and not self.dropped then
             local hit_pl_name = collision.object:get_player_name()
             local hit_pl_pos = collision.object:get_pos()

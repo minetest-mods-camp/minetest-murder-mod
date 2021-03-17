@@ -100,6 +100,7 @@ function murder.add_temp_hud(pl_name, hud, time)
   saved_huds[pl_name][tostring(hud)] = hud
 
   minetest.after(time, function()
+    -- Removing the hud if the player still has it.
     if saved_huds[pl_name] and saved_huds[pl_name][tostring(hud)] then
       player:hud_remove(hud)
       saved_huds[pl_name][tostring(hud)] = nil

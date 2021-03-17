@@ -19,6 +19,7 @@ minetest.register_craftitem("murder:knife", {
                 local hit_pl_name = pointed_thing.ref:get_player_name()
                 murderer:kill_player(pl_name, hit_pl_name)
             end
+
         end,
     on_secondary_use =
         function(_, player, pointed_thing)
@@ -79,7 +80,7 @@ minetest.register_craftitem("murder:blinder", {
 
             -- Blinding all players in arena but the murderer.
             for pl_to_blind_name, _ in pairs(arena.players) do
-                local player_to_blind = minetest.get_player_by_name(pl_to_blind_name)
+                local pl_to_blind = minetest.get_player_by_name(pl_to_blind_name)
 
                 if arena.roles[pl_to_blind_name].name == "Murderer" then goto continue end
                 
@@ -101,12 +102,12 @@ minetest.register_craftitem("murder:blinder", {
                 murder.add_temp_hud(pl_to_blind_name, black_screen, 3)
                 murder.add_temp_hud(pl_to_blind_name, image_eye, 3)
 
-                minetest.sound_play("blinder", { pos = player_to_blind:get_pos(), to_player = pl_to_blind_name})
+                minetest.sound_play("murder_blinder", {to_player = pl_to_blind_name})
 
                 ::continue::
             end
             
-            minetest.sound_play("murder_blinder", { pos = player:get_pos(), to_player = pl_name})
+            minetest.sound_play("murder_blinder", {to_player = pl_name})
             minetest.after(0, function() pl_inv:remove_item("main", "murder:blinder") end)
         end
 })
@@ -127,7 +128,7 @@ minetest.register_craftitem("murder:skin_shuffler", {
 
             murder.assign_skins(arena)
             minetest.after(0, function() pl_inv:remove_item("main", "murder:skin_shuffler") end)
-            minetest.sound_play("skin-shuffler", {pos = player:get_pos(), to_player = pl_name})
+            minetest.sound_play("skin-shuffler", {to_player = pl_name})
         end
 })
 
@@ -157,6 +158,7 @@ minetest.register_craftitem("murder:bomb_placer", {
             murderer.bomb_pos = pl_pos
             arena_lib.HUD_send_msg("broadcast", pl_name, murder.T("Bomb placed, remotely detonate it with the detonator"), 6)
 
+            -- Replacing this item with the detonator.
             minetest.after(0, function()
                 pl_inv:remove_item("main", "murder:bomb_placer")
                 pl_inv:add_item("main", "murder:detonator")

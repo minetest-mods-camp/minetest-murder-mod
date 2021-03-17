@@ -16,6 +16,8 @@ function murder.look_raycast(object, range)
     local looking_dir = 0
     local shoot_dir = 0
 
+    -- Assigning the correct values to pos and looking_dir, based on
+    -- if the object is a player or not.
     if object:is_player() then
         local pl_pos = object:get_pos()
         local head_pos = {x = pl_pos.x, y = pl_pos.y+1.5, z = pl_pos.z}
@@ -25,6 +27,7 @@ function murder.look_raycast(object, range)
         pos = object:get_pos()
         looking_dir = vector.normalize(object:get_velocity())
     end
+    
     shoot_dir = vector.multiply(looking_dir, range)
 
     -- Casts a ray from pos to the object looking direction * range.

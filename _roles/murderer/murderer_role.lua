@@ -49,7 +49,7 @@ murder.register_role("Murderer", {
 
         return true
     end,
-    throw_knife = function(self, pl_name)
+    throw_knife = function(self, pl_name)   
         if not self.can_kill then
             murder.print_error(pl_name, murder.T("You have to wait @1s to use again the knife!", self.kill_delay))
             return false
