@@ -2,12 +2,14 @@
 
 
 ### How do I play it? <br/><hr/>
-3 or more players will spawn in a map (to be created via the `/murderadmin` command, use `/help murderadmin` to have more information), one of them will be the murderer, another one will be the cop and all the others will be the victims.
-The goal of the cop is to kill the murderer, that of the murderer to kill everyone and that of the victims to survive.
+When the match starts, a murderer is randomly selected, whereas other players are all cops. Who is who? Trust no one!
 
-The cop has a gun to shoot the killer with, a sprint serum, and a radar to check if the killer is nearby, but if he kills a victim he dies.
-The killer has 2 gadgets, a knife and a finder chip, you can discover what they do by reading their descriptions.
-The victim has the radar and the sprint serum.
+Murderer: use the knife to eliminate other players, supported by a kit of items to confound them. <br/>
+Detective: your gun is the only thing that can stop the murderer, but beware: shooting another detective will result in eliminating both of you!
+
+VICTORY CONDITIONS: <br/>
+Murderer: kill all the players within the time limit.
+Detectives: kill the murderer or survive until the end. 
 
 <br/>
 
