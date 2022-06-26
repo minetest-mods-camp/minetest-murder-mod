@@ -14,7 +14,7 @@ end)
 
 arena_lib.register_minigame("murder", {
   name = "Murder",
-  icon = "item_murder_knife.png",
+  icon = "murder_icon.png",
   prefix = murder_settings.prefix,
   temp_properties = {
     roles = {},  -- pl_name : string = role : {}
