@@ -1,4 +1,4 @@
-# version 2.1.0
+# version 2.2.0
 # author(s):
 # reviewer(s):
 # textdomain: murder
@@ -47,3 +47,6 @@ You killed another detective (@1)!=
 It allows you to use /murder=
 You cannot quit!=
 The maximum players amount can't exceed the skins amount (@1)!=
+
+# Others
+Spectator=

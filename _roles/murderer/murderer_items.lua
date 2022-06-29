@@ -79,7 +79,7 @@ minetest.register_craftitem("murder:blinder", {
             local pl_inv = player:get_inventory()
 
             -- Blinding all players in arena but the murderer.
-            for pl_to_blind_name, _ in pairs(arena.players) do
+            for pl_to_blind_name, _ in pairs(arena.players_and_spectators) do
                 local pl_to_blind = minetest.get_player_by_name(pl_to_blind_name)
 
                 if arena.roles[pl_to_blind_name].name == "Murderer" then goto continue end

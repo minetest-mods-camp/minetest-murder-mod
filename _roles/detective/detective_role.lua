@@ -38,7 +38,7 @@ murder.register_role("Detective", {
             -- Adding a 4s lasting waypoint to the death place if the player's
             -- been killed by another role.
             if killer_role.name ~= self.name then
-                for other_pl_name, _ in pairs(arena.players) do
+                for other_pl_name, _ in pairs(arena.players_and_spectators) do
                     local death_waypoint = {
                         hud_elem_type = "image_waypoint",
                         world_pos = {x = pl_pos.x, y = pl_pos.y + 1, z = pl_pos.z},

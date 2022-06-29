@@ -30,9 +30,8 @@ end
 
 
 
-function murder.prekick_operations(pl_name)
+function murder.out_of_match_operations(pl_name)
     murder.stop_sounds(pl_name)
-    murder.remove_HUD(pl_name)
     murder.restore_skin(pl_name)
     minetest.get_player_by_name(pl_name):get_meta():set_int("show_wielded_item", 0)
     arena_lib.HUD_hide("hotbar", pl_name)
@@ -64,7 +63,7 @@ end
 
 
 function murder.assign_roles(arena)
-    local temp_roles = table.copy(murder.roles)
+    local shuffled_roles = table.copy(murder.roles)
     local players = {}
     
     assert(#murder.roles > 0, "No roles configured!")
@@ -85,11 +84,11 @@ function murder.assign_roles(arena)
     for i, pl_name in pairs(players) do
         local role_to_assign
 
-        for i, role in pairs(temp_roles) do
+        for i, role in pairs(shuffled_roles) do
             role_to_assign = role
 
             if role.name ~= murder.get_default_role().name then
-                table.remove(temp_roles, i)
+                table.remove(shuffled_roles, i)
                 break
             end
         end

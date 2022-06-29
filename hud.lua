@@ -82,10 +82,10 @@ function murder.generate_HUD(arena, pl_name)
 
   -- Save the huds IDs for each player. 
   saved_huds[pl_name] = {
-    role_ID = role,
-    backgound_ID = background,
-    timer_ID = timer,
-    vignette_ID = vignette,
+    role = role,
+    backgound = background,
+    timer = timer,
+    vignette = vignette,
     pl_counter_bg = pl_counter_bg,
     pl_counter = pl_counter
   }
@@ -93,7 +93,7 @@ end
 
 
 
-function murder.update_HUD(pl_name, field, new_value)
+function murder.update_hud(pl_name, field, new_value)
   if saved_huds[pl_name] and saved_huds[pl_name][field] then
     local player = minetest.get_player_by_name(pl_name)
     player:hud_change(saved_huds[pl_name][field], "text", new_value)
@@ -102,7 +102,7 @@ end
 
 
 
-function murder.remove_HUD(pl_name)
+function murder.remove_HUDs(pl_name)
   minetest.after(1, function()
     local player = minetest.get_player_by_name(pl_name)
     
@@ -134,4 +134,30 @@ function murder.add_temp_hud(pl_name, hud, time)
   end)
 
   return hud
+end
+
+
+
+function murder.add_hud(pl_name, name, def)
+  local player = minetest.get_player_by_name(pl_name)
+  
+  if not player then return end
+
+  local hud = player:hud_add(def)
+  saved_huds[pl_name] = saved_huds[pl_name] or {}
+  saved_huds[pl_name][name] = hud
+
+  return hud
+end
+
+
+
+function murder.remove_hud(pl_name, name)
+  local player = minetest.get_player_by_name(pl_name)
+    
+  if not player or not saved_huds[pl_name] or not saved_huds[pl_name][name] then return end
+  
+  player:hud_remove(saved_huds[pl_name][name])
+
+  saved_huds[pl_name][name] = nil
 end

@@ -45,6 +45,10 @@ end)
 
 arena_lib.on_join("murder", function(pl_name, arena, as_spectator)
     minetest.get_player_by_name(pl_name):get_meta():set_int("show_wielded_item", 2)
+    murder.generate_HUD(arena, pl_name)
+    if as_spectator then
+        murder.update_hud(pl_name, "role", murder.T("Spectator"))
+    end
 end)
 
 
@@ -52,11 +56,8 @@ end)
 arena_lib.on_celebration("murder", function(arena, winner_name)
     murder.log(arena, "- celebration started -")
 
-    for pl_name, _ in pairs(arena.players) do
+    for pl_name, _ in pairs(arena.players_and_spectators) do
         arena.roles[pl_name]:on_end(arena, pl_name)
-    end
-    for pl_name, _ in pairs(arena.spectators) do
-        minetest.get_player_by_name(pl_name):get_meta():set_int("show_wielded_item", 0)
     end
 end)
 
@@ -84,6 +85,8 @@ end)
 
 arena_lib.on_quit("murder", function(arena, pl_name, is_spectator)
     minetest.get_player_by_name(pl_name):get_meta():set_int("show_wielded_item", 0)
+    murder.out_of_match_operations(pl_name)
+    murder.remove_HUDs(pl_name)
 end)
 
 
@@ -97,9 +100,9 @@ end)
 
 
 arena_lib.on_time_tick("murder", function(arena)
-    for pl_name, _ in pairs(arena.players) do
-        murder.update_HUD(pl_name, "timer_ID", arena.current_time)
-        murder.update_HUD(pl_name, "pl_counter", arena.players_amount)
+    for pl_name, _ in pairs(arena.players_and_spectators) do
+        murder.update_hud(pl_name, "timer", arena.current_time)
+        murder.update_hud(pl_name, "pl_counter", arena.players_amount)
     end
 end)
     

@@ -174,6 +174,8 @@ function set_callbacks(role)
 
     role.on_death = function(self, arena, pl_name, reason)
         murder.log(arena, pl_name .. " called on death")
+
+        murder.update_hud(pl_name, "role", murder.T("Spectator"))
         on_death(self, arena, pl_name, reason)
         murder.eliminate_role(pl_name)
 
@@ -194,7 +196,7 @@ function set_callbacks(role)
         local last_role = murder.get_last_role_in_game(arena)
         local remaining_players = murder.count_players_in_game(arena)
 
-        murder.prekick_operations(pl_name)
+        murder.out_of_match_operations(pl_name)
 
         if last_role then murder.log(arena, "Last role is " .. last_role.name .. " with count " .. remaining_players) 
         else murder.log(arena, "Two or more different roles are in game, count players alive: " .. remaining_players) end
@@ -224,8 +226,11 @@ function set_callbacks(role)
 
     role.on_end = function(self, arena, pl_name)
         murder.log(arena, pl_name .. " called on end")
-        murder.prekick_operations(pl_name)
-        on_end(self, arena, pl_name)
+        murder.out_of_match_operations(pl_name)
+        murder.remove_HUDs(pl_name)
+        if self.in_game then
+            on_end(self, arena, pl_name)
+        end
     end
 end
 

@@ -31,3 +31,27 @@ function murder.add_temp_sound(pl_name, name, def, time)
 
   return sound
 end
+
+
+
+function murder.add_sound(pl_name, name, def)
+  local player = minetest.get_player_by_name(pl_name)
+  
+  local sound = minetest.sound_play(name, def)
+  saved_sounds[pl_name] = saved_sounds[pl_name] or {}
+  saved_sounds[pl_name][name] = sound
+
+  return sound
+end
+
+
+
+function murder.stop_sound(pl_name, name)
+  local player = minetest.get_player_by_name(pl_name)
+    
+  if not player or not saved_sounds[pl_name] or not saved_sounds[pl_name][name] then return end
+
+  minetest.sound_stop(saved_sounds[pl_name][name])
+
+  saved_sounds[pl_name][name] = nil
+end
