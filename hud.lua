@@ -33,6 +33,30 @@ function murder.generate_HUD(arena, pl_name)
     z_index = 100,
   })
 
+  -- Sets the player counter bg.
+  pl_counter_bg = player:hud_add({
+    hud_elem_type = "image",
+    position  = {x = 1, y = 0},
+    offset = {x = -99, y = 72},
+    text      = "HUD_murder_players_counter.png",
+    alignment = { x = 1.0},
+    scale     = { x = 2, y = 2},
+    number    = 0xFFFFFF,
+    z_index = 100
+  })
+
+  -- Sets the player counter text.
+  pl_counter = player:hud_add({
+    hud_elem_type = "text",
+    position  = {x = 1, y = 0},
+    offset = {x = -89, y = 75},
+    text      = arena.players_amount,
+    alignment = { x = 1.0},
+    scale     = { x = 2, y = 2},
+    number    = 0xFFFFFF,
+    z_index = 100,
+  })
+
   -- Sets the role text.
   role = player:hud_add({
     hud_elem_type = "text",
@@ -61,7 +85,9 @@ function murder.generate_HUD(arena, pl_name)
     role_ID = role,
     backgound_ID = background,
     timer_ID = timer,
-    vignette_ID = vignette
+    vignette_ID = vignette,
+    pl_counter_bg = pl_counter_bg,
+    pl_counter = pl_counter
   }
 end
 
