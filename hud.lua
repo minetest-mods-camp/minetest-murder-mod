@@ -2,11 +2,14 @@ local saved_huds = {} -- pl_name = {hud name = id}
 
 function murder.generate_HUD(arena, pl_name)
   local player = minetest.get_player_by_name(pl_name)
-  local pl_role = arena.roles[pl_name]
+  local pl_role = arena.roles[pl_name] or {}
 
   local background
   local timer
-  local role = murder.T(pl_role.name)
+  local role = "" 
+  if pl_role.name then
+	role = murder.T(pl_role.name)
+  end
   local vignette
 
   -- Sets the role background image.

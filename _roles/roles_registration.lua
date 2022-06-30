@@ -226,8 +226,6 @@ function set_callbacks(role)
 
     role.on_end = function(self, arena, pl_name)
         murder.log(arena, pl_name .. " called on end")
-        murder.out_of_match_operations(pl_name)
-        murder.remove_HUDs(pl_name)
         if self.in_game then
             on_end(self, arena, pl_name)
         end

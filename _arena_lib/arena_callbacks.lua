@@ -57,8 +57,13 @@ arena_lib.on_celebration("murder", function(arena, winner_name)
     murder.log(arena, "- celebration started -")
 
     for pl_name, _ in pairs(arena.players_and_spectators) do
-        arena.roles[pl_name]:on_end(arena, pl_name)
+        if arena.roles[pl_name] then
+            arena.roles[pl_name]:on_end(arena, pl_name)
+        end
+        murder.out_of_match_operations(pl_name)
+        murder.remove_HUDs(pl_name)
     end
+
 end)
 
 
