@@ -6,7 +6,9 @@ function murder.generate_HUD(arena, pl_name)
 
   local background
   local timer
-  local role = "" 
+  local role = ""
+  local pl_counter
+  local pl_counter_bg
   if pl_role.name then
 	role = murder.T(pl_role.name)
   end
