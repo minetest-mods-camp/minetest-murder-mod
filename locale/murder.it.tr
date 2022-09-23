@@ -13,7 +13,7 @@ The match will start in @1 seconds!=La partita inizierà tra @1 secondi!
 @1 (@2) killed @3 (@4)!=@1 (@2) ha ucciso @3 (@4)!
 Read your items description to learn their utility=Leggi la descrizione degli oggetti per scoprirne l'utilità
 There must be at least @1 players to use this=Ci devono essere almeno @1 giocatori per usarlo
-The @1 team=Il team @1
+The @1 team=La squadra @1
 @1 won!=@1 ha vinto!
 
 
@@ -36,10 +36,10 @@ Wrong code=Codice errato
 
 # Detective
 
-Detective=Detective
-Kill the murderer, if you kill another detective you'll die=Uccidi l'assassino, se uccidi un altro detective morirai
+Detective=Investigatore
+Kill the murderer, if you kill another detective you'll die=Uccidi l'assassino, se uccidi un altro investigatore morirai
 Shoot and kill!=Spara e uccidi!
-You killed another detective (@1)!=Hai ucciso un altro detective (@1)!
+You killed another detective (@1)!=Hai ucciso un altro investigatore (@1)!
 
 
 # Commands messages
