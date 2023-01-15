@@ -96,6 +96,9 @@ function throwable_knife:on_rightclick(clicker)
         murderer:remove_knife()
     end
 end
+function throwable_knife:on_punch(puncher)
+    self:on_rightclick(puncher)
+end
 
 
 
