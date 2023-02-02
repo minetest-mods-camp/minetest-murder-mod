@@ -32,9 +32,6 @@ end, {
 
     Use this to configure your arena:
     - tutorial
-    - create <arena name> [min players] [max players]
-    - edit <arena name>
-    - enable <arena name>
 
     Other commands:
     - list
