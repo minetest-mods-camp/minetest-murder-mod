@@ -73,8 +73,8 @@ murder.register_role("Murderer", {
 
 
 
-dofile(minetest.get_modpath("murder") .. "/_roles/murderer/bomb_utils.lua")
-dofile(minetest.get_modpath("murder") .. "/_roles/murderer/bomb_formspec.lua")
-dofile(minetest.get_modpath("murder") .. "/_roles/murderer/murderer_nodes.lua")
-dofile(minetest.get_modpath("murder") .. "/_roles/murderer/murderer_items.lua")
-dofile(minetest.get_modpath("murder") .. "/_roles/murderer/throwable_knife.lua")
+dofile(minetest.get_modpath("murder") .. "/src/_roles/murderer/bomb_utils.lua")
+dofile(minetest.get_modpath("murder") .. "/src/_roles/murderer/bomb_formspec.lua")
+dofile(minetest.get_modpath("murder") .. "/src/_roles/murderer/murderer_nodes.lua")
+dofile(minetest.get_modpath("murder") .. "/src/_roles/murderer/murderer_items.lua")
+dofile(minetest.get_modpath("murder") .. "/src/_roles/murderer/throwable_knife.lua")

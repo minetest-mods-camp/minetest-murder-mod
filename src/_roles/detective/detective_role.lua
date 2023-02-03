@@ -56,4 +56,4 @@ murder.register_role("Detective", {
 
 
 
-dofile(minetest.get_modpath("murder") .. "/_roles/detective/detective_items.lua")
+dofile(minetest.get_modpath("murder") .. "/src/_roles/detective/detective_items.lua")

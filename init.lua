@@ -35,13 +35,13 @@ arena_lib.register_minigame("murder", {
 
 
 
-dofile(minetest.get_modpath("murder") .. "/utils.lua")
-dofile(minetest.get_modpath("murder") .. "/_debug/logs.lua")
-dofile(minetest.get_modpath("murder") .. "/_arena_lib/arena_callbacks.lua")
-dofile(minetest.get_modpath("murder") .. "/_arena_lib/arena_utils.lua")
-dofile(minetest.get_modpath("murder") .. "/_roles/roles_registration.lua")
-dofile(minetest.get_modpath("murder") .. "/_roles/detective/detective_role.lua")
-dofile(minetest.get_modpath("murder") .. "/_roles/murderer/murderer_role.lua")
-dofile(minetest.get_modpath("murder") .. "/commands.lua")
-dofile(minetest.get_modpath("murder") .. "/hud.lua")
-dofile(minetest.get_modpath("murder") .. "/sounds.lua")
+dofile(minetest.get_modpath("murder") .. "/src/utils.lua")
+dofile(minetest.get_modpath("murder") .. "/src/_debug/logs.lua")
+dofile(minetest.get_modpath("murder") .. "/src/_arena_lib/arena_callbacks.lua")
+dofile(minetest.get_modpath("murder") .. "/src/_arena_lib/arena_utils.lua")
+dofile(minetest.get_modpath("murder") .. "/src/_roles/roles_registration.lua")
+dofile(minetest.get_modpath("murder") .. "/src/_roles/detective/detective_role.lua")
+dofile(minetest.get_modpath("murder") .. "/src/_roles/murderer/murderer_role.lua")
+dofile(minetest.get_modpath("murder") .. "/src/commands.lua")
+dofile(minetest.get_modpath("murder") .. "/src/hud.lua")
+dofile(minetest.get_modpath("murder") .. "/src/sounds.lua")
