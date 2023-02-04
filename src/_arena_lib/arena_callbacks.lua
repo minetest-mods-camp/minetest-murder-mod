@@ -75,7 +75,12 @@ end)
 
 
 arena_lib.on_timeout("murder", function(arena)
-    murder.team_wins(arena, murder.get_default_role())
+    for pl_name, role in pairs(arena.roles) do
+        if role.name == "Murderer" then
+            murder.player_wins(pl_name)
+            return
+        end
+    end
 end)
 
 
