@@ -93,7 +93,7 @@ end)
 
 
 
-arena_lib.on_quit("murder", function(arena, pl_name, is_spectator)
+arena_lib.on_quit("murder", function(arena, pl_name, is_spectator, reason)
     minetest.get_player_by_name(pl_name):get_meta():set_int("show_wielded_item", 0)
 
     if reason == 0 then
