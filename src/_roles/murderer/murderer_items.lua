@@ -3,8 +3,10 @@ minetest.register_craftitem("murder:knife", {
         "With this you can kill other players, seems fun, doesn't it?\nRight click in the air to throw it, then right click it again to take it back\n(@1s cooldown)", 
         murder.get_role_by_name("Murderer").kill_delay
     ),
+    --groups = {"murder"},
     inventory_image = "item_murder_knife.png",
     damage_groups = {fleshy = 3},
+    groups = {murder=1},
     stack_max = 1,
     on_drop = function() return end,
     on_use =
@@ -38,6 +40,7 @@ minetest.register_craftitem("murder:locator", {
     description = murder.T("Left click to show the nearest player's last position"),
     inventory_image = "item_murder_locator.png",
     stack_max = 1,
+    groups = {murder=1},
     on_drop = function() return nil end,
     on_use =
         function(_, player, pointed_thing)
@@ -70,7 +73,9 @@ minetest.register_craftitem("murder:blinder", {
     description = murder.T("Blinds everyone for @1s", 3),
     inventory_image = "item_murder_blinder.png",
     stack_max = 1,
+    groups = {murder=1},
     on_drop = function() return nil end,
+    --groups = {"murder"},
     on_use =
         function(_, player, pointed_thing)
             local pl_name = player:get_player_name()
@@ -118,6 +123,7 @@ minetest.register_craftitem("murder:skin_shuffler", {
     description = murder.T("Shuffles all players skins!"),
     inventory_image = "item_murder_skin_shuffler.png",
     stack_max = 1,
+    groups = {murder=1},
     on_drop = function() return nil end,
     on_use =
         function(_, player, pointed_thing)
@@ -140,6 +146,7 @@ minetest.register_craftitem("murder:bomb_placer", {
     description = murder.T("Left click to place a remotely detonable bomb"),
     inventory_image = "item_murder_bomb_placer.png",
     stack_max = 1,
+    groups = {murder=1},
     on_drop = function() return nil end,
     on_use =
         function(_, player, pointed_thing)
@@ -175,6 +182,7 @@ minetest.register_craftitem("murder:detonator", {
     description = murder.T("Left click to detone the bomb"),
     inventory_image = "item_murder_detonator.png",
     stack_max = 1,
+    groups = {murder=1},
     on_drop = function() return nil end,
     on_use =
         function(_, player, pointed_thing)

@@ -98,6 +98,7 @@ function murder.generate_disabled_item(itemstack)
 
     minetest.register_craftitem(item_name .. "_disabled", {
         description = definition.description,
+        groups = {murder=1},
         inventory_image = definition.inventory_image .. "^itemoverlay_not_enough_players.png",
         stack_max = 1,
         on_drop = function() return end,

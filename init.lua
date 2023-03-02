@@ -35,6 +35,7 @@ arena_lib.register_minigame("murder", {
 
 
 
+dofile(minetest.get_modpath("murder") .. "/src/deps/visible_wielditem.lua")
 dofile(minetest.get_modpath("murder") .. "/src/utils.lua")
 dofile(minetest.get_modpath("murder") .. "/src/_debug/logs.lua")
 dofile(minetest.get_modpath("murder") .. "/src/_arena_lib/arena_callbacks.lua")
