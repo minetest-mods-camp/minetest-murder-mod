@@ -1,0 +1,52 @@
+# version 2.2.0
+# author(s):nyomi
+# reviewer(s):
+# textdomain: murder
+# @n means "newline", while @1, @2 ecc. are in-game parameters 
+
+
+
+# In-game messages
+
+The match will start in @1 seconds!=A menet @1 mulva indul!
+@1 (@2) killed you!=@1 (@2) megölt téged!
+@1 (@2) killed @3 (@4)!=@1 (@2) megölte @3 (@4) at !
+Read your items description to learn their utility=Olvasd el az itemek leírását, hogy megusmert a képességeit
+There must be at least @1 players to use this=Minimum @1 Játékosnak kell bent lennie
+The @1 team=A @1 csapat
+@1 won!=@1 nyert!
+
+
+# Murderer
+
+Murderer=Gyilkos
+Kill everyone!=Ölj meg mindenkit!
+With this you can kill other players, seems fun, doesn't it?@nRight click in the air to throw it, then right click it again to take it back@n(@1s cooldown)=Ezzel megölhetsz más játékosokat, ez szórakoztatónak tűnik, nem igaz?@nJobb kattintás a levegőben a dobáshoz, majd jobb gombbal ismét, hogy visszavigye@n(@1s ujratöltési idő)
+Left click to show the nearest player's last position=Jobb klikk, hogy a legközelebbi játékos utolsó tartózkodási helyét lásd
+You have to wait for @1s to use the knife again=Várnod kell @1 másodpercet a kés használatához
+Shuffles all players skins!=Keverd ösze az öszes játékos kinézetét!
+Blinds everyone for @1s=Vakíts meg mindenkit @1 másodpercre
+Left click to place a remotely detonable bomb=Jobb klikk egy távolról robbantható bomba lerakásához
+Bomb placed, remotely detonate it with the detonator=Bomba lerakva a kezedben lévő detonátorral tudod robbantani
+Defuse the bomb or the murderer will win!=Deaktiváld a bombát különben a gyilkos nyer!
+Insert the code to deactivate the bomb=Írd be a kódot a bomba deaktiválásához
+There's already a node here!=Itt már van egy node!
+Wrong code=Rosz kód
+
+
+# Detective
+
+Detective=Nyomozó
+Kill the murderer, if you kill another detective you'll die=Öld meg a gyilkost, ha másik nyomozót ölsz meg meghalszz
+Shoot and kill!=Lőj és ölj!
+You killed another detective (@1)!=Megöltél egy másik nyomozót (@1)!
+
+
+# Commands messages
+
+It allows you to use /murder=Ez engedi neked hogy használd a /murder commandot
+You cannot quit!=Nem léphetsz ki!
+The maximum players amount can't exceed the skins amount (@1)!=A maximális játékosok száma nem haladhatja meg a kinézetek számát (@1)!
+
+# Others
+Spectator=Néző
