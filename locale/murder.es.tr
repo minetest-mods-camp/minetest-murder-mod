@@ -1,0 +1,52 @@
+# version 2.2.0
+# author(s):
+# reviewer(s):
+# textdomain: murder
+# @n means "newline", while @1, @2 ecc. are in-game parameters 
+
+
+
+# In-game messages
+
+The match will start in @1 seconds!=¡La partida empezará en @1 segundos!
+@1 (@2) killed you!=¡@1 (@2) te mató!
+@1 (@2) killed @3 (@4)!=¡@1 (@2) mató a @3 (@4)!
+Read your items description to learn their utility=Lee la descripción de tus objetos para aprender su útilidad
+There must be at least @1 players to use this=Debe haber al menos @1 jugadores para usar esto
+The @1 team=El equipo @1 
+@1 won!=¡@1 ganó!
+
+
+# Murderer
+
+Murderer=Asesino
+Kill everyone!=¡Mata a todos!
+With this you can kill other players, seems fun, doesn't it?@nRight click in the air to throw it, then right click it again to take it back@n(@1s cooldown)=Con esto puedes matar a otros jugadores, parece divertido, ¿no lo crees?@nHaz click derecho en el aire para arrojarlo, y luego vuele a hacer click derecho para recuperarlo@n(@1s de enfriamiento)
+Left click to show the nearest player's last position=Haz clic izquierdo para mostrar la última posición del jugador más cercano
+You have to wait for @1s to use the knife again=Tienes que esperar @1s para usar este cuchillo de nuevo
+Shuffles all players skins!=¡Mezcla los aspectos de todos los jugadores!
+Blinds everyone for @1s=¡Ciega a todos por @1s!
+Left click to place a remotely detonable bomb=Haz click izquierdo para colocar una bomba detonable de forma remota
+Bomb placed, remotely detonate it with the detonator=Bomba colocada, detónala remotamente con el detonador
+Defuse the bomb or the murderer will win!=¡Desactiva la bomba o el asesino ganará!
+Insert the code to deactivate the bomb=Inserta el código para desactivar la bomba
+There's already a node here!=¡Ya hay un nodo aquí!
+Wrong code=Código incorrecto
+
+
+# Detective
+
+Detective=Detective
+Kill the murderer, if you kill another detective you'll die=Mata al asesino, ¡si matas a otro detective morirás!
+Shoot and kill!=¡Dispara y mata!
+You killed another detective (@1)!=¡Mataste a otro detective (@1)!
+
+
+# Commands messages
+
+It allows you to use /murder=Te permite usar /murder
+You cannot quit!=¡No puedes salir!
+The maximum players amount can't exceed the skins amount (@1)!=El máximo número de jugadores no puede exceder el número de aspectos (@1)!
+
+# Others
+Spectator=Espectador
