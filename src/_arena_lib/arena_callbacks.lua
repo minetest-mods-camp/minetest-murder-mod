@@ -63,7 +63,21 @@ arena_lib.on_celebration("murder", function(arena, winner_name)
         murder.out_of_match_operations(pl_name)
         murder.remove_HUDs(pl_name)
     end
+end)
 
+
+
+arena_lib.on_end("murder", function(arena, players, spectators, is_forced)
+    murder.log(arena, "- match ended -")
+
+    for pl_name, _ in pairs(players) do
+        murder.out_of_match_operations(pl_name)
+        murder.remove_HUDs(pl_name)
+    end
+    for pl_name, _ in pairs(spectators or {}) do
+        murder.out_of_match_operations(pl_name)
+        murder.remove_HUDs(pl_name)
+    end
 end)
 
 
@@ -121,7 +135,7 @@ end
 
 
 minetest.register_on_chatcommand(function(name, command, params)
-    if arena_lib.is_player_in_arena(name, "murder") then
+    if arena_lib.is_player_in_arena(name, "murder") and not minetest.get_player_privs(name)["kick"] then
         murder.print_error(name, murder.T("You can't use any command while playing!"))
         return true
     end
