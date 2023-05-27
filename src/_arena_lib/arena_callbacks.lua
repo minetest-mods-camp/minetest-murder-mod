@@ -85,14 +85,6 @@ end)
 
 
 
--- Blocking /quit.
-arena_lib.on_prequit("murder", function(arena, pl_name)
-    murder.print_error(pl_name, murder.T("You cannot quit!"))
-    return false
-end)
-
-
-
 arena_lib.on_quit("murder", function(arena, pl_name, is_spectator, reason)
     minetest.get_player_by_name(pl_name):get_meta():set_int("show_wielded_item", 0)
 
@@ -125,3 +117,12 @@ function on_load(arena)
         arena.roles[pl_name]:on_start(arena, pl_name)
     end
 end
+
+
+
+minetest.register_on_chatcommand(function(name, command, params)
+    if arena_lib.is_player_in_arena(name, "murder") then
+        murder.print_error(name, murder.T("You can't use any command while playing!"))
+        return true
+    end
+end)

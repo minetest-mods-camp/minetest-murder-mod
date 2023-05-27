@@ -1,4 +1,4 @@
-# version 2.2.0
+# version 2.2.1
 # author(s):
 # reviewer(s):
 # textdomain: murder
@@ -19,7 +19,7 @@ The @1 team=
 
 # Murderer
 
-Murderer=Assassino
+Murderer=
 Kill everyone!=
 With this you can kill other players, seems fun, doesn't it?@nRight click in the air to throw it, then right click it again to take it back@n(@1s cooldown)=
 Left click to show the nearest player's last position=
@@ -45,8 +45,8 @@ You killed another detective (@1)!=
 # Commands messages
 
 It allows you to use /murder=
-You cannot quit!=
 The maximum players amount can't exceed the skins amount (@1)!=
+You can't use any command while playing!=
 
 # Others
 Spectator=

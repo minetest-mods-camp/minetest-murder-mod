@@ -1,4 +1,4 @@
-# version 2.2.0
+# version 2.2.1
 # author(s): Giov4
 # reviewer(s):
 # textdomain: murder
@@ -45,9 +45,8 @@ You killed another detective (@1)!=Hai ucciso un altro investigatore (@1)!
 # Commands messages
 
 It allows you to use /murder=Ti permette di usare /murder
-You cannot quit!=Non puoi uscire!
 The maximum players amount can't exceed the skins amount (@1)!=Il numero di giocatori non può superare quello delle skin (@1)!
-
+You can't use any command while playing!=Non puoi usare comandi in gioco!
 
 # Others
 Spectator=Spettatore
