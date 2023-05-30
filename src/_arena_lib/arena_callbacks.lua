@@ -67,7 +67,7 @@ end)
 
 
 
-arena_lib.on_end("murder", function(arena, players, spectators, is_forced)
+arena_lib.on_end("murder", function(arena, players, winners, spectators, is_forced)
     murder.log(arena, "- match ended -")
 
     for pl_name, _ in pairs(players) do
